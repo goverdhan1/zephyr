@@ -1,0 +1,44 @@
+.zee-page-panel {
+    background: #ffffff;
+    border: none;
+}
+
+.zee-page-panel, .zee-page-panel-group {
+    margin: 0px;
+}
+
+.zee-page-panel-group {
+    background: none;
+    border: none;
+}
+
+.zee-page-panel-group {
+    margin-top: 10px;
+}
+
+.zee-page-panel-inner {
+    display: block;
+    width: auto;
+}
+
+.zee-page-panel-inner section {
+    background: #fff;
+    display: block
+}
+
+.zee-page-panel-group .zee-item {
+    background: #F5F5F5;
+}
+
+.zee-page-panel-group .zee-sub-item {
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.zephyr-content-subtitle {
+    margin: 0px;
+}
+
+.zee-nav-breadcrumbs {
+    margin: 20px 0 10px 0;
+}

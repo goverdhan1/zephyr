@@ -1,0 +1,25 @@
+<div [class]="'zee-primary-buttons'">
+    <zee-execute-multiple-dialog-tce
+        *ngIf="!isSearchView"
+        [releaseId]="releaseId"
+        [testcaseIds]="testcaseIds"
+        [tceGridRows]="tceGridRows"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [tcrCatalogTreeName]="tcrCatalogTreeName"
+        [executionIds]="executionIds"
+        [statuses]="statuses">
+    </zee-execute-multiple-dialog-tce>
+    <zee-export-dialog-tce
+        [fieldOptions]="tceBulkOptions['export']"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [isDisabled]="!isMenuShown"
+        [testcaseIds]="testcaseIds"
+        [releaseId]="releaseId"
+        [executionIds]="executionIds"
+        [exportPrefix]="exportPrefix"
+        [isSearchView]="isSearchView"
+        [isAdvancedSearch]="isAdvancedSearch"
+        [searchText]= "searchText"
+        [inRelease]="inRelease"
+    ></zee-export-dialog-tce>
+</div>

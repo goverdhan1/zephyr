@@ -1,0 +1,23 @@
+<div class="zee-location-chart-wrapper">
+    <!--<pie-chart
+        [data]="locationData"
+        width="270"
+        height="270">
+    </pie-chart>-->
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Location</th>
+                <th>No. of Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of locationData; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{data.location}}</td>
+                <td>{{data.count}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

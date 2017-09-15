@@ -1,0 +1,180 @@
+#defect-system-select2 {
+  padding: 0px;
+  padding-left: 2px;
+}
+
+.eas-tree-wrapper {
+	height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+
+	.jstree-default .jstree-icon {
+		display: none;
+	}
+
+	.jstree-icon.jstree-themeicon {
+		display: none!important;
+	}
+
+  &.js-tree-checkbox {
+
+    .jstree-default {
+
+      /* styles for checkbox jstree */
+      .jstree-checked {
+          .jstree-undetermined {
+              background-position: -228px -4px;
+          }
+      }
+    }
+  }
+
+  .jstree-default {
+    $node-height: 30px;
+    $node-selected-color: rgba(38, 40, 42, 0.1);
+    $node-hover-color: rgba(141, 198, 94, 0.2);
+    position: relative;
+
+    ul {
+      position: static;
+
+      li {
+        position: static;
+
+        a {
+          position: relative;
+          font-size: $zui-p-font;
+
+          .number-lozenge {
+            position: absolute;
+            right: 12%;
+            top: 0;
+            font-size: $zui-p-font;
+          }
+        }
+      }
+
+      .node-hover-sibling {
+
+        &:before {
+          left: 0;
+          height: $node-height;
+          position: absolute;
+          content: '';
+          width: 100%;
+          pointer-events: none;
+          background: $node-hover-color;
+        }
+      }
+      .node-clicked-sibling {
+
+        &:before {
+          left: 0;
+          height: $node-height;
+          position: absolute;
+          content: '';
+          width: 100%;
+          pointer-events: none;
+          background: $node-selected-color;
+        }
+      }
+    }
+
+    li.jstree-node {
+      background-image: none;
+      &[aria-level="1"] {
+        > a {
+          font-weight: bold;
+        }
+      }
+
+      a {
+        line-height: $node-height;
+        height: $node-height;
+        width: calc(100% - 2rem);
+        padding-right: 2.5rem;
+
+        &.jstree-hovered {
+          background: none;
+          border: none;
+          box-shadow: none;
+        }
+        &.jstree-clicked {
+          background: none;
+          border: none;
+          box-shadow: none;
+
+          &:before {
+            background: rgba(133, 181, 90, 0.2);
+          }
+        }
+
+      }
+
+      &.jstree-open {
+        > .jstree-icon.jstree-ocl {
+          background: none;
+
+          &:before {
+            content: "\f0d7";
+          }
+        }
+        > a {
+          font-weight: bold;
+
+          i.jstree-icon.jstree-themeicon {
+            color: #3ca1a0;
+
+            &:before {
+              content: "\f115";
+            }
+          }
+        }
+      }
+      .jstree-icon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: $node-height;
+      }
+      > .jstree-icon.jstree-ocl {
+        background: none;
+        background-image: none;
+
+        &:before {
+          content: "\f0da";
+        }
+      }
+      &.jstree-leaf {
+          > .jstree-icon.jstree-ocl {
+              &:before {
+                  content: "";
+              }
+          }
+      }
+      i.jstree-icon.jstree-themeicon {
+        color: #3ca1a0;
+        font-size: 16px;
+        padding-right: 28px;
+
+        &:before {
+          content: "\f114";
+        }
+      }
+    }
+  }
+  .tree-view {
+    display: block;
+    height: 100%;
+    overflow: visible;
+
+    .zephyr-tree-container {
+      display: block;
+      overflow-y: initial;
+      margin-top: 4px;
+    }
+  }
+}

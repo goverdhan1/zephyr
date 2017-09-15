@@ -1,0 +1,22 @@
+<button [class]="'zui-btn zui-btn-tertiary'" id="zui-modal-trigger-{{fieldOptions.id}}" type="button" data-toggle="modal" [attr.data-target]="'#zee-delete-modal-' + fieldOptions.id">{{fieldOptions.header}}</button>
+<div class="modal fade" data-backdrop="static" tabindex='-1' id="zee-delete-modal-{{fieldOptions.id}}" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{fieldOptions.title}}</h4>
+            </div>
+            <div class="modal-body">
+                <p *ngIf="!isDeAllocate">Continue with deleting the requirement(s)..</p>
+                <p *ngIf="isDeAllocate">Do you wish to delete the requirement entirely (Press Delete) or deallocate the requirement from current release (Press Deallocate) ?</p>
+                <div style="text-align: center;">
+                <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="zui-btn zui-btn-primary" *ngIf="isDeAllocate" (click)="onClickDeallocate()">Deallocate</button>
+                    <button type="button" class="zui-btn zui-btn-primary" (click)="onClickDelete()">Delete</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

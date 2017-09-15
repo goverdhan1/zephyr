@@ -1,0 +1,35 @@
+<!--<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+></zui-project-left-nav>
+<zee-release-wrapper>
+    <div class="main-content" role="main">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3>
+                    <b >{{releaseModel?.name}}</b>
+                </h3>
+            </div>
+            <div class="right-navs">
+                <a class="zui-icon-btn" *ngIf="ifReleaseSetupPermitted" (click)="navigateToreleaseSetup()">
+                    <img src="html5/assets/images/manage.png"/>
+                    <span>Manage Release</span>
+                </a>
+            </div>
+        </div>
+        <div class="zui-content-layout layout4 flex-column-stretch">
+            <div class="row flex-column-stretch">
+                <div class="col-md-12">
+                    <release-details [style.height]="'100%'"></release-details>
+                </div>
+            </div>
+            <div class="row" style="flex-grow: 1;min-height: 30%">
+                <div class="col-md-12">
+                    <testcase-eas-cycle class="isEmbedded" [isEmbedded]="true" [releaseId]="releaseId"></testcase-eas-cycle>
+                </div>
+                <!--<div class="col-md-4">
+                    <release-report></release-report>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</zee-release-wrapper>

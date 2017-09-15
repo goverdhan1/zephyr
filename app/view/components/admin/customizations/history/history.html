@@ -1,0 +1,107 @@
+<form [formGroup]="scheduleForm" (ngSubmit)="onScheduleFormConfirmation()" class="schedule-form">
+	<zui-modal [title]="'Trend Data Collection History'" [modalId]="'history-modal'" [modalSize]="'medium'">
+		<zui-modal-body>
+			<div class="clearfix">
+			     <p class="pull-left">This section displays all the trend data collection jobs that were run in the last 7 days</p>
+			     <button type="button" class="zui-btn zui-btn-tertiary pull-right" (click)="getRefreshHistory()">Refresh History</button>
+			</div>
+			<div class="clearfix history-job-grid">
+				<grid
+				    [rows]="etlHistoryGrid.rows"
+				    [paginationOptions]="paginationOptions"
+				    [gridType]="etlHistoryGridType"
+				    (onGridPrevClick)="updateIndex($event)"
+				    (onGridNextClick)="updateIndex($event)"
+				    (onGridPaginateByIndex)="updateIndex($event)"
+				    (onGridPageSizeChange)="updatePageSize($event)"
+				></grid>
+			</div>
+
+			<div class="subform">
+				<h4>On-demand data collection</h4>
+				<p>
+					<span>Sometimes you might find missing data for certain dates in</span>
+					<b> daily pulse gadget</b>
+					<span>. You can fix that by re-running the trend data collection process either for a particular date or for a period of time.</span>
+				</p>
+
+					<div class="row">
+		 	        	<div class="col-md-6 col-xs-12">
+							<div class="clearfix">
+								<label for="schedule-date">Target Date:</label>
+								<!-- <input class="form-control" type="date" id="schedule-date" name="targetDate" formControlName="targetDate"/> -->
+								<div class="datepicker-wrap">
+								    <calendar
+								      [formkey]="scheduleForm.controls['targetDate']"
+								      [model]="targetDateCalendar"
+								      [minDate]="minDateCalendar"
+								      [maxDate]="targetDateCalendar">
+								    </calendar>
+								</div>
+							</div>
+							<div class="clearfix checkbox-wrap">
+								<label class="helper-label" for="">&nbsp;</label>
+
+								<div class="zui-radio">
+									<input [(ngModel)]="executeDate" [ngModelOptions]="{standalone: true}" type="radio" name="targetDateCollection" id="only-target-date" [value]="false"/>
+									<label for="only-target-date">
+									    <div class="check history-checkbox"></div>
+									    <span>Run only for target date</span>
+									</label>
+								</div>
+							</div>
+
+							<div class="clearfix checkbox-wrap">
+								<label class="helper-label" for="">&nbsp;</label>
+								<div class="zui-radio">
+									<input [(ngModel)]="executeDate"  [ngModelOptions]="{standalone: true}" type="radio" name="targetDateCollection" id="from-target-date" [value]="true"/>
+									<label for="from-target-date">
+									    <div class="check history-checkbox"></div>
+									    <span>Run from target date until today</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6 col-xs-12">
+							<div class="clearfix checkbox-wrap">
+								<label>Select trend(s):</label>
+								<div class="zui-checkbox2">
+									<input formControlName="tccTrend" type="checkbox" name="tccTrend" id="testcase-creation"/>
+									<label for="testcase-creation">Testcase Creation</label>
+								</div>
+							</div>
+
+							<div class="clearfix checkbox-wrap">
+								<label class="helper-label">&nbsp;</label>
+								<div class="zui-checkbox2">
+									<input formControlName="tceTrend" type="checkbox"  name="tceTrend" id="testcase-execution"/>
+									<label for="testcase-execution">Testcase Execution</label>
+								</div>
+							</div>
+
+							<div class="clearfix checkbox-wrap" [ngClass]="{'disabled' : !isDefectOn }">
+								<label class="helper-label">&nbsp;</label>
+								<div class="zui-checkbox2">
+									<input formControlName="defectTrend" type="checkbox" name="defectTrend" id="defect"/>
+									<label for="defect">Defect</label>
+								</div>
+							</div>
+
+              <div class="clearfix checkbox-wrap">
+                <label class="helper-label">&nbsp;</label>
+                <div class="zui-checkbox2">
+                  <input formControlName="predictiveDataPush" type="checkbox" name="predictiveDataPush" id="predictive-data-push"/>
+                  <label for="predictive-data-push">Predictive Data Push</label>
+                </div>
+              </div>
+						</div>
+					</div>
+			</div>
+		</zui-modal-body>
+		<zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" (click)="resetScheduleForm()" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="!scheduleForm.valid">Run Now</button>
+		</zui-modal-footer>
+	</zui-modal>
+</form>

@@ -1,0 +1,117 @@
+<zui-admin-defect-tracking [class]="'zui-admin-section'">
+    <div class="main-content" role="main">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3>
+                    <b>Defect Tracking</b>
+                </h3>
+            </div>
+        </div>
+        <div class="zui-content-layout layout6">
+            <form [formGroup]="form" class="form defect-tracking-form relogin-form">
+                <div class="subform defect-tracking-system">
+                    <div class="zee-module-header"><span class="zee-module-header-left">Defect Tracking System</span></div>
+                    <div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="clearfix" *ngIf="currentDTSystem" [class]="'current-dt-system'">
+                                <div>
+                                    <span>Current Defect Tracking System:</span>
+                                    <span><strong>{{currentDTSystem}}</strong></span>
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                                <label><b>Select:</b></label>
+                                <div class="zui-select">
+                                <select id="defect-system-select2" class="form-control" [formControl]="form.controls['systemType']" (change)="onChangeDefectTrackingSystem($event.target.value)">
+                                    <option *ngFor="let defect of defectSystems" value="{{defect.id}}">{{defect.value}}</option>
+                                </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card card-gray">
+                        <div class="card-block">
+                            <div class="card-text">
+                                (For this change to be effective, please refresh the page.)
+                            </div>
+                            <div *ngIf="isJiraSelected">
+                                <div>Zephyr integrates with JIRA via remote integration and a connector. The Zephyr Test Management Connector can be installed as a plugin on the JIRA server to get metrics data.</div>
+                                <div>Please refer to the online Help on installation instructions.</div>
+                            </div>
+                            <div *ngIf="isBugzillaSelected">
+                                <div>RPC module should be installed and enabled in Bugzilla. Please refer to the Online Help file on how to install this.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subform connection-info" *ngIf="isJiraSelected || isBugzillaSelected">
+                    <div class="zee-module-header"><span class="zee-module-header-left">Connection Info</span></div>
+                    <div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="clearfix">
+                                <label for="dt-url"><b>URL</b></label>
+                                <input class="form-control" id="dt-url" type="text" [formControl]="form.controls['url']">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                        <div class="clearfix">
+                            <label for="sampleUsername"><b>Username</b></label>
+                            <input class="form-control" id="sampleUsername" type="text" placeholder="username" [formControl]="form.controls['username']" >
+                        </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div [class]="'clearfix long'">
+                                <label for="samplePassword"><b>Password</b> </label>
+                                <input *ngIf="!showPassword" placeholder="********" class="form-control" id="samplePassword" type="password" [formControl]="form.controls['password']" />
+                                <input *ngIf="showPassword" placeholder="********" class="form-control" id="samplePassword" type="text" [formControl]="form.controls['password']" />
+                                <span (click)="showPassword = !showPassword" [class]="showPassword ? 'hide-password-image cursor-pointer': 'show-password-image cursor-pointer'"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix form-footer subform">
+                    <div class="flexbox-row flex-space-between margin-top-10">
+                        <div class="col relogin-button-margin-helper">
+                            <button *ngIf="!hideRelogin" type="button" class="zui-btn" id="zui-defect-relogin" type="button" (click)="onRelogin()"
+                            [style.margin-left.px]="14"
+                            [style.width.%]="21.5">Relogin</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="zui-btn zui-btn-sec" (click)="cancelDTSForm()">Cancel</button>
+                            <button type="button" (click)="showConfirmationDialog(form.value)" class="zui-btn zui-btn-primary" [disabled]="form.invalid">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Dirty check component -->
+    <zui-form-dirty-dialog
+      [show]="showDirtyCheckModal"
+      (dismissNavigation)="dismissNavigation()"
+      (continueNavigation)="continueNavigation()"
+    ></zui-form-dirty-dialog>
+    <!-- Defect tracking JIRA Warning dialog-->
+    <zui-modal [title]="'Change Warning'" [modalId]="'zui-defect-jira-warning'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+            <p>Picking a defect tracking system is permanent. You will not be able to switch in the future.</p>
+            <p>Do you want to continue?</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" (click)="onSubmit(form.value)" class="btn btn-primary">Yes</button>
+        </zui-modal-footer>
+    </zui-modal>
+    <!-- Defect tracking None Warning dialog-->
+    <zui-modal [title]="'Change Warning'" [modalId]="'zui-defect-none-warning'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+            <p>This will disable the defect tracking application. All users will not be able to use defect tracking.</p>
+            <p>Do you want to continue?</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" (click)="onSubmit(form.value)" class="btn btn-primary">Yes</button>
+        </zui-modal-footer>
+    </zui-modal>
+</zui-admin-defect-tracking>

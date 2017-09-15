@@ -1,0 +1,91 @@
+<div [class]="'zee-layout zui-dashboard-container'">
+  <div class="main-content clearfix">
+    <div class="flex" style="padding-bottom: 1rem">
+      <div>
+        <h1 [class]="'component-heading zee-content-title'" style="margin: 0">
+          {{'zephyr.dashboard.label' | i18nSelect: i18nMessages}}
+        </h1>
+      </div>
+      <div class="right-navs">
+        <div class="zui-input-group project-search">
+          <input type="text" class="form-control" (keyup)="inputSearchKeyPress($event)" placeholder="Search for...">
+          <span class="input-group-btn">
+		            <button (click)="onClickSearch()" class="zui-btn zui-btn-primary cursor-pointer" type="button">
+		        	    <span class="fa fa-search"></span>
+		        </button>
+		      </span>
+        </div>
+        <button class="zui-btn zui-btn-plus dashboard-add" (click)="onClickCreateDashboard()" title="Add Dashboard">+</button>
+      </div>
+    </div>
+    <div class="zui-content-layout release-setup-container flex-column-stretch" style="background: #fff;">
+      <div role="tabpanel" class="tab-pane fade in active" id="preference">
+        <!--<div class="row dashboards-grid-wrapper">-->
+        <!--<div class="col-md-3 categories-wrapper">-->
+        <!--<ul class="categories">-->
+        <!--<li [ngClass]="{'active': selectedCategory === 1}" (click)="changeCategory(1)">My Favorites</li>-->
+        <!--<li [ngClass]="{'active': selectedCategory === 2}" (click)="changeCategory(2)">Created By Me</li>-->
+        <!--<li [ngClass]="{'active': selectedCategory === 3}" (click)="changeCategory(3)">All Dashboards</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="col-md-9 dashboards-grid" [ngClass] = "{'pref-selected': selectedCategory}">-->
+        <div class="col-md-12 dashboards-grid" [ngClass] = "{'pref-selected': selectedCategory}">
+          <grid class="dashboard-new-grid-table"
+                [rows]=_rows
+                [gridType]="_dashboardGridType"
+                [paginationOptions]="paginationOptions"
+                (onGridActionIconClick)="dashboardGridIconClick($event)"
+                (onGridPaginateByIndex)="dashboardGridPaginate($event)"
+                (onGridPageSizeChange)="dashboardGridPageSizeChange($event)"
+                (onGridRowClick)="dashboardGridRowClick($event)"
+                (onGridPrevClick)="dashboardGridPrevClick($event)"
+                (onGridNextClick)="dashboardGridNextClick($event)">
+          </grid>
+          <!--</div>-->
+          <!--</div>-->
+        </div>
+
+
+
+        <!--<div class="clearfix">-->
+        <!--<grid class="dashboard-new-grid-table"-->
+        <!--[rows]=_rows-->
+        <!--[gridType]="_dashboardGridType"-->
+        <!--[paginationOptions]="paginationOptions"-->
+        <!--(onGridActionIconClick)="dashboardGridIconClick($event)"-->
+        <!--(onGridPaginateByIndex)="dashboardGridPaginate($event)"-->
+        <!--(onGridPageSizeChange)="dashboardGridPageSizeChange($event)"-->
+        <!--(onGridRowClick)="dashboardGridRowClick($event)"-->
+        <!--(onGridPrevClick)="dashboardGridPrevClick($event)"-->
+        <!--(onGridNextClick)="dashboardGridNextClick($event)">-->
+        <!--</grid>-->
+        <!--</div>-->
+
+        <dashboard-form *ngIf="_dashboard" [dashboard]="_dashboard" (onCancel)="onClickClearDashboardState()"></dashboard-form>
+      </div>
+
+      <!-- Delete Dashboard modal -->
+      <zui-modal [title]="'zephyr.dashboard.delete.title' | i18nSelect: i18nMessages" [modalId]="'zui-dashboard-modal-delete'" [modalSize]="'medium'">
+        <zui-modal-body>
+          <p>{{'zephyr.dashboard.delete.prefix' | i18nSelect: i18nMessages}} {{dashboardToBeDeleted?.name}} {{'zephyr.dashboard.delete.suffix' | i18nSelect: i18nMessages}}</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+          <button type="button" class="zui-btn zui-btn-sec" (click)="onClickClearDashboardState()" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+          <button type="button" class="zui-btn zui-btn-primary" (click)="onClickDeleteDashboard()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+
+        </zui-modal-footer>
+      </zui-modal>
+
+      <zui-form-dirty-dialog
+        [show]="showDirtyCheckModal"
+        (dismissNavigation)="dismissNavigation($event)"
+        (continueNavigation)="continueNavigation($event)"
+      ></zui-form-dirty-dialog>
+    </div>
+
+
+    <!--<zui-release-automation-status-gadget></zui-release-automation-status-gadget>-->
+    <!--<zui-release-requirements-traceability-gadget></zui-release-requirements-traceability-gadget>-->
+    <!--<zui-release-status-gadget [isConfigureMode]="false"></zui-release-status-gadget>-->
+    <!--<zui-release-testcase-status-gadget></zui-release-testcase-status-gadget>-->
+  </div>

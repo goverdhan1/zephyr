@@ -1,0 +1,46 @@
+<zui-modal [modalId]="'find-and-add-modal'" [title]="'Find and Add'" [modalSize]="'large'">
+
+    <zui-modal-body>
+        <div class="advanced-search-div">
+            <h5> Advanced Search</h5>
+            <zui-zql-search
+                [searchFieldSrcId]="searchFieldSrcId"
+                [releaseId]="releaseId"
+                [zqlEntityName]="'testcase'"
+                [showFilters]="false"
+                [hideGoButton]="false"
+                [excludingMetadata] = "excludingMetadata"
+                [searchText] = "searchTextBinding"
+                (onZQLGo)="onZQLGo($event)"
+            ></zui-zql-search>
+            <p class="f300"> {{searchInfo}} </p>
+        </div>
+        <grid [hidden] = "!showTable" class="find-add-grid-table" *ngIf="isModalShown"
+            [rows]=gridObject.rows
+            [rowIds]="selectedTctIds"
+            [gridType]="findNaddGridType"
+            [paginationOptions]="gridObject.paginationOptions"
+            (onGridPrevClick)="findNaddGridPrevClick($event)"
+            (onGridNextClick)="findNaddGridNextClick($event)"
+            (onGridRowSelection)="findNaddGridRowSelection($event)"
+            (onGridPageSizeChange)="findNaddGridPageSizeChange($event)"
+            (onGridPaginateByIndex)="findNaddGridPaginateByIndex($event)">
+        </grid>
+    </zui-modal-body>
+
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="addTestcases()" [disabled]="selectedTctIds.length === 0">Add</button>
+    </zui-modal-footer>
+
+</zui-modal>
+
+<zui-modal [title]="'Add Testcase ?'" [modalId]="'find-add-limit-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        You have selected more than {{TESTCASE_ADD_LIMIT}} testcases to add. This operation may take time. <br/>Do you want to proceed ?
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">No</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="addTestcaseOnUserApproval()">Yes</button>
+    </zui-modal-footer>
+</zui-modal>

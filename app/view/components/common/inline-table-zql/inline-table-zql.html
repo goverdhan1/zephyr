@@ -1,0 +1,87 @@
+<div class="zui-inline-dialog" zui-inline-table id="inline-options-{{parentId}}">
+  <a class="inline-table-trigger" (click)="openDialog(true)" [ngClass] = "{'disabled': !releaseId}">
+    <span [class]="'zui-inline-options-trigger'">Manage</span>
+  </a>
+  <div class="inline-table-body" id="inline-table-zql" [hidden]="hideDialogBox">
+    <div class="zui-inline-options zui-inline-table inline-table-content inline-table-content-without-padding">
+      <div [class]="'zui-panel-body'" *ngIf="releaseId.length">
+        <div [class]="'zui-inline-options-header'">
+
+          <section class="zui-search-details-container">
+            <div class="zee-layout" style="padding: 10px;">
+              <zui-zephyr-search
+                [searchText]="searchText"
+                [isAdvancedSearch]="isAdvancedSearch"
+                [releaseId]="releaseId[0]"
+                [searchFieldSrcId]="'req-search'"
+                [zqlEntityName]="'requirement'"
+                [showFilters]= "'true'"
+                [fullWidthText]= "'true'"
+                [searchOnChange]= "false"
+                (onSearchGo)="onSearchGo($event)"
+              ></zui-zephyr-search>
+            </div>
+          </section>
+
+          <div [class]="'pull-right'">
+            <button type="button" class="close" (click)="hideDialog()">&times;</button>
+          </div>
+        </div>
+        <!--<div class="grey-background" id="table-container">-->
+          <!--<table class="table table-hover">-->
+            <!--<thead class="thead-inverse">-->
+              <!--<tr>-->
+                <!--<th class="text-center" width="10%">-->
+                  <!--<div class="zui-checkbox2" id="select-all-table">-->
+                    <!--<input id="select-all-options" (change)="onSelectAll($event)" class="zui-gadget-checkbox-select-all" name="zui-gadget-checkbox-select-all"-->
+                           <!--type="checkbox" title="{{'zephyr.common.select.all' | i18nSelect: i18nMessages}}">-->
+                    <!--<label></label>-->
+                  <!--</div>-->
+                <!--</th>-->
+                <!--<th width="15%">#</th>-->
+                <!--<th *ngFor="let column of columns;">{{column.text}}</th>-->
+              <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+              <!--<tr *ngFor="let row of options; let i = index" [hidden]="!row.show">-->
+                <!--<td scope="row" class="text-center">-->
+                  <!--<div class="zui-checkbox2">-->
+                    <!--<input (change)="addToSelected($event, row)" type="checkbox" [(ngModel)]="row.marked"/>-->
+                    <!--<label></label>-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td scope="row">{{row.identifier}}</td>-->
+                <!--<td *ngFor="let column of columns;">{{row | objectKeyPipe : column.key}}</td>-->
+              <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+        <!--</div>-->
+
+        <!--<div class="table-footer">-->
+          <!--&lt;!&ndash;<span><b>{{selectedOptions.length}}</b> out of <b>{{options.length}}</b> selected.</span>&ndash;&gt;-->
+        <!--</div>-->
+      <!--</div>-->
+
+        <grid class="req-grid-table"
+            *ngIf="viewReqGridRows.length"
+            [rowIds]="selectedOptions"
+            [rows]="viewReqGridRows"
+            [gridType]="_reqGridType"
+            [paginationOptions]="paginationOptions"
+            (onGridRowSelection)="reqGridRowSelection($event)"
+            (onGridPrevClick)="reqGridPrevClick($event)"
+            (onGridNextClick)="reqGridNextClick($event)"
+            (onGridPaginateByIndex)="reqGridPaginateByIndex($event)"
+            (onGridPageSizeChange)="reqGridPageSizeChange($event)"
+            (onGridLinkClick)="reqGridLinkClick($event)">
+        </grid>
+
+      <div *ngIf="!releaseId.length">
+        <h3 class="component-heading zee-content-title text-center config-error">
+          Please select a release to search requirements.
+        </h3>
+      </div>
+
+    </div>
+  </div>
+</div>

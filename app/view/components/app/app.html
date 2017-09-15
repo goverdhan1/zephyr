@@ -1,0 +1,42 @@
+<section id="ze-main-app" class="zee-app-content" [ngClass]="{'mobile-view': _isMobile}">
+  <ng2-slim-loading-bar [color]="'#289295'" [height]="'4px'"></ng2-slim-loading-bar>
+
+  <!--<img src="html5/assets/images/ajax-loader.gif" id="loader-img"/>-->
+  <div id="licenseMessage" style="background-color: red;height:5%;" *ngIf="displayMessage">
+    <div><strong><p style="color: white; font-size: 14 px !important;max-width: 90%;float:left;margin: 10px">{{expiryMessage}}</p></strong></div>
+    <div style="max-width:10%;float:right;"><button type="button" style="font-size: 24px" class="close" data-dismiss="modal" aria-label="Close"  (click)="closeMessage()">
+	                    <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    </div>
+  <top-nav (logoutEvent)="resetOnLogout($event)" style="max-height: 45px"></top-nav>
+  <zee-message-bar></zee-message-bar>
+  <router-outlet></router-outlet>
+  <zee-footer></zee-footer>
+  <zui-form-relogin (performLogout)="performCleanup()">
+  </zui-form-relogin>
+  <zui-modal [hideCloseIcon]="true" [title]="'Automatic Logout warning ['+_time+']'" [modalId]="'zee-admin-auto-logout-warning'" [modalSize]="'small'">
+    <zui-modal-body>
+      <label>Due to inactivity, Your application will be logged out in {{_time}} secs. To prevent auto-logout, click to reconnect'</label>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button (click)="refreshToken()" type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">Reconnect</button>
+    </zui-modal-footer>
+  </zui-modal>
+  <zui-modal [hideCloseIcon]="true" [title]="'zephyr.auto.logout' | i18nSelect: i18nMessages" [modalId]="'zee-logout-info'" [modalSize]="'small'">
+    <zui-modal-body>
+      <label>{{'zephyr.auto.logout.message' | i18nSelect: i18nMessages}}</label>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button (click)="redirectToLogin()" type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">{{'zephyr.button.ok' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+  <zui-modal [hideCloseIcon]="true" [title]="'Unauthorised'" [modalId]="'zee-redirect'" [modalSize]="'small'" [dataKeyboard]="false">
+    <zui-modal-body>
+      <label>You do not have access to the information. If you are trying to login from a previous bookmark, please re-type Zephyr URL and enter. After you are in, re-bookmark.</label>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button (click)="redirectDefault()" type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">{{'zephyr.button.ok' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+</section>

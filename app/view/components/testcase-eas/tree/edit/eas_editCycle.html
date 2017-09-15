@@ -1,0 +1,108 @@
+<form [formGroup]="editCycleForm" (ngSubmit)="editCycleFormSubmit(editCycleForm.value)">
+	<zui-modal [title]="'Edit Cycle'" [preLaunch]="'true'" [modalId]="'easEditNodeModal'" [modalSize]="'small'">
+	    <zui-modal-body>
+		  		<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix">
+								<label for=""><b>Name</b> <i class="ast-red">*</i></label>
+								<input type="text" class="form-control" formControlName="name" (keypress)="inputKeyPress($event)">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Build</b></label>
+								<input type="text" class="form-control" formControlName="build" (keypress)="inputKeyPress($event)">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Environment</b></label>
+								<input type="text" class="form-control" formControlName="environment" (keypress)="inputKeyPress($event)">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Hide</b></label>
+								<div class="zui-checkbox2">
+	  								<input type="checkbox" class="form-control" formControlName="status">
+									<label></label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix mb10">
+								<!-- <input type="checkbox"> -->
+								<div class="zui-checkbox2">
+	  							<input type="checkbox" (change)="modifyAllDates($event)">
+									<label></label>
+								</div>
+								<span>Keep the duration fixed(Move the whole cycle)</span>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Start Date</b> <i class="ast-red">*</i></label>
+								<div class="datepicker-wrap">
+									<calendar
+									  [formkey]= "editCycleForm.controls['startDate']"
+									  [model]= "startDate"
+									  [minDate]="startMinDate"
+									  [maxDate]="startMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>End Date</b> <i class="ast-red">*</i></label>
+								<div class="datepicker-wrap">
+									<calendar
+										[ngClass]="{'disable': fixPeriod}"
+									  [formkey]= "editCycleForm.controls['endDate']"
+									  [model]= "endDate"
+									  [minDate]="endMinDate"
+									  [maxDate]="endMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+							<div class="clearfix phase-table-wrap mt10" *ngIf="cycleInfo.cyclePhases && cycleInfo.cyclePhases.length">
+						        <table class="table phase-table">
+						        	<tr>
+						        		<th>Phase</th>
+						        		<th>Start Date</th>
+						        		<th>End Date</th>
+						        	</tr>
+						        	<tbody formArrayName="phases">
+						        		<tr *ngFor="let phase of editCycleForm.controls.phases.controls; let i=index">
+							        		<td><span title="{{cyclePhases[i].name}}"><b>{{cyclePhases[i].name}}</b></span></td>
+							        		<td>
+							        			<calendar
+							        				[ngClass]="{'disable': fixPeriod, 'error': !cyclePhases[i].startDateValid}"
+						        					[formkey]= "editCycleForm.controls.phases.controls[i].controls.startDate"
+															[model]= "cyclePhases[i].startDate"
+															[minDate]="cyclePhases[i].startMinDate"
+											  			[maxDate]="cyclePhases[i].startMaxDate"
+											  			(validateDate)="resetPhaseDates($event, i)">
+														</calendar>
+													</td>
+							        		<td>
+							        			<calendar
+							        				[ngClass]="{'disable': fixPeriod, 'error': !cyclePhases[i].endDateValid}"
+						        					[formkey]= "editCycleForm.controls.phases.controls[i].controls.endDate"
+															[model]= "cyclePhases[i].endDate"
+															[minDate]="cyclePhases[i].endMinDate"
+											  			[maxDate]="cyclePhases[i].endMaxDate"
+											  			(validateDate)="resetPhaseDates($event, i)">
+														</calendar>
+								        		</td>
+								        	</tr>
+							        </tbody>
+							    </table>
+							</div>
+						</div>
+					</div>
+				</div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormInValid(editCycleForm)">Save</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

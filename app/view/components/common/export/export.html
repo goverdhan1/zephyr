@@ -1,0 +1,312 @@
+<zui-modal [class]="'zui-export-modal'"  [title]="fieldOptions.title" [descripttion]="fieldOptions.description" [modalId]="'zui-export-modal-' + fieldOptions.id" [modalSize]="'large'" (onClose)="closeModal()">
+    <zui-modal-body>
+        <h3 [class]="'modal-title sub-title'">{{fieldOptions.subTitle}}</h3>
+        <!-- Select Fields -->
+        <div class="zee-module-header">
+            <span class="zee-module-header-left">{{'zephyr.common.select.fields' | i18nSelect: i18nMessages}}</span>
+        </div>
+        <fieldset [class]="_isTypeData ? 'zui-panel zui-panel-default fade zui-fade': 'zui-panel zui-panel-default'" [disabled]="_isTypeData">
+            <div [class]="'zui-panel-body'">
+                <div [class]="'row zui-select-all-row'">
+                    <div [class]="'col-md-3 col-xs-12'">
+                        <div [class]="'clearfix'">
+                            <div class="zui-checkbox2">
+                                <input #selectAllChxBox (change)="onSelectAll(selectAllChxBox)" id="zui-export-checkbox-select-all" name="zui-export-checkbox-select-all" type="checkbox" title="{{'zephyr.common.select.all' | i18nSelect: i18nMessages}}">
+                                <label></label>
+                            </div>
+                            <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-checkbox-select-all'">{{'zephyr.common.select.all' | i18nSelect: i18nMessages}}</span>
+                            <b>&nbsp;&#124;&nbsp;</b>
+                            <a [style.cursor]="'pointer'" class="zui-blue" (click)="onUnSelectAll()">{{'zephyr.common.unselect.all' | i18nSelect: i18nMessages}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div [class]="'row grey-background'">
+                    <div [class]="'col-md-3 col-xs-12'" *ngFor="let field of _metadata.fields">
+                        <div [class]="'clearfix'">
+                            <div class="zui-checkbox2">
+                                <input id="zui-export-checkbox-{{fieldOptions.id}}-{{field.id}}" name="zui-export-checkbox-{{fieldOptions.id}}-{{field.id}}" value="{{field.id}}" type="checkbox" [(ngModel)]='_fields[field.label]'>
+                                <label></label>
+                            </div>
+                            <label [class]="'zui-export-label control-label'" [attr.for]="'zui-export-checkbox-' +fieldOptions.id+ '-' + field.id">{{field.label | trimString: _fieldPipeParams}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <!-- ================== -->
+        <!-- Filter By -->
+        <div [ngClass]="{'disabled': isSearchView}">
+            <div class="zee-module-header">
+                <span class="zee-module-header-left">{{'zephyr.common.filter.by' | i18nSelect: i18nMessages}}</span>
+            </div>
+            <fieldset [class]="'zui-panel zui-panel-default zui-panel-tab-bar'">
+                <div [class]="'zui-panel-heading zui-panel-tab-heading'">
+                    <div [class]="'zui-panel-tab-bar-heading'">
+                        <div [class]="'zui-panel-tab-bar-heading-label export-options'" [id]="'zui-scroll-heading-' + fieldOptions.id + '-' + filter.id" (click)="navigateToFilter($event)" [attr.data-target]="'#zui-scroll-target-' + fieldOptions.id + '-' + filter.id" *ngFor="let filter of _metadata.filters">{{filter.label}}</div>
+                    </div>
+                </div>
+
+                <div [class]="'zui-panel-body zui-panel-tab-bar-body grey-background'" id="zui-panel-tab-bar-body-filters-{{fieldOptions.id}}">
+                    <div *ngFor="let _filter of _filters" [class]="'zui-panel-row-wrapper'" id="zui-scroll-target-{{fieldOptions.id}}-{{_filter.id}}" [attr.data-target]="'#zui-scroll-heading-' + fieldOptions.id + '-' + _filter.id">
+                        <div [class]="'row zui-panel-tab-bar-row one'" *ngIf="_filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_BINARY_ALL">
+                            <div [class]="'col-md-3 col-xs-12'" *ngFor="let pref of _filter.preference">
+                                <div [class]="'zui-radio clearfix'">
+                                    <input id="zui-export-radio-binary-{{_filter.id}}-{{pref.id}}" name="zui-export-report-binary-{{_filter.id}}" [checked]="pref.id == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_BINARY_ALL_ID" type="radio" [attr.value]="pref.id" />
+                                    <label [attr.for]="'zui-export-radio-binary-' + _filter.id + '-' + pref.id">
+                                        <div class="check"></div>
+                                        <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-radio-binary-' + _filter.id + '-' + pref.id">{{pref.text}}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div [class]="'row zui-panel-tab-bar-row'" *ngIf="_filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_PREF_KEY">
+                            <div [class]="'col-md-3 col-xs-12'">
+                                <div [class]="'clearfix'">
+                                    <zee-select
+                                        [tags]="true"
+                                        [multiple]="true"
+                                        [placeholder]="i18nMessages['zephyr.common.select.filter'] + ' ' + _filter.label"
+                                        [selectClass]="'zui-select-preference-picker zui-select-preference-picker-' + fieldOptions.id"
+                                        [selectId]="'zui-select-preference-picker-' + _filter.id"
+                                        [items]="_filter.preference"
+                                    ></zee-select>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div [class]="'row zui-panel-tab-bar-row two'" *ngIf="_filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_USER_LIST || _filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_ASSIGNED_TO ||
+                        _filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_PREF_KEY">
+                            <div [class]="'col-md-5 col-xs-12'">
+                                <div [class]="'clearfix'">
+                                    <zee-select
+                                        [tags]="true"
+                                        [multiple]="true"
+                                        [placeholder]="i18nMessages['zephyr.common.select.filter'] + ' ' + _filter.label"
+                                        [selectClass]="'zui-select-user-picker zui-select-user-picker-' + fieldOptions.id"
+                                        [selectId]="'zui-select-user-picker-' + _filter.id"
+                                        [items]="_filter.preference"
+                                    ></zee-select>
+                                </div>
+                            </div>
+                            <div [class]="'col-md-3 col-xs-12'">
+                                <div [class]="'clearfix'">
+                                    <div class="zui-checkbox2">
+                                        <input id="zui-export-checkbox-filter-{{_filter.id}}-all" name="zui-export-report-type" type="checkbox" [attr.value]="_filter.label + '_all'" />
+                                        <label></label>
+                                    </div>
+                                    <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-checkbox-filter-' + _filter.id + '-all'">{{'zephyr.common.field.all' | i18nSelect: i18nMessages}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div [class]="'row zui-panel-tab-bar-row three'" *ngIf="_filter.filterType == _EXPORT_CONSTANTS.CUSTOM_REPORT_FILTER_DATE_RANGE">
+                            <div [class]="'form-group col-md-12 col-xs-12'">
+                                <div [class]="'zui-export-filter-date-error has-danger'">
+                                    <div [class]="'form-control-label'"></div>
+                                </div>
+                            </div>
+                            <div [class]="'col-md-4 col-xs-12'">
+                                <div [class]="'clearfix'">
+                                    <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-text-filter-' + _filter.filterType + '-from'">{{'zephyr.common.field.date.from' | i18nSelect: i18nMessages}}</span>
+                                    <input *ngIf="_filter.preference" id="zui-export-text-filter-{{_filter.filterType}}-from" name="zui-export-filter-date-{{_filter.id}}-from" placeholder="MM/DD/YYYY" [attr.value]="_filter.preference.from |  date:'MM/dd/yyyy'" />
+                                    <div class="btn-group" zui-inline-calendar>
+                                        <a class="btn inline-calendar-trigger">
+                                            <i class="fa fa-calendar" (click)="showDatepicker()"></i>
+                                        </a>
+                                        <div class="inline-calendar-body">
+                                            <div class="inline-calendar-content">
+                                             <!-- [hidden]="!showFromDatePicker" -->
+                                                <datepicker class="datepicker" (ngModelChange)="closeDatepicker($event)" [(ngModel)]="_filter.preference.from" [maxDate]="_filter.preference.to"></datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div [class]="'col-md-4 col-xs-12'">
+                                <div [class]="'clearfix'">
+                                    <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-text-filter-' + _filter.filterType + '-to'">{{'zephyr.common.field.date.to' | i18nSelect: i18nMessages}}</span>
+                                    <input *ngIf="_filter.preference" id="zui-export-text-filter-{{_filter.filterType}}-to" name="zui-export-filter-date-{{_filter.id}}-to" placeholder="MM/DD/YYYY" [attr.value]="_filter.preference.to | date:'MM/dd/yyyy'" />
+                                    <div class="btn-group" zui-inline-calendar>
+                                        <a class="btn inline-calendar-trigger">
+                                            <i class="fa fa-calendar" (click)="showDatepicker()"></i>
+                                        </a>
+                                        <div class="inline-calendar-body">
+                                            <div class="inline-calendar-content" >
+                                            <!-- [hidden]="!showToDatePicker" -->
+                                                <datepicker class="datepicker" (ngModelChange)="closeDatepicker($event)" [(ngModel)]="_filter.preference.to" [minDate]="_filter.preference.from"></datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <!-- ================== -->
+        <!-- Report Type -->
+        <div class="zee-module-header">
+            <span class="zee-module-header-left">{{'zephyr.export.report.type' | i18nSelect: i18nMessages}}</span>
+        </div>
+        <fieldset [class]="'zui-panel zui-panel-default'">
+            <div [class]="'zui-panel-body'">
+                <div [class]="'row'">
+                    <div [class]="'col-md-3 col-xs-12'" *ngFor="let _type of _detailTypeData">
+                        <div [class]="'clearfix'">
+                            <div class="zui-radio">
+                              <input id="zui-export-radio-type-{{_type.type}}"
+                                     name="zui-export-report-type"
+                                     [checked]="_reportType.value == _type.value"
+                                     type="radio"
+                                     (change)="reportTypeChange(_type)"
+                                     [attr.value]="_type.value"
+                              />
+                              <label [attr.for]="'zui-export-radio-type-' + _type.type">
+                                <div class="check"></div>
+                                <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-radio-type-' + _type.type">{{_type.label}}</span>
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <!-- ================== -->
+        <!-- Output as -->
+        <div class="zee-module-header">
+            <span class="zee-module-header-left">{{'zephyr.export.output' | i18nSelect: i18nMessages}}</span>
+        </div>
+        <fieldset [class]="_isTypeData ? 'zui-panel zui-panel-default fade zui-fade': 'zui-panel zui-panel-default'" [disabled]="_isTypeData">
+            <div [class]="'zui-panel-body'">
+                <div [class]="'row'">
+                    <div [class]="'col-md-3 col-xs-12'">
+                        <div [class]="'zui-radio clearfix'">
+                            <input id="zui-export-radio-output-html-{{fieldOptions.id}}" name="zui-export-output" type="radio" #outputHtml (change)="_outputType.value=outputHtml.value" [attr.value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_OUTPUT_HTML" />
+                            <label [attr.for]="'zui-export-radio-output-html-' + fieldOptions.id">
+                                <div class="check"></div>
+                                <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-radio-output-html-' + fieldOptions.id">{{'zephyr.export.output.html' | i18nSelect: i18nMessages}}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div [class]="'col-md-3 col-xs-12'">
+                        <div [class]="'zui-radio clearfix'">
+                            <input id="zui-export-radio-output-pdf-{{fieldOptions.id}}" name="zui-export-output" type="radio" #outputPdf (change)="_outputType.value=outputPdf.value" [attr.value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_OUTPUT_PDF" />
+                            <label [attr.for]="'zui-export-radio-output-pdf-' + fieldOptions.id">
+                                <div class="check"></div>
+                                <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-radio-output-pdf-' + fieldOptions.id">{{'zephyr.export.output.pdf' | i18nSelect: i18nMessages}}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div [class]="'col-md-3 col-xs-12'">
+                        <div [class]="'zui-radio clearfix'">
+                            <input id="zui-export-radio-output-word-{{fieldOptions.id}}" name="zui-export-output" type="radio" #outputWord (change)="_outputType.value=outputWord.value" [attr.value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_OUTPUT_WORD" />
+                            <label [attr.for]="'zui-export-radio-output-word-' + fieldOptions.id">
+                                <div class="check"></div>
+                                <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-radio-output-word-' + fieldOptions.id">{{'zephyr.export.output.word' | i18nSelect: i18nMessages}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <!-- ================== -->
+        <!-- Commenting for bug ZEPHYR-13676 -->
+        <!-- Add report to -->
+        <!-- <div class="zee-module-header">
+            <span class="zee-module-header-left">{{'zephyr.export.automatically.add.report.to' | i18nSelect: i18nMessages}}</span>
+        </div>
+        <fieldset [class]="'zui-panel zui-panel-default'">
+            <div [class]="'zui-panel-body'">
+                <div [class]="'form-group'">
+                    <div [class]="'zui-export-report-to-error has-danger'">
+                        <div [class]="'form-control-label'"></div>
+                    </div>
+                </div>
+                <div [class]="'row'">
+                    <div [class]="'col-md-6 col-xs-6'">
+                        <div [class]="'clearfix'">
+                            <div class="zui-radio">
+                                <input (click)="onReportDashboardChange($event)" name="zui-export-checkbox-report-to" id="zui-export-checkbox-report-to-dashboard" type="radio" [attr.value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_POST_TO_DASHBOARD_DEPARTMENT" />
+                                <label [attr.for]="'zui-export-checkbox-report-to-dashboard'">
+                                    <div class="check"></div>
+                                    <span></span>
+                                </label>
+                            </div>
+                            <select [disabled]="!_isReportToDashboard" id="zui-export-select-report-to-dashboard-{{fieldOptions.id}}">
+                                <option>Please select</option>
+                                <option [value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_POST_TO_SECTION_REPORTS">{{'zephyr.export.automatically.add.report.to.department.dashboard.reports' | i18nSelect: i18nMessages}}</option>
+                                <option [value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_POST_TO_SECTION_DEPARTMENT_INFO">{{'zephyr.export.automatically.add.report.to.department.dashboard.info' | i18nSelect: i18nMessages}}</option>
+                            </select>
+                            <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-checkbox-report-to-dashboard'">{{'zephyr.export.automatically.add.report.to.department.dashboard.label' | i18nSelect: i18nMessages}}</span>
+                        </div>
+                    </div>
+                    <div [class]="'col-md-6 col-xs-6'">
+                        <div [class]="'clearfix'">
+                            <div class="zui-radio">
+                                <input (click)="onReportProjectChange($event)" name="zui-export-checkbox-report-to" id="zui-export-checkbox-zui-export-checkbox-report-to-project" type="radio" [attr.value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_POST_TO_DASHBOARD_PROJECT" />
+                                <label [attr.for]="'zui-export-checkbox-zui-export-checkbox-report-to-project'">
+                                    <div class="check"></div>
+                                    <span></span>
+                                </label>
+                            </div>
+                            <select [disabled]="!_isReportToProject" id="zui-export-select-report-to-project-{{fieldOptions.id}}">
+                                <option>Please select</option>
+                                <option [value]="_EXPORT_CONSTANTS.CUSTOM_REPORT_POST_TO_SECTION_DOCUMENTS">{{'zephyr.export.automatically.add.report.to.department.project.documents' | i18nSelect: i18nMessages}}</option>
+                            </select>
+                            <span [class]="'zui-export-label control-label'" [attr.for]="'zui-export-checkbox-zui-export-checkbox-report-to-project'">{{'zephyr.export.automatically.add.report.to.department.project.label' | i18nSelect: i18nMessages}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset> -->
+        <!-- ================== -->
+        <!-- Title -->
+        <div class="zee-module-header">
+            <span class="zee-module-header-left">{{'zephyr.export.title' | i18nSelect: i18nMessages}}</span>
+        </div>
+        <fieldset [class]="'zui-panel zui-panel-default'">
+            <div [class]="'zui-panel-body'">
+                <p [class]="'zui-panel-body-description'">
+                    {{'zephyr.export.title.description' | i18nSelect: i18nMessages}}
+                </p>
+                <div [class]="'row'">
+                    <div [class]="'col-md-3 col-xs-12'">
+                        <div [class]="'clearfix'">
+                            <input [attr.maxlength]=fieldOptions.titleMaxLength id="zui-export-title-{{fieldOptions.id}}"
+                                class="form-control" type="text" [attr.value]="fieldOptions.label">
+                        </div>
+                    </div>
+                </div>
+                <div [class]="'form-group'">
+                    <div [class]="'zui-export-title-error has-danger'">
+                        <div [class]="'form-control-label'"></div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <!-- ================== -->
+    </zui-modal-body>
+    <zui-modal-footer>
+         <button type="button" [class]="'zui-btn zui-btn-sec'" data-dismiss="modal" (click)="closeModal()">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+         <button type="button" [class]="'zui-btn zui-btn-primary'" (click)="generateReport()">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>
+
+
+<zui-modal [title]="'zephyr.export.download.file.title' | i18nSelect: i18nMessages" [modalId]="'zui-export-modal-' + fieldOptions.id + '-download'" [modalSize]="'medium'" (onClose)="closeModal()">
+    <zui-modal-body>
+        <p>{{'zephyr.export.download.description' | i18nSelect: i18nMessages}}</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+         <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+         <button type="button" class="zui-btn zui-btn-primary" (click)="onClickDownloadFile()">{{'zephyr.button.download' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-form-dirty-dialog
+  [show]="showDirtyCheckModal"
+  (dismissNavigation)="dismissNavigation()"
+  (continueNavigation)="continueNavigation()"
+></zui-form-dirty-dialog>
+<iframe id="export-file-download-iframe" [style.display]="'none'"></iframe>
+
+<job-status [modalHeading]="'Export Progress'" [autoHideOnSuccess]="'true'" [messages]="syncMessages" [jobStatusId]="'-export'" (jobCompleted)="jobCompleted($event)"></job-status>

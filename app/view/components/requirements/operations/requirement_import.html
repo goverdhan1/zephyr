@@ -1,0 +1,20 @@
+<div [class]="'modal fade zui-import-modal-choice'" data-backdrop="static" tabindex='-1' id="zui-import-modal-choice" role="dialog">
+    <div [class]="'modal-dialog small'">
+        <div [class]="'modal-content'">
+            <div [class]="'modal-header'">
+                <button data-dismiss="modal" type="button" class="close">×</button>
+                <h4 [class]="'modal-title'">{{'zephyr.operation.import.choice.title' | i18nSelect: i18nMessages}}</h4>
+            </div>
+            <div [class]="'modal-body'">
+                <div style="text-align: center;">
+                    <button class="btn btn-secondary" (click)="exportFromJIRA()">{{'zephyr.requirement.export.jira' | i18nSelect: i18nMessages}}</button>
+                    <button class="btn btn-secondary" (click)="exportFromExcel()">{{'zephyr.requirement.export.excel' | i18nSelect: i18nMessages}}</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<zui-import [fieldOptions]="fieldOptions"></zui-import>
+<zui-import-req-jira [fieldOptions]="fieldOptions" *ngIf="!syncClicked"></zui-import-req-jira>

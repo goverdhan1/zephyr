@@ -1,0 +1,17 @@
+<div class="notification_title">
+    Updates
+</div>
+<div style="height: 220px;overflow-x: hidden;overflow-y: scroll;">
+  <div *ngFor="let notification of notificationList">
+    <div class="notification-message" title="{{notification.description}}">{{notification.description}}</div>
+    <div class="notification-time" title="{{notification.time}}">{{notification.time}}</div>
+    <hr style="width: 95%;" />
+  </div>
+</div>
+<div>
+<button class="zui-btn zui-btn-sec" title="Click to discard notifications"
+          (click)="discardNotifications($event)" type="button" style="float: right;margin-right: 10px;">Discard</button>
+  <button class="zui-btn zui-btn-primary" title="Click to apply notifications"
+          (click)="applyNotifications($event)" style="float: right;margin-right: 15px;" type="button">Apply</button>
+  
+</div>

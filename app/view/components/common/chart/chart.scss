@@ -1,0 +1,63 @@
+#zee-time-series-graph {
+    /*path {
+        stroke: steelblue;
+        stroke-width: 1;
+        fill: none;
+    }
+
+    .axis {
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis line {
+        stroke: lightgrey;
+    }
+
+    .x.axis .minor {
+        stroke-opacity: .5;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+
+    .y.axis line, .y.axis path {
+        fill: none;
+        stroke: #000;
+    }*/
+    .axis path,
+    .axis line{
+        fill: none;
+        stroke: black;
+    }
+
+    .line{
+        fill: none;
+        stroke: blue;
+        stroke-width: 2px;
+    }
+
+    .tick text{
+        font-size: 12px;
+    }
+
+    .tick line{
+        opacity: 0.2;
+    }
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+    .axis path, .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+    .zee-time-series-highlight-message {
+        font-size: 20px;
+        color: red;
+        text-align: center;
+    }
+}

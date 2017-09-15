@@ -1,0 +1,50 @@
+<zui-add-tab-browse-component>
+  <h5>
+    <span> &nbsp;   </span>
+    <span id="browse-count">{{total.nodes}} node(s), {{total.count}} testcase(s) selected.</span>
+  </h5>
+
+  <div class="zui-content-layout layout5">
+    <div class="row upper-split">
+      <div class="col-md-12 resizable-flex-wrapper">
+        <div> <!-- <div class="zui-flex-h-resizable" id="tcr-h-resizer"> -->
+          <section [class]="'tree-tcr'" *ngIf="_releaseIdObs">
+            <tree-view
+              [treeData]="treeData"
+              [showFilter]="true"
+              [treeContext]="'-tcrBrowse'"
+              [options]="'checkbox'"
+              [removeFromDefault]="['dnd', 'contextmenu']"
+              [selectedNodes]="selectedNodes"
+              [threeStateCheckbox]="true"
+              (onTreeNodeClick)="onTcrTreeClick($event)"
+              (onTreeNodeSelect)="onTreeNodeSelect($event)"
+            ></tree-view>
+          </section>
+        </div>
+        <!-- <div class="zui-w-handle" id="tcr-h-resizer-handle">
+          <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+        </div> -->
+        <div class="zui-flex-h-fixed">
+          <section id="testcase-grid-panel">
+            <div [class]="'testcase-grid grid-10-row-fix'">
+              <zui-tcr-grid
+                [releaseId]="releaseId"
+                [showCoverage]="false"
+                [secIds]="secondaryIds"
+                [selectedTreeNode]="selectedTreeNode"
+                [selectedTctIds]="selectedTctIds"
+                [emitBrowseEvent]="true"
+                [isSearchView]="false"
+                [isAdvancedSearch]="false"
+                [showContextMenu]="false"
+                (onClearSelectedTctIds)="clearSelectedTctIds($event)"
+                (onTcrGridRowSelection)="tcrGridRowSelection($event)"
+              ></zui-tcr-grid>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</zui-add-tab-browse-component>

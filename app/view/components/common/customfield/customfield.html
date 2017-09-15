@@ -1,0 +1,67 @@
+<ul class="zee-details-two-column-list">
+    <li [class]="'zee-column'" *ngFor="let customfield of entityCustomFields">
+        <div [class]="'zee-column-wrap'">
+            <strong [class]="'zee-column-name'" title="{{customfield.displayName}}">
+                <span class="custom-field-name">
+                  <span>{{customfield.displayName}}</span>
+                  <span *ngIf="customfield.mandatory" class="maroon"><b>*</b></span>
+                </span>
+            </strong>
+            <span *ngIf="!editable" [class]="'zee-column-value'">
+          		  <span *ngIf="customfield.typeMetaData.dataType == 'Checkbox'">
+	         	   <input type="checkbox" name="{{customfield.fieldName}}" [checked]="isChecked(customfield)" disabled="disabled"/>
+	            </span>
+	             <span *ngIf="customfield.typeMetaData.dataType !== 'Checkbox'">
+	         	   {{customfield.entityValue}}
+	            </span>
+            </span>
+            <span *ngIf="customfield?.typeMetaData?.dataType && editable" id="{{customfield.id}}" [class]="'zee-column-value custom-field-value'" [ngSwitch]="customfield.typeMetaData.dataType">
+                 <field-input
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.NUMBER"
+                    [field]="formatTextFieldValues(customfield, 'number')"
+                    (onSaveField)="saveCFTextValue($event, 'number')"
+                 ></field-input>
+                 <field-input
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.DATE"
+                    [field]="formatTextFieldValues(customfield, 'date')"
+                    (onSaveField)="saveCFTextValue($event, 'date')"
+                 ></field-input>
+                 <field-input
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.CHECKBOX"
+                    [field]="formatCheckboxFieldValues(customfield)"
+                    (onSaveField)="saveCFCheckboxValue($event)"
+                 ></field-input>
+                 <field-select
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.PICKLIST"
+                    [field]="formatSelectFieldValues(customfield)"
+                    (onSaveField)="saveCFPicklistValue($event)"
+                 ></field-select>
+                 <field-textarea
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.LONG_TEXT"
+                    [field]="formatLongTextFieldValues(customfield)"
+                    (onSaveField)="saveCFTextValue($event)"
+                 ></field-textarea>
+                 <field-input
+                    *ngSwitchCase="CUSTOM_FIELD_TYPES.TEXT"
+                    [field]="formatTextFieldValues(customfield, 'text')"
+                    (onSaveField)="saveCFTextValue($event)"
+                 ></field-input>
+            </span>
+        </div>
+    </li>
+</ul>
+
+<zui-modal [isDraggable]="false" [hideCloseIcon]="true" [title]="'Duplicate Custom field value'" [modalId]="'custom-field-error-modal'">
+    <zui-modal-body>
+        <div>
+            <span>The value </span>
+            <strong>{{errorFieldValue}}</strong>
+            <span> for the field </span>
+            <strong>{{errorFieldName}}</strong>
+            <span> is duplicate. Please enter a unique value before you can save.</span>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.ok' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>

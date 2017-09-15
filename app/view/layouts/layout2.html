@@ -1,0 +1,23 @@
+<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>
+<release-component>
+    <div class="main-content">
+        <div class="zee-layout">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <zee-panel-content1-release></zee-panel-content1-release>
+                </div>
+            </div>
+        </div>
+        <div class="zee-layout-split">
+            <div class="row">
+                <div class="col-md-6 col-xs-12 zee-split-column" style="padding:0px;">
+                    <!--<zee-panel-content2></zee-panel-content2>-->
+                    <testcase-eas-cycle [isEmbedded]="true"></testcase-eas-cycle>
+                </div>
+                <div class="col-md-6 col-xs-12 column-splitter-left">
+                    <zee-panel-content3-release></zee-panel-content3-release>
+                </div>
+            </div>
+        </div>
+    </div>
+</release-component>

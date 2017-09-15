@@ -1,0 +1,16 @@
+<div [class]="'zee-testcase-customField-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Custom Fields</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <zee-custom-fields
+                [editable]="editable"
+                [customFields]="customField.customFields"
+                [customFieldTypes]="customField.customFieldTypes"
+                [customProperties]="customField.customProperties"
+                (onCustomPropertiesUpdate)="saveCFFieldValue($event)"
+             ></zee-custom-fields>
+        </div>
+    </zee-expander>
+</div>

@@ -1,0 +1,39 @@
+<div class="form-group">
+  <label for="dates"> Timeframe </label>
+
+  <div class="row">
+    <div class="zui-ng-select">
+      <zee-select
+        [items]="dateRanges"
+        [active]="dateRange"
+        [placeholder]="'Date Range'"
+        (onSelect)="dateRangeChanged($event)"
+      ></zee-select>
+    </div>
+
+    <div class="col-xs-12 row date-range">
+      <div class="col-xs-6">
+        <div class="btn-group">
+          <button class="btn date-btn">{{startDate | date: 'mediumDate'}}</button>
+          <a class="btn">
+            <i class="fa fa-calendar" (click)="showStartDatePickerBlock($event)"></i>
+            <div [hidden]="!showStartDatePicker">
+              <datepicker class="date-picker-component" zui-position-calendar name="startDate" [(ngModel)]="startDate" (ngModelChange)="onDateChange(true)" [onlyCurrentMonth]="false" ></datepicker>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="btn-group">
+          <button class="btn date-btn">{{endDate | date: 'mediumDate'}}</button>
+          <a class="btn">
+            <i class="fa fa-calendar" (click)="showEndDatePickerBlock($event)"></i>
+            <div [hidden]="!showEndDatePicker">
+              <datepicker class="date-picker-component" zui-position-calendar name="endDate" [(ngModel)]="endDate" (ngModelChange)="onDateChange(false)" [onlyCurrentMonth]="false" ></datepicker>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

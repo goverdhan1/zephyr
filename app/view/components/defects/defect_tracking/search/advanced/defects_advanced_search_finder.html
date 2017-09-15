@@ -1,0 +1,59 @@
+    <div class="row" id="rwalgn{">
+        <span class="col-md-2">
+            <zee-select
+                [selectId]="'searchChoice'"
+                [items]="searchOptions"
+                [active]="[selectedSearchCriteria]"
+                (onSelect)="onSearchCriteriaChange($event)"
+            ></zee-select>
+        </span>
+        <span [ngClass]="{'col-md-8': true, 'search-box': true}">
+            <div *ngIf="selectedSearchCriteria === 'id'">
+            <input [ngModelOptions]="{standalone: true}" (keypress)="inputKeyPress($event)" class="form-control defect-id" type="text" id="defectId" [(ngModel)]="defectId">
+            </div>
+            <div *ngIf="selectedSearchCriteria === 'jql'">
+                <zee-jql
+                    [jqlQuery]="jqlQuery"
+                    [jqlFieldId]=jqlFieldId
+                    [hideSubmitButton]=true
+                    (searchDefectsByJQL)="searchDefectsByJQL($event)"
+                    (OnEnter)="searchDefects($event)"
+                ></zee-jql>
+            </div>
+            <div *ngIf="selectedSearchCriteria === 'filters'">
+                <zee-select
+                    [items]="filters"
+                    [selectId]="'defectFiltersDropdown'"
+                    [selectClass]="'defect-filters'"
+                    [active]="[selectedFilter]"
+                    [allowClear]="true"
+                    [placeholder]="'Select Filter'"
+                    (onSelect)="onFilterChange($event)"
+                    (onUnselect)="unSelectFilter($event)"
+                ></zee-select>
+            </div>
+        </span>
+        <span class="col-md-1 search-button">
+            <button (click)="searchDefects($event)" class="btn zui-btn zui-btn-primary">Search</button>
+        </span>
+      <div class="folder-struct-detail" [hidden]="!(type === 'requirement')">
+        <span class="col-md-2 folder-sort-by">
+                     <zee-select
+                        [selectId]="'accessType'"
+                        [items]="accessFolderTypes"
+                        [active]="selectedAccessFolderType"
+                        (onSelect)="setAccessFolderType($event)"
+                    ></zee-select>
+          </span>
+          <span class="col-md-2 top-folder-name" >
+                <input type="text" placeholder="Top-Level Folder Name" (keyup)="updateTopFolderVal($event)" id="fldrnm" maxlength="255"/>
+         </span>
+      </div>
+
+        <span class="optionOr" *ngIf="isFileNewDefect">
+            <label>or</label>
+        </span>
+        <span class="link-new-defect" *ngIf="isFileNewDefect">
+            <button class="btn zui-btn zui-btn-primary" (click)="openFileNewDefectDialog($event)">Create Defect</button>
+        </span>
+    </div>

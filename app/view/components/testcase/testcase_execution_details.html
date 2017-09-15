@@ -1,0 +1,61 @@
+<div [class]="'zee-testcase-steps-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Execution Status</h5>
+        </div>
+        <div [class]="'zee-module-content zee-module-content-inline'">
+            <ul class="zee-details-two-column-list">
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Status</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span *ngIf="!editable" [innerHtml]="testcase.status | gridActionsPipe : [{'key' : 'execution-status'}] | sanitizationPipe : [{'key' : 'safeHTML'}]"></span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Select Status'"
+                                [field]="testcase.status | gridActionsPipe : [{'key' : 'execution-status'}] | sanitizationPipe : [{'key' : 'safeHTML'}]"
+                                [title]="testcase.field"
+                                [selectedOption]="testcase.status"
+                                [fieldOptions]="testcase.statuses"
+                                [editOptions] = "statusSelectEditOptions"
+                                [editType]="'singleselect'"
+                                (onSubmit)="updateDetails($event, 'status')">
+                            </zephyr-inline-edit>
+                        </span>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Defects</b></strong>
+                        <span id="type-val" class="zee-column-value defect-link">
+                            <span (click)="defectsClick($event)" [innerHTML]="testcase.defects | gridActionsPipe : [{'key' : 'tce-defects'}] | safeHtml"></span>
+                        </span>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Attachments</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                        <attachments [entityType]="'releaseTestSchedule'"  [id]="testcase.executionId" [isEditAvaiable]="editable" (emitAttachmentCount)="attachmentsCountRefreshed($event)"> </attachments>
+                        </span>
+                     </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Notes</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span *ngIf="!editable">{{testcase.comment}}</span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Enter notes'"
+                                [field]="testcase.comment"
+                                [editType]="'textarea'"
+                                (onSubmit)="updateDetails($event, 'notes')"
+                             ></zephyr-inline-edit>
+                        </span>
+                     </div>
+                </li>
+            </ul>
+        </div>
+    </zee-expander>
+</div>

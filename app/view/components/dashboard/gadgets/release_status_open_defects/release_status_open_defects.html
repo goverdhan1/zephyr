@@ -1,0 +1,96 @@
+<div *ngIf="isConfigureMode">
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <h5 class="zee-content-subtitle">Configure Gadget</h5>
+      </div>
+    </div>
+  </div>
+
+  <form [class]="'form-margin-helper'">
+
+    <div class="form-group row">
+      <label for="projects"> Project </label>
+      <div class="zui-ng-select" id="projects">
+        <zee-select
+          [items]="projects"
+          [active]="selectedProject"
+          [placeholder]="'Select Project'"
+          (onSelect)="setProject($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="releases"> Release </label>
+      <div class="zui-ng-select" id="releases">
+        <zee-select
+          [items]="releases"
+          [active]="selectedRelease"
+          [placeholder]="'Select Release'"
+          (onSelect)="setReleaseValue($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <!--<div class="form-group row">
+      <label for="filter"> Select By </label>
+      <div class="row" id="filter">
+        <div class="zui-radio" (click)="config.selectBy = 'select-by-priority'">
+          <input name="filterGadget" id= "select-by-priority" type="radio" [(ngModel)]="config.selectBy" value="select-by-priority" [checked]="config.selectBy==='select-by-priority'"/>
+          <label for="select-by-priority">
+            <div class="check"></div>
+            <span>Priority</span>
+          </label>
+        </div>
+        <div class="zui-radio" (click)="config.selectBy = 'select-by-severity'" [style.margin-left.px]="'10'">
+          <input name="filterGadget" id= "select-by-severity" type="radio" [(ngModel)]="config.selectBy" value="select-by-severity" [checked]="config.selectBy==='select-by-severity'"/>
+          <label for="select-by-severity">
+            <div class="check"></div>
+            <span>Severity</span>
+          </label>
+        </div>
+      </div>
+    </div>-->
+
+    <div class="form-group row">
+      <label for="refreshrate"> Refresh Rate </label>
+      <div class="zui-ng-select" id="refreshrate">
+        <zee-select
+          [items]="refreshRates"
+          [active]="selectedRefreshRate"
+          [placeholder]="'Select Refresh Rate'"
+          (onSelect)="setRefreshRate($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="clearfix subform text-right">
+      <button type="button" class="zui-btn zui-btn-sec" (click)="toggleConfigurationMode(false)" *ngIf="_gadget?.projectId && _gadget?.releaseId &&  _gadget?.refreshInterval">Cancel</button>
+      <button type="submit" class="zui-btn zui-btn-primary" (click)="saveConfig()" [disabled]="!(config?.project && config?.release &&  config?.refreshRate)" >Save</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!isConfigureMode">
+  <zui-gadget-metadata
+    [projectName]="projectName"
+    [releaseName]="releaseName"
+    [lastRefresh]="lastRefreshTimeLabel"
+    [refreshRate]="config.refreshRate">
+  </zui-gadget-metadata>
+
+  <zee-content-module-gadget-1 [summary]="summaries"></zee-content-module-gadget-1>
+  <!--<div align="center">
+    <div class="box has-advanced-upload" *ngIf="!summaries" style="width: 100%;">
+      <div class="box__input">
+        <label class="" style="float: none; margin-top: 120px; width: 100%">
+          <strong>No data to show.</strong><br><strong>Please recofigure your gadget.</strong>
+        </label>
+      </div>
+    </div>
+  </div>-->
+
+  <!--<zui-summary-box [summary]="summaries" [applyBreak]="true" [headerCentered]="true"></zui-summary-box>-->
+  <!--<zee-gadget-module [summary]="summaries"></zee-gadget-module>-->
+</div>

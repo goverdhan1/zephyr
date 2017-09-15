@@ -1,0 +1,53 @@
+<div class="col-md-12 fieldWrapper">
+    <div class="col-md-2">
+        <span>
+            <label><b>{{field.name}}</b></label>
+            <label class="required" *ngIf="field.required"><b>&nbsp;*</b></label>&nbsp;:
+        </span>
+    </div>
+    <div class="col-md-9">
+        <span *ngIf="field.fieldKey === 'longDesc' || fieldSubType === 'textarea'">
+            <div id="longDesc" *ngIf="field.fieldKey === 'longDesc'">
+                <span class="floatRight">
+                    <select [ngClass]="{'disabled': disableCopyTestStep}" [ngModel]="stepsOption" (change)="getTestStepsForExecution($event)" id="copySteps" class="form-control copy-steps">
+                        <option value="null" class="copy-steps-reset">Copy Steps</option>
+                        <option value="plainText">As plain text</option>
+                        <option value="wikiMarkup">As wiki markup</option>
+                    </select>
+                </span>
+            </div>
+            <textarea class="form-control" rows="8" [formControl]="formkey"></textarea>
+        </span>
+        <span *ngIf="fieldSubType !== 'select' && field.fieldKey !== 'longDesc' && fieldSubType !== 'textarea' && fieldSubType !== 'radiobuttons'">
+            <input *ngIf="fieldSubType === 'readonlyfield'" class="form-control" type="text" [formControl]="formkey" disabled>
+            <input *ngIf="fieldSubType !== 'readonlyfield'" class="form-control" type="text" [formControl]="formkey">
+        </span>
+        <span *ngIf="fieldSubType === 'radiobuttons'" id="{{field.fieldKey}}-field">
+            <!--multiple radio buttons-->
+            <div>
+                <input name="radio_{{field.fieldKey}}" id="radio_none_{{field.fieldKey}}" class="multiradios" [formControl]="formkey" type="radio" [value]="''">
+                <label [attr.for]="'radio_none_' + field.fieldKey"><b>None</b></label>
+            </div>
+            <div *ngFor="let option of fieldOptions; let i=index">
+                <input name="radio_{{field.fieldKey}}" id="radio_{{option.id}}_{{field.fieldKey}}" class="multiradios" [formControl]="formkey" type="radio" [value]="option.id" [checked]="hasDefaultValue(field.hasDefaultValue, i)">
+                <label [attr.for]="'radio_' + option.id + '_' +field.fieldKey"><b>{{option.name || option.value}}</b></label>
+            </div>
+        </span>
+        <span *ngIf="fieldSubType === 'select'">
+            <!--single select-->
+            <zee-select
+                [allowClear]="true"
+                [placeholder]="'Please select a value'"
+                [selectClass]="'zui-select-picker'"
+                [selectId]="field.fieldKey + '-field'"
+                [items]="fieldOptions"
+                [formkey]="formkey"
+                (onSelect)="onOptionChange($event)"
+                (onUnselect)="onOptionUnSelect($event, field.fieldKey)"
+            ></zee-select>
+            <!--<select class="form-control" id="{{field.fieldKey}}-field" [formControl]="formkey">
+                <option [value]="option.id" *ngFor="let option of fieldOptions; let i=index" [selected]="hasDefaultValue(field.hasDefaultValue, i)">{{option.name || option.value}}</option>                
+            </select>-->
+        </span>
+    </div>
+</div>

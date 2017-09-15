@@ -1,0 +1,270 @@
+<!--<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'testcase-eas'"
+></zui-project-left-nav>
+<div class="testcase-eas-wrapper full-height" #target>
+    <div class="main-content main-content2">
+        <section class="module-subheader">
+            <div class="left-navs">
+                <h3><i (click)="goBack()" class="go-back fa fa-angle-left"></i>Assign Test Cases to Execute</h3>
+                <bread-crumb [breadCrumbsList]="breadCrumbList" (click)="onBreadCrumbClick($event)"></bread-crumb>
+            </div>
+        </section>
+        <div class="zui-content-layout layout5">
+            <div class="row upper-split">
+                <div class="col-md-12 resizable-flex-wrapper">
+                    <div>
+                        <div class="action-icons-wrapper folder-operations clearfix">
+                            <span *ngIf="!isFreeForm" title="Sync brings in the changes that were made after the phase was scheduled or last synchronized" class="pull-left sync-image zui-action-icons cursor-pointer" data-toggle="modal" data-target="#sync-modal" class="pull-left sync-image zui-action-icons cursor-pointer" data-toggle="modal" data-target="#sync-modal"> </span>
+                            <zui-testcase-eas-freeform-add *ngIf="isFreeForm"
+                                [cyclePhaseId]="phaseTreeId"
+                                [parentTreeId]="treeId"
+                                [releaseId]="releaseId"
+                                [projectId]="projectId"
+                                (onTestcaseAdd)="onTestcaseAdd()"
+                            ></zui-testcase-eas-freeform-add>
+                            <span title="Click to toggle flag between set and reset for all the testcases in the selected folder (including its sub folder)" class="pull-right selected-star-image zui-action-icons cursor-pointer" data-toggle="modal" data-target="#confirmation-modal"(click)='bulkFolderStarTestcases($event)'> </span>
+                            <span title="Click to toggle flag between set and reset for all the testcases in the selected folder (including its sub folder)" class="pull-right unselected-star-image zui-action-icons cursor-pointer" data-toggle="modal" data-target="#confirmation-modal"(click)='bulkFolderUnstarTestcases($event)'> </span>
+                            <span title="Bulk assign testcases in the selected folder (including its sub folder)" class="pull-right bulk-assignment-image zui-action-icons cursor-pointer" (click)='bulkFolderAssignment($event)'> </span>
+                        </div>
+                        <div class="tree-tcr clearfix eas-phase-tree flex-coloumn-stretch">
+                            <tree-view class="flex-column-stretch"
+                                [removeFromDefault]="['dnd']"
+                                [treeContext]="'-eas-phase'"
+                                [showContextMenu]="true"
+                                [treeData]=treeData
+                                [openSelect]="selectedNodeId"
+                                [showFilter]='false'
+                                [showCount]="true"
+                                [contextMenuItems]=easContextMenuItems
+                                (onTreeNodeClick)="onTreeNodeClick($event)"
+                                [showDocker]="true"
+                                [sectionTitle]="['Test Planning']"
+                            ></tree-view>
+                        </div>
+                    </div>
+                    <!-- <div class="zui-w-handle">
+                        <i class="fa fa-ellipsis-v"></i>&nbsp;<i class="fa fa-ellipsis-v"></i>
+                    </div> -->
+                    <div class="zui-flex-h-fixed phase-panel-stretch" style="overflow: auto;">
+                        <div class="smmary-info-actions-container">
+                            <div class="smmary-info-actions-child">
+                                <p class="f600">Total </p>
+                                <p> Unassigned : {{totalTestcases - totalAssignedTestcases}} </p>
+                            </div>
+
+                            <div *ngIf="treeNodeClicked" class="smmary-info-actions-child">
+                                <p class="f600"> Here </p>
+                                <p> Unassigned : {{hereTotalTestcasesCount - hereAssignedTestcasesCount}} </p>
+                            </div>
+
+                            <div class="smmary-info-actions-child assign-testcase" [title]="ASSIGN_SELECTED_TESTCASES">
+                                <label> Assign all selected to: </label>
+                                <div class="zephyr-inline-edit-wrapper force-hover">
+                                    <zee-select [attr.title]="ASSIGN_SELECTED_TESTCASES"
+                                        [allowClear]="true"
+                                        [ngClass]="{'disabled': selectedTctIds.length === 0}"
+                                        [placeholder]="'Select Assignee'"
+                                        [items]="users"
+                                        [selectId]="'bulk-assignment-select'"
+                                        (onSelect)="bulkAssignmentSelectChange($event)"
+                                    ></zee-select>
+                                </div>
+                            </div>
+
+                            <div class="smmary-info-actions-child">
+                                <div class="action-icons-wrapper">
+                                    <span [title]="DELETE_SELECTED_TESTCASES" [ngClass]="{'cursor-pointer': selectedTctIds.length > 0, 'disabled' : selectedTctIds.length == 0}" class="delete-image zui-action-icons" (click)='bulkDeleteTestcases($event)'> </span>
+                                    <span [title]="UPDATE_FLAG_SELECTED_TESTCASES" [ngClass]="{'cursor-pointer': selectedTctIds.length > 0}" class="selected-star-image zui-action-icons" (click)='bulkStarTestcases($event)'> </span>
+                                    <span [title]="UPDATE_FLAG_SELECTED_TESTCASES" [ngClass]="{'cursor-pointer': selectedTctIds.length > 0}" class="unselected-star-image zui-action-icons" (click)='bulkUnstarTestcases($event)'> </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phase-grid grid-10-row-fix">
+                            <testcase-eas-phase-grid
+                                [phaseTreeId]="phaseTreeId"
+                                [selectedTreeNode]="selectedTreeNode"
+                                [selectedTctIds]="selectedTctIds"
+                                (onPhaseGridPageChange)="phaseGridPageChange($event)"
+                                (onPhaseGridPageSizeChange)="phaseGridPageSizeChange($event)"
+                                (onPhaseGridRowClick)="phaseGridRowClick($event)"
+                                (onClearSelectedTctIds)="clearSelectedTctIds()"
+                                (onPhaseGridRowSelection)="phaseGridRowSelection($event)">
+                            </testcase-eas-phase-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<zui-modal [title]="'Proceed with Synchronization'" [modalId]="'sync-modal'" [modalSize]="'medium'">
+    <zui-modal-body>
+        <p> This process will: </p>
+        <ul [innerHtml]="'zephyr.testcaseEas.phase.synchronization' | i18nSelect: i18nMessages">
+        </ul>
+        <div class="zui-checkbox2">
+            <input [(ngModel)] = "isRemoveDeletednodestestcases" type="checkbox" id= "delete-nodes-testcases">
+            <label for="delete-nodes-testcases">Remove the deleted nodes/testcases from this schedule </label>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+                <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                <button type="button" class="zui-btn zui-btn-primary"  data-dismiss="modal" (click) = "syncNodesTestases()"  >Continue</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="'Bulk Assignment'" [modalId]="'bulk-assignment-modal'" [modalSize]="'medium'">
+    <zui-modal-body>
+        <p> Select one of these options and click on "Save" </p>
+        <div>
+            <div>
+                <div class="zui-radio">
+                    <input type="radio" [checked]="easModeBulkAssignment === 1" name="eas_mode" id="eas_mode_1_radio" value="1" (change)="bulkAssignemntRadioChange($event.target.value)"/>
+                    <label for="eas_mode_1_radio"><div class="check"></div>
+                        <span>Assign all "Not Executed" testcases in selected folder to</span>
+                    </label>
+                </div>
+                <div class="zui-select">
+                    <select name="eas_mode_1_select_assignee" [(ngModel)]='easMode1SelectAssignee' class="form-control">
+                        <option [attr.value]="'select'">Select Assignee</option>
+                        <option *ngFor="let user of users;" [attr.value]="user.id" >{{user.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="zui-checkbox2">
+                <input type="checkbox" name="eas_mode_checkbox_1" id="apply_to_subfolders_1" [(ngModel)]='easMode1Checkbox'/>
+                <label for="apply_to_subfolders_1">Apply to sub folders</label>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <div class="zui-radio">
+                    <input type="radio" [checked]="easModeBulkAssignment === 2" name="eas_mode" id="eas_mode_2_radio" value="2" (change)="bulkAssignemntRadioChange($event.target.value)"/>
+                    <label for="eas_mode_2_radio">
+                        <div class="check"></div>
+                        <span>Assign all "Unassigned" testcases in selected folder to</span>
+                    </label>
+                </div>
+                <div class="zui-select">
+                    <select name="eas_mode_2_select_assignee" [(ngModel)]='easMode2SelectAssignee' class="form-control">
+                        <option [attr.value]="'select'">Select Assignee</option>
+                        <option *ngFor="let user of users;" [attr.value]="user.id" >{{user.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="zui-checkbox2">
+                <input type="checkbox" name="eas_mode_checkbox_2" id="apply_to_subfolders_2" [(ngModel)]='easMode2Checkbox'/>
+                <label for="apply_to_subfolders_2">Apply to sub folders</label>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <div class="zui-radio">
+                    <input [checked]="easModeBulkAssignment === 3" type="radio" name="eas_mode" id="eas_mode_3_radio" value="3" (change)="bulkAssignemntRadioChange($event.target.value)"/>
+                    <label for="eas_mode_3_radio"><div class="check"></div><span>Assign all assigned but "Not Executed" testcases in selected folder</span></label>
+                </div>
+                <div class="bulk-assignment-third-option">
+                    <span>from </span>
+                    <div class="zui-select">
+                        <select name="eas_mode_3_select_assignee" [(ngModel)]='easMode3SelectAssigneeFrom' class="form-control">
+                            <option [attr.value]="'select'">Select From</option>
+                            <option *ngFor="let user of usersWithoutUnassigned;" [attr.value]="user.id" >{{user.value}}</option>
+                        </select>
+                    </div>
+                    <span> to </span>
+                    <div class="zui-select">
+                        <select name="eas_mode_3_select_assignee" [(ngModel)]='easMode3SelectAssigneeTo' class="form-control">
+                            <option [attr.value]="'select'">Select To</option>
+                            <option *ngFor="let user of users;" [attr.value]="user.id" >{{user.value}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="zui-checkbox2">
+                <input type="checkbox" name="eas_mode_checkbox_3" id="apply_to_subfolders_3" [(ngModel)]='easMode3Checkbox'/>
+                <label for="apply_to_subfolders_3">Apply to sub folders</label>
+            </div>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" (click)="restbulkAssignmentTestcases()">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary"  [disabled]="!easModeBulkAssignment"
+            (click) = "bulkAssignmentTestcases()"  >Save</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal'" [modalSize]="'medium'" *ngIf="confirmationObject" >
+    <zui-modal-body>
+        <p> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary"  data-dismiss="modal" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="'Changes Made'" [modalId]="'sync-messages-modal'" [modalSize]="'medium'">
+    <zui-modal-body>
+        <p *ngFor="let message of syncMessagesArray;" >{{message}}</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-primary"  data-dismiss="modal">Ok</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="'Bulk Assignment'" [modalId]="'bulk-assignment-initial-modal'" [modalSize]="'medium'">
+    <zui-modal-body>
+        <div>
+            <div class="zui-radio">
+                <input checked type="radio" name="bulk-assignment" id="creator" (change)="bulkAssignmentInitialChange(1)"/>
+                <label for="creator">
+                    <div class="check"></div>
+                    <span>Automatically assign All testcases to the creator of the testcase</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <div class="zui-radio">
+                <input type="radio" name="bulk-assignment" id="anyone" (change)="bulkAssignmentInitialChange(2)"/>
+                <label for="anyone">
+                    <div class="check"></div>
+                    <span>Automatically assign All testcases to anyone</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <div class="zui-radio">
+                <input type="radio" name="bulk-assignment" id="noone" (change)="bulkAssignmentInitialChange(3)"/>
+                <label for="noone">
+                    <div class="check"></div>
+                    <span>Assign Individually</span>
+                </label>
+            </div>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="zui-btn zui-btn-primary" (click)="submitBulkAssignmentInitialChange()">Save</button>
+    </zui-modal-footer>
+</zui-modal>
+
+
+
+<zui-modal [title]="'Bulk Assignment'" [modalId]="'bulk-operation-warning-modal'" [modalSize]="'small'">
+<zui-modal-body>
+<p>This is a bulk operation, it may take some time.</p>
+</zui-modal-body>
+
+<zui-modal-footer>
+<button type="button" class="zui-btn zui-btn-primary" (click)="dismisWarningModal(true)" data-dismiss="modal">OK</button>
+</zui-modal-footer>
+</zui-modal>
+
+

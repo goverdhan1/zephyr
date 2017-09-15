@@ -1,0 +1,22 @@
+h3#zaheader {
+	margin-top: 20px;
+}
+
+.tcep-summary{
+	table{
+		td:first-child{
+			text-align: right;
+			width: 60%;
+
+		}
+	}
+}
+.tcep-summary{
+	table{
+		td:last-child{
+			font-weight: bold;
+			width: 40%;
+
+		}
+	}
+}

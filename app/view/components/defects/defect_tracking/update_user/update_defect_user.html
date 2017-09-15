@@ -1,0 +1,94 @@
+<div class="update-defect-user-body" *ngIf="!isModal">
+    <form [formGroup]="updateDefectUserForm" class="zui-content-layout update-defect-user-container">
+        <div class="row">
+            <span class="col-md-4 label">{{'zephyr.defect.username' | i18nSelect: i18nMessages}}</span>
+            <span class="col-md-6">
+                <input class="form-control" type="text"
+                    [formControl]="updateDefectUserForm.controls['username']"
+                    name="username" />
+            </span>
+        </div>
+        <div class="row">
+            <span class="col-md-4 label">{{'zephyr.defect.password' | i18nSelect: i18nMessages}}</span>
+            <span class="col-md-6">
+                <input class="form-control update-user-password" [attr.type]="showPassword.password ? 'text' : 'password'" [formControl]="updateDefectUserForm.controls['password']" name="password" (keyup)="checkPassword(updateDefectUserForm)"/>
+                <span (click)="showpasswordClicked('password')" *ngIf="!showPassword.password" class="show-password-image cursor-pointer"> </span>
+                <span (click)="hidePasswordClicked('password')" *ngIf="showPassword.password" class="hide-password-image  cursor-pointer"> </span>
+            </span>
+        </div>
+        <div class="row">
+            <span class="col-md-4 label">{{'zephyr.defect.re-enter.password' | i18nSelect: i18nMessages}}</span>
+            <span class="col-md-6">
+                <input class="form-control update-user-password" [attr.type]="showPassword.reEnterPassword ? 'text' : 'password'" [formControl]="updateDefectUserForm.controls['reEnterPassword']" name="reEnterPassword"(keyup)="checkPassword(updateDefectUserForm)"/>
+                <span (click)="showpasswordClicked('reEnterPassword')" *ngIf="!showPassword.reEnterPassword" class="show-password-image cursor-pointer"> </span>
+                <span (click)="hidePasswordClicked('reEnterPassword')" *ngIf="showPassword.reEnterPassword" class="hide-password-image  cursor-pointer"> </span>
+                <!-- <div class="zui-checkbox2 bold">
+                    <input (change)="showPassword($event)" id="defect-user-update-password" type="checkbox" />
+                    <label for="defect-user-update-password">{{'zephyr.defect.showPassword' | i18nSelect: i18nMessages}}</label>
+                </div> -->
+            </span>
+        </div>
+    </form>
+</div>
+
+<zui-modal (onClose)="closeUpdateUserModal()" [title]="'External DTS Login'" [modalId]="'defect-update-user-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        <div class="update-defect-user-body">
+            <form name="updateDefectUserForm" [formGroup]="updateDefectUserForm" class="zui-content-layout update-defect-user-container">
+                <div class="row">
+                    <span class="col-md-4 label"><b>{{'zephyr.defect.username' | i18nSelect: i18nMessages}}</b></span>
+                    <span class="col-md-6">
+                        <input class="form-control" type="text"
+                            [formControl]="updateDefectUserForm.controls['username']"
+                            name="username" />
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="col-md-4 label"><b>{{'zephyr.defect.password' | i18nSelect: i18nMessages}}</b></span>
+                    <span class="col-md-6">
+                        <input class="form-control update-user-password" [attr.type]="showPassword.password ? 'text' : 'password'"
+                            [formControl]="updateDefectUserForm.controls['password']"
+                            name="password" (keyup)="checkPassword(updateDefectUserForm)" />
+                        <span (click)="showpasswordClicked('password')" *ngIf="!showPassword.password" class="show-password-image cursor-pointer"> </span>
+                        <span (click)="hidePasswordClicked('password')" *ngIf="showPassword.password" class="hide-password-image  cursor-pointer"> </span>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="col-md-4 label"><b>{{'zephyr.defect.re-enter.password' | i18nSelect: i18nMessages}}</b></span>
+                    <span class="col-md-6">
+                        <input class="form-control update-user-password" [attr.type]="showPassword.reEnterPassword ? 'text' : 'password'"
+                            [formControl]="updateDefectUserForm.controls['reEnterPassword']"
+                            name="reEnterPassword" (keyup)="checkPassword(updateDefectUserForm)"/>
+                         <span (click)="showpasswordClicked('reEnterPassword')" *ngIf="!showPassword.reEnterPassword" class="show-password-image cursor-pointer"> </span>
+                         <span (click)="hidePasswordClicked('reEnterPassword')" *ngIf="showPassword.reEnterPassword" class="hide-password-image  cursor-pointer"> </span>
+                        <!-- <div class="zui-checkbox2 bold">
+                            <input (change)="showPassword($event)" id="defect-user-update-password" type="checkbox" />
+                            <label for="defect-user-update-password">{{'zephyr.defect.showPassword' | i18nSelect: i18nMessages}}</label>
+                        </div> -->
+                    </span>
+                </div>
+            </form>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <div *ngIf="!isResetDTUser">
+            <button (click)="closeUpdateUserModal($event)" type="button" class="zui-btn zui-btn-sec">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+            <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: updateDefectUserForm && updateDefectUserForm.invalid}" (click)="onUserUpdate($event)">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+        </div>
+        <div *ngIf="isResetDTUser">
+            <button type="button" class="zui-btn zui-btn-sec" (click)="closeUpdateUserModal($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+            <button type="button" class="zui-btn zui-btn-sec" (click)="showDeleteUserPopup($event)">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+            <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, 'disabled': true}" (click)="onResetUserUpdate($event)">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+        </div>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="'zephyr.defect.delete.user.header' | i18nSelect: i18nMessages" [modalId]="'defect-delete-user-modal'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+        {{'zephyr.defect.delete.user.desc' | i18nSelect: i18nMessages}}
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" (click)="closeDeleteUserModal()">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="deleteUser()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>

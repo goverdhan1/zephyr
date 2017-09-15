@@ -1,0 +1,43 @@
+<div class="main-content">
+    <h4> Add Release</h4>
+    <bread-crumb [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb>
+    <div class="subform clearfix">
+        <form #releaseForm="ngForm" (ngSubmit)="onReleaseFormSubmit(releaseForm.form.value)">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix" >
+                        <label for="release-name">Name</label>
+                        <input minlength="2" maxlength="50" required id="release-name" class="form-control" type="text" [(ngModel)]="releaseForm.name" name="name" />
+                    </div >
+                    <div class="clearfix">
+                        <label for="release-description">Description</label>
+                        <input maxlength="250" id="release-description" class="form-control"  [(ngModel)]="releaseForm['description']" name="description" type="text" />
+                    </div>
+                    <div class="clearfix">
+                        <label for="release-id">ID</label>
+                        <input id="release-id" class="form-control"  [(ngModel)]="releaseForm['id']" type="text" name="id" [disabled]="'true'"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="release-status">Hide</label>
+                        <input id="release-status" class="form-control"  [(ngModel)]="releaseForm['status']" name="status" type="checkbox" />
+                    </div>
+                </div>
+                <div class="">
+                    <div class="clearfix">
+                        <label for="release-startdate">Start Date</label>
+                        <input required id="release-startdate" class="form-control"  [(ngModel)]="releaseForm['startDate']" name="startDate" type="date" />
+                    </div>
+                    <div class="clearfix">
+                        <label for="release-enddate">End Date</label>
+                        <input id="release-enddate" class="form-control"  [(ngModel)]="releaseForm['endDate']" name="endDate" type="date" />
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix form-footer">
+              <button type="button" class="zui-btn zui-btn-sec" (click)="resetReleaseForm()">Cancel</button>
+                    <button type="submit" class="zui-btn zui-btn-primary" [disabled]="!releaseForm.form.valid">Save</button>
+
+            </div>
+        </form>
+    </div>
+</div>

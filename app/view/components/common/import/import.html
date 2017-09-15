@@ -1,0 +1,349 @@
+<zui-modal [title]="fieldOptions.header" [modalId]="'zee-import-modal-' + fieldOptions.id" [modalSize]="'large'" [modalClass]="' zee-import-modal'" [modalBodyClass]="' zee-import-modal-body'" [description]="getDescription()" (onBeforeClose)="dismissModal()">
+    <zui-modal-body>
+        <zui-form-dirty-dialog
+          [identifier]="'import-modal-unsaved-changes'"
+          [show]="showUnsavedChangesPopup"
+          (dismissNavigation)="cancelClosingDialog($event)"
+          (continueNavigation)="dismissImportMapsDialog($event)">
+        </zui-form-dirty-dialog>
+
+        <zui-form-dirty-dialog
+          [identifier]="'import-modal-unsaved-refresh-changes'"
+          [show]="showModalUnsavedRefresh"
+          (dismissNavigation)="showModalUnsavedRefresh = false"
+          (continueNavigation)="continueRefresh(showSavedMaps ? 'map': 'importjob')">
+        </zui-form-dirty-dialog>
+
+        <zui-form-dirty-dialog
+          [identifier]="'import-modal-unsaved-add-changes'"
+          [show]="showModalUnsavedAdd"
+          (dismissNavigation)="showModalUnsavedAdd = false"
+          (continueNavigation)="continueAdd(showSavedMaps ? 'map': 'importjob')">
+        </zui-form-dirty-dialog>
+
+        <zui-form-dirty-dialog
+          [identifier]="'import-job-modal'"
+          [show]="showJobDirtyCheckModal"
+          (dismissNavigation)="dismissJobNavigation($event)"
+          (continueNavigation)="continueJobNavigation($event)"
+        ></zui-form-dirty-dialog>
+
+        <div class="import-instructions" *ngIf="showInstructions">
+            <p class="import-instructions-desc" [innerHTML]="fieldOptions.instructionsDesc | safeHtml"></p>
+        </div>
+
+        <div *ngIf="showSavedMaps">
+            <div id="savedMaps-grid" class="flex-column-stretch">
+                <grid
+                    [noData]="noMapData"
+                    [rows]=savedMapsGridRows
+                    [gridType]="savedMapGridType"
+                    [paginationOptions]="mapPaginationOptions"
+                    (onGridRowClick)="savedMapsGridRowClick($event)"
+                    (onGridActionIconClick)="savedMapsIconClick($event)"
+                    (onGridPrevClick)="updateMapIndex($event)"
+				    (onGridNextClick)="updateMapIndex($event)"
+				    (onGridPaginateByIndex)="updateMapIndex($event)"
+				    (onGridPageSizeChange)="updateMapPageSize($event)"
+                ></grid>
+            </div>
+            <div id="update-savedMaps" class="flex-column-stretch" *ngIf="showEditSavedMaps">
+                <form [formGroup]="importForm" class="form" [style.marginTop.px]="10">
+                    <div class="add-maps-header">
+                        <span class="import-heading-label">Add New Map</span>
+                    </div>
+                    <div class="savedMaps-details">
+                        <div id="savedMaps-fields">
+                            <div>
+                                <span>Map Name *</span>
+                                <span>
+                                    <input class="form-control" type="text"
+                                        formControlName="savedMaps.mapName"
+                                        [(ngModel)]="savedMaps.mapName"
+                                        name="mapName" id="addmap"/>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Starting Row Number *</span>
+                                <span>
+                                    <input class="form-control" type="number" name="rowNumber" formControlName="savedMaps.rowNumber" min="1" [validate]="'numbernotzero'" [(ngModel)]="savedMaps.rowNumber"/>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Select Discriminator *</span>
+                                <span>
+                                    <select class="form-control"
+                                        (ngModelChange)="onDiscriminatorChange($event, true)"
+                                        formControlName="savedMaps.selectedMapDiscriminator"
+                                        [(ngModel)]="savedMaps.selectedMapDiscriminator"
+                                        name="selectedMapDiscriminator">
+                                        <option [value]="discriminator.id" *ngFor="let discriminator of mapDiscriminators">{{discriminator.value}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Description</span>
+                                <span>
+                                    <textarea class="form-control"
+                                        formControlName="savedMaps.mapDescription"
+                                        [(ngModel)]="savedMaps.mapDescription"
+                                        name="mapDescription"></textarea>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="savedMaps-fieldsMapper">
+                            <div class="fields-mapper-header">
+                                <span>Zephyr Fields</span>
+                                <span>{{fieldOptions.message}}</span>
+                            </div>
+                            <div *ngFor="let field of savedMaps.savedMapsFields">
+                                <span title="{{field.displayName}}">{{field.displayName}}</span>
+                                <span>
+                                    <input [validate]="'alphabet2'" class="form-control"
+                                        formControlName="{{field.controlName}}"
+                                        name="{{field.controlName}}"
+                                        [(ngModel)]="field.mappedField"
+                                        value="{{field.mappedField}}"
+                                        type="text" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="savedMaps-buttons">
+                        <span><button (click)="cancelSavedMaps($event)" class="zui-btn zui-btn-sec">Cancel</button></span>
+                        <span><button (click)="createSavedMaps($event)" class="zui-btn zui-btn-primary" [disabled]="isMapInvalid()" type="submit">Save</button></span>
+                    </div>
+                </form>
+            </div>
+            <zui-form-dirty-dialog
+              [identifier]="'import-modal'"
+              [show]="showMapDirtyCheckModal"
+              (dismissNavigation)="dismissMapNavigation($event)"
+              (continueNavigation)="continueMapNavigation($event)">
+            </zui-form-dirty-dialog>
+            <zui-modal [title]="getMessage('zephyr.import.map.delete.title')" [modalId]="'zui-import-modal-map-delete'" [modalSize]="'small'" [modalClass]="' deleteModal'" (onClose)="dismissDeleteModal()">
+                <zui-modal-body>
+                    <p>{{'zephyr.import.delete.map.confirmation' | i18nSelect: i18nMessages}}</p>
+                </zui-modal-body>
+                <zui-modal-footer>
+                    <button type="button" class="btn btn-primary" (click)="onClickDeleteMap()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+                    <button type="button" (click)="dismissDeleteModal()" class="btn btn-default">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                </zui-modal-footer>
+            </zui-modal>
+
+            <zui-modal [title]="getMessage('zephyr.import.map.changes.unsaved.title')" [modalId]="'zui-unsaved-changes-prompt'" [modalSize]="'small'" (onClose)="dismissDeleteModal()">
+                <zui-modal-body>
+                    <p>{{'zephyr.import.map.changes.unsaved.confirmation' | i18nSelect: i18nMessages}}</p>
+                </zui-modal-body>
+                <zui-modal-footer>
+                    <button type="button" class="btn btn-primary" (click)="continueNavigation(isNext)">{{'zephyr.button.continue' | i18nSelect: i18nMessages}}</button>
+                    <button type="button" (click)="dismissNavigation()" class="btn btn-default">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                </zui-modal-footer>
+            </zui-modal>
+
+        </div>
+
+        <div class="flex-column-stretch" *ngIf="showImportJobs">
+            <div id="importJobs-grid">
+                <grid
+                    [noData]="noJobData"
+                    [rows]=importJobsGridRows
+                    [gridType]="importJobsGridType"
+                    [paginationOptions]="jobPaginationOptions"
+                    (onGridRowClick)="importJobsGridRowClick($event)"
+                    (onGridActionIconClick)="importJobsIconClick($event)"
+                    (onGridPrevClick)="updateJobIndex($event)"
+				    (onGridNextClick)="updateJobIndex($event)"
+				    (onGridPaginateByIndex)="updateJobIndex($event)"
+				    (onGridPageSizeChange)="updateJobPageSize($event)"
+                ></grid>
+            </div>
+            <div id="update-importJobs" *ngIf="showEditImportJobs">
+                <form [formGroup]="jobsForm">
+                    <div class="add-jobs-header">
+                        <span class="import-heading-label">Add New Job</span>
+                    </div>
+                    <div class="importJobs-details">
+                        <span id="importJobs-fields">
+                            <div>
+                                <span>Job Name *</span>
+                                <span>
+                                    <input formControlName="importJob.jobName" id="job-name" name="jobName" class="form-control" type="text" [(ngModel)]="importJob.jobName"/>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Select Map *</span>
+                                <span>
+                                    <select formControlName="importJob.selectedFieldMap" class="form-control" name="selectedFieldMap" [(ngModel)]="importJob.selectedFieldMap">
+                                        <!-- Removed Disabled for IE bug ZEPHYR-16088 -->
+                                        <option [value]="">Select Map</option>
+                                        <option [value]="fieldMap.id" *ngFor="let fieldMap of savedMapsGridRows">{{fieldMap.name}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Date</span>
+                                 <span>
+                                  {{importJob.jobDate | date: 'medium'}}
+                                  <input class="form-control"
+                                         formControlName="importJob.jobDate"
+                                         type="text" name="jobDate"
+                                         [ngModel]="importJob.jobDate | date: 'yMMMdjms'"
+                                         style="display: inline;visibility: hidden;">
+                                </span>
+                            </div>
+                            <div>
+                                <span class="import-file-label">Select file to Import *</span>
+                                <span class="zee-column-value">
+
+                                    <div class="clearfix" id="fromLocal" *ngIf="importJob.jobFile === 'local'">
+                                   <!--     <div>
+                                            <label>
+                                                Select this option if file is located on machine. Only one file at a time.
+                                            </label>
+                                        </div>-->
+                                        <div [class]="'zee-module-content import'" >
+                                            <!--<form id="uploadJobForm" enctype="multipart/form-data" method="post">-->
+                                                <!--<input name="import" class="form-control" type="file"
+                                                       accept=".xlsx,.xls"
+                                                       (change)="onFileUploadChange($event)">-->
+                                              <attachments [entityType]="'import'"
+                                                           [uploadType]="'import'"
+                                                           [acceptType]="'.xlsx,.xls'"
+                                                           [id]="1"
+                                                           [multiple]="false"
+                                                           [isEditAvaiable]="true"
+                                                           (emitAttachmentCount)="onFileUploadChange($event)"
+                                              ></attachments>
+
+                                            <!--</form>-->
+
+
+                                        </div>
+                                    </div>
+                                  <div>
+
+                                    <!--From Local Machine-->
+                                    <!-- Hiding import from server option -->
+                                    <!--<div>
+                                        <span class="jobsFileRadio"><input type="radio" class="form-control" name="jobsFileRadio" value="server" [(ngModel)]="importJob.jobFile" (ngModelChange)="importJob.jobFile='server'; importJob.jobServerInput = '';"></span>
+                                        <span class="jobsFileLabel"><label>From Server</label></span>
+                                    </div>-->
+                                    </div>
+                                  <div>
+                                            <!--<span class="jobsFileRadio"><input type="radio" class="form-control" name="jobsFileRadio" value="local" [(ngModel)]="importJob.jobFile" (ngModelChange)="importJob.jobFile='local'; importJob.jobServerInput = '';"></span>-->
+                                            <span class="jobsFileLabel"><label>
+                                              {{importJob.jobServerInput}}
+                                            </label></span>
+                                        </div>
+                                    <!-- Hiding import from server option -->
+                                    <!--<div id="fromServer" *ngIf="importJob.jobFile === 'server'">
+                                        <div>
+                                            <label>
+                                                Select this option if file(s) are available at server.<br />Please complete Dir/File path below.
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <span>
+                                                <input [(ngModel)]="importJob.jobServerInput"
+                                                [ngClass]="{error: jobServerInput.touched && !jobServerInput.valid}"
+                                                required  #jobServerInput="ngModel"
+                                                name="jobServerInput"
+                                                class="form-control" type="text" id="jobServerInput">
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span id="autocompleteResult"></span>
+                                        </div>
+                                    </div>-->
+                                </span>
+                            </div>
+                        </span>
+                        <span id="importJobs-fieldsMapper">
+                            <div><span>History</span></div>
+                            <div class="job-notification">
+                                <div *ngFor="let history of jobHistory">
+                                    <div>
+                                        <span class="jobCommentLabel">Comments on:</span>
+                                        <span>{{history.actionDate | date: 'yMMMdjms'}}</span>
+                                    </div>
+                                    <div class="jobComment">
+                                        <span>{{history.comments}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="importJobs-buttons">
+                        <span><button (click)="cancelImportJobs($event)" class="zui-btn zui-btn-sec">Cancel</button></span>
+                        <span>
+                            <button type="submit" class="zui-btn zui-btn-primary"
+                                *ngIf="importJob.jobFile === 'local'"
+                                [disabled]="isJobInvalid()"
+                                (click)="createImportJobs($event)">Save</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+            <zui-modal [title]="getMessage('zephyr.import.map.changes.unsaved.title')" [modalId]="'zui-unsaved-changes-prompt-jobs'" [modalSize]="'small'" (onClose)="dismissNavigation()">
+                <zui-modal-body>
+                    <p>{{'zephyr.import.map.changes.unsaved.confirmation' | i18nSelect: i18nMessages}}</p>
+                </zui-modal-body>
+                <zui-modal-footer>
+                    <button type="button" class="zui-btn zui-btn-primary" (click)="loadSavedMaps()">{{'zephyr.button.continue' | i18nSelect: i18nMessages}}</button>
+                    <button type="button" (click)="dismissNavigation()" class="zui-btn zui-btn-sec">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                </zui-modal-footer>
+            </zui-modal>
+
+            <zui-modal [title]="getMessage('zephyr.import.job.delete.title')" [modalClass]="' deleteModal'" [modalId]="'zui-import-modal-job-delete'" [modalSize]="'small'" (onClose)="dismissDeleteModal()">
+                <zui-modal-body>
+                    <p>{{'zephyr.import.delete.job.confirmation' | i18nSelect: i18nMessages}}</p>
+                </zui-modal-body>
+                <zui-modal-footer>
+                    <button type="button" class="zui-btn zui-btn-primary" (click)="onClickDeleteJob()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+                    <button type="button" (click)="dismissDeleteModal()" class="zui-btn zui-btn-sec">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                </zui-modal-footer>
+            </zui-modal>
+
+        </div>
+    </zui-modal-body>
+    <zui-modal-header-buttons>
+        <div *ngIf="showSavedMaps">
+            <button (click)="addSavedMaps()" id="add-savedMaps" type="button" class="zui-btn zui-btn-sec">{{'zephyr.button.add' | i18nSelect: i18nMessages}}</button>
+            <button (click)="getSavedMaps()" id="refresh-savedMaps" type="button" class="zui-btn zui-btn-sec">{{'zephyr.button.refresh' | i18nSelect: i18nMessages}}</button>
+        </div>
+        <div *ngIf="showImportJobs">
+            <button (click)="addImportJobs()" id="add-importJobs" type="button" class="zui-btn zui-btn-sec">{{'zephyr.button.add' | i18nSelect: i18nMessages}}</button>
+            <button (click)="getImportJobs()" id="refresh-importJobs" type="button" class="zui-btn zui-btn-sec">{{'zephyr.button.refresh' | i18nSelect: i18nMessages}}</button>
+        </div>
+    </zui-modal-header-buttons>
+    <zui-modal-footer>
+        <div *ngIf="showInstructions">
+            <button type="button" class="zui-btn zui-btn-primary" (click)="loadSavedMaps(true)">{{'zephyr.button.next' | i18nSelect: i18nMessages}}</button>
+        </div>
+        <div *ngIf="showSavedMaps">
+            <button type="button" class="zui-btn zui-btn-primary savedMaps-back" (click)="navigate(false)">{{'zephyr.button.back' | i18nSelect: i18nMessages}}</button>
+            <button type="button" class="zui-btn zui-btn-primary" (click)="navigate(true)">{{'zephyr.button.next' | i18nSelect: i18nMessages}}</button>
+        </div>
+        <div *ngIf="showImportJobs">
+            <button type="button" class="zui-btn zui-btn-primary import-importJobs-back" (click)="goToSavedMaps($event)">{{'zephyr.button.back' | i18nSelect: i18nMessages}}</button>
+        </div>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal [title]="'Import Job Run Warning'" [modalId]="'importRunError-modal'" [modalSize]="'small'">
+  <zui-modal-body>
+    <p>File upload for the job is still in progress. Please wait for the upload to complete.</p>
+  </zui-modal-body>
+  <zui-modal-footer>
+    <button type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">OK</button>
+  </zui-modal-footer>
+</zui-modal>
+
+<job-status
+    [modalHeading]="'Import Job Progress'"
+    [messages]="imoprtJobMessages"
+    [jobStatusId]="jobStatusId"
+    (jobCompleted)="jobCompleted($event)"
+></job-status>

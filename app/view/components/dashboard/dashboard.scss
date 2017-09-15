@@ -1,0 +1,402 @@
+zui-dashboard {
+  .tab-content {
+    padding: 15px 0;
+  }
+
+  .project-search {
+    display: inline-block;
+    margin-right: -30px;
+  }
+
+  .grid-container {
+    max-height: 100% !important;
+    height: 300px !important;
+  }
+
+  .tab-pane, .dashboards-grid-wrapper {
+    height: 360px;
+  }
+
+  .dashboards-grid {
+    height: 360px;
+  }
+
+  .categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #eee;
+    height: 100%;
+    margin-right: 15px;
+    li {
+      padding: 5px 10px;
+      border: 1px solid transparent;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      font-weight: bold;
+
+      &.active {
+        border: 1px solid #eee;
+        border-left: 3px solid #88C256;
+        background: #FFF;
+      }
+    }
+  }
+
+  .clear-block {
+    padding:20px 0 0;
+
+    .zui-radio + div {
+      padding-left: 20px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+
+.dashboard-layout-bar {
+  margin-left: -10px;
+}
+
+.dashboard-new-grid-table {
+  .pagination-details {
+    select.form-control {
+      width: 100%;
+    }
+  }
+}
+
+.error-message-container {
+  margin-top: 20px !important;
+  margin-bottom: 6px !important;
+  font-size: 14px !important;
+  color: rgba(124, 133, 136, 0.62) !important;
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+  list-style: none !important;
+}
+
+#zui-gadget-modal-add .modal-body {
+  max-height: 500px !important;
+  overflow-y: scroll !important;
+}
+
+
+.caution-img {
+  margin-top: 10px;
+}
+
+#zui-gadget-modal-add {
+  .modal-body {
+    max-height: 500px !important;
+    overflow-y: scroll !important;
+  }
+
+  .modal-title {
+    font-size: 16px !important;
+    margin-bottom: 0px;
+  }
+
+  .add-gadget-modal-body {
+    width: 100%;
+  }
+
+}
+
+.config-error-icon {
+  font-size: 40px;
+  color: #8a1e1e;
+}
+
+.dashboard-add {
+  margin-right: 13px !important;
+  margin: 0px !important;
+  margin-right: 27px !important;
+}
+
+.gadget-add {
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
+.link-title {
+    cursor: pointer;
+}
+
+.access-type-container {
+  display: inline-block;
+  width: 205px;
+  position: relative;
+  top: 6px;
+}
+
+.access-type-parent {
+
+}
+
+.gadgets {
+  display: block !important;
+}
+
+#pagination-page-size {
+  width: 100% ;
+}
+/* added for the scroll issue of dashboard which fixes the child height */
+zui-dashboard {
+  display: flex;
+  flex-direction: column;
+}
+.zui-dashboard-container {
+    //margin: 10px;
+    /**
+     * <fieldset class="zui-panel zui-panel-default">
+            <div class="zui-panel-heading"><h3>Panel heading without title</h3></div>
+            <div class="zui-panel-body">Panel content</div>
+        </fieldset>
+     */
+    .zui-panel-title {
+        color: #289295;
+        font-size: 16px;
+    }
+    .zui-panel {
+        margin-bottom: 10px;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        .zui-panel-body {
+            padding: 15px;
+        }
+        .zui-panel-tab-bar-body {
+            padding: 5px 15px !important;
+            height: 100px;
+            overflow-y: auto;
+            .row {
+                padding: 15px 0;
+            }
+        }
+
+        .zui-panel-heading {
+            padding: 10px 15px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            &.zui-panel-tab-heading {
+                padding: 0 15px !important;
+            }
+            .zui-panel-tab-bar-heading-label {
+                display: inline-block;
+                padding: 10px;
+                &.selected {
+                    border-bottom: 2px solid #289295;
+                }
+            }
+            h3 {
+                margin-bottom: 0px;
+                color: #ffffff;
+            }
+        }
+        .zui-panel-heading-gadget {
+            position: relative;
+            min-height: 40px;
+            background-color: #209397 !important;
+        }
+    }
+    .zui-panel-default {
+        border-color: #ddd;
+        .zui-panel-heading {
+            color: #ffffff;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+    }
+    .selected-star-favorite-image:before {
+        content:url(assets/images/selectedStar.png);
+    }
+    .unselected-star-favorite-image:before {
+        content:url(assets/images/unselectedStar.png);
+    }
+    .dashboard-grid-table tbody tr {
+        cursor: pointer;
+    }
+    .zui-gadget-settings {
+        bottom: 0;
+        position: absolute;
+        padding-right: 12px;
+        right: 0;
+        top: 10px;
+        vertical-align: middle;
+    }
+    .zui-gadget-add-button {
+      float: right;
+    }
+    .zui-gadget-media-body {
+      display: flex;
+      justify-content: space-between;
+    }
+    .zui-row-column-padding, .gadget-component {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    .zui-dashboard-layout-contianer {
+        float: left;
+        margin-right: 5px;
+        .zui-dashboard-layout-wrapper {
+            width: 40px;
+            height: 30px;
+            border: 1px solid #C4E3FD;
+            display: flex;
+            .zui-dashboard-layout-1-inner {
+              margin: 4px 0px 9px 7px;
+              background-color: #26282a;
+              display: -webkit-flex;
+              display: -ms-flexbox;
+              display: flex;
+              width: 24px;
+              height: 20px;
+            }
+            .zui-dashboard-layout-2-inner {
+                background-color: #26282a;
+                height: 20px;
+                display: flex;
+                width: 14.5px;
+                margin: 4px 0 4px 4px;
+                &.zui-dashboard-layout-2-inner-last {
+                    margin: 4px;
+                }
+            }
+            .zui-dashboard-layout-3-inner {
+                background-color: #C4E3FD;
+                width: 13px;
+                height: 22px;
+                display: flex;
+                margin: 3px 0 3px 3px;
+                &.zui-dashboard-layout-3-inner-last {
+                    margin: 3px;
+                }
+            }
+        }
+    }
+    .dashboard-grid-table {
+        /*height: 80%;
+        max-height: 70%;*/
+    }
+    .item-center {
+      display: flex;
+      justify-content: center;
+      padding: 5px !important;
+    }
+    .zee-module1-wrapper {
+      &.content-center {
+        text-align: center;
+
+        .zee-module1-group-name {
+          margin: 20px 0;
+          display: inline-block;
+        }
+        .zee-module1-group-wrapper {
+          > div {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            margin: auto;
+            align-items: center;
+
+            span {
+              flex: 1;
+            }
+            span.zee-module1-item-name {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+}
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path, .y.axis line {
+    stroke: #000;
+}
+.zui-dashboard-container {
+    overflow: auto;
+    height: 100%;
+
+}
+.stacks > span, .stackPop > span {
+    border: 1px solid #ccc;
+    padding: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.box.has-advanced-upload {
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+  -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+  -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  height: 300px;
+  float: left;
+  background-color: rgba(241, 241, 241, 0.39);
+  overflow: auto;
+  width: 410px;
+  clear: both !important;
+  float: none !important;
+}
+
+.box.has-advanced-upload, .box.has-advanced-upload * {
+  cursor: pointer;
+}
+
+.box__input{
+  height: 300px;
+  width: 410px;
+  text-align: center;
+}
+
+.add-new {
+  margin-top : 120px;
+  float: none !important;
+}
+
+.gadget-list {
+  padding-bottom: 20px;
+  border-bottom: rgba(128, 128, 128, 0.28) thin solid;
+  margin-top: 20px;
+}
+
+.edit:before {
+  content:url(assets/images/edit.png);
+}
+
+#grid-table-dashboard {
+  .grid-action-icon {
+    display: inline-block;
+    padding: 0px 10px;
+    min-height: 0;
+  }
+}

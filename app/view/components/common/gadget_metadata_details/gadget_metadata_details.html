@@ -1,0 +1,8 @@
+<h1 class="component-heading zee-content-title">
+  <span>{{projectName}}</span>
+  <!--<b class="pull-right refresh-rate-label" *ngIf="refreshRate">Data Refresh : {{refreshRate}}</b>-->
+  <!--<br />-->
+  <b class="pull-right refresh-rate-label"*ngIf="lastRefresh" >Last Refresh : {{lastRefresh}}</b>
+</h1>
+<h3 class="zee-content-subtitle" *ngIf="releaseName">{{releaseName}}</h3>
+<br  *ngIf="!releaseName" />

@@ -1,0 +1,57 @@
+<div class="row">
+<div class="col-md-12">
+<h2>Test Case Execution Progress Cycle</h2>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-8" >
+    <nvd3 [options]="options" [data]="data"></nvd3>
+  </div>
+  <div class="col-md-4" >
+<h2>Summary</h2>
+<!-- <div>LastUpdated: {{tcepGraphData[0].updateTime}}</div> -->
+
+
+<div>Release 1.0</div>
+<hr />
+<div class="summary-wrapper">
+
+
+<table class="tcep-summary">
+  <tbody>
+    <tr *ngFor="let item of tcepSummaryData">
+       <td>{{item.key}}:</td><td>{{item.value}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+<table class="table">
+
+<tr><th *ngFor="let header of _columns">{{header.labelName}}</th></tr>
+<tr *ngFor ="let row of tcepGridData">
+  <td *ngFor="let header of _columns">{{row[header.labelId]}}</td>
+</tr>
+
+</table>
+
+    <!-- <grid style="margin-top: 10px "
+          [rows]=tcepGridData
+          [gridType]="_tcepGridType"
+          [paginationOptions]="paginationOptions "
+          (onGridPrevClick)="zautoGridPrevClick($event) "
+          (onGridNextClick)="zautoGridNextClick($event) "
+          (onGridPageSizeChange)="zautoGridPageSizeChange($event) "
+          (onGridPaginateByIndex)="zautoGridPaginateByIndex($event)"
+          (onGridActionIconClick)="automationGridIconClick($event) "
+          (onGridLinkClick)="scheduleJob($event)"
+    >
+    </grid> -->
+  </div>
+</div>

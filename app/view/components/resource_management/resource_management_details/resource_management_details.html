@@ -1,0 +1,79 @@
+<div class="main-content">
+	<section class="module-subheader no-breadcrumb">
+		<div class="left-navs">
+      		<h3><b>Manage Users</b></h3>
+		</div>
+		<div class="right-navs">
+	      	<div class="zui-input-group resource-search">
+		      <input type="text" class="form-control" (keypress)="inputSearchKeyPress($event)" [(ngModel)]="inputSearch" placeholder="Search for...">
+		      <span class="input-group-btn">
+		        <button (click)="onClickSearch()" class="zui-btn zui-btn-primary" type="button">
+		        	<span class="fa fa-search"></span>
+		        </button>
+		      </span>
+	      	</div>
+      		<button class="zui-btn zui-btn-plus" (click)="addResource()" title="Add Resource">+</button>
+		</div>
+  	</section>
+	<div class="zui-content-layout layout4">
+		<div class="row" [style.flex]="'1'">
+			<div class="col-md-12">
+				<grid class="resource-management-grid"
+				    [rows]="resourceGridRows"
+				    [gridType]="_resourceGridType"
+				    [paginationOptions]="paginationOptions"
+				    (onGridRowClick)="resourceGridRowClicked($event)"
+				    (onGridLinkClick)="resourceGridActionClick($event)"
+				    (onGridPrevClick)="releaseGridPrevClick($event)"
+        			(onGridNextClick)="releaseGridNextClick($event)"
+        			(onGridPageSizeChange)="releaseGridPageSizeChange($event)"
+        			(onGridPaginateByIndex)="releaseGridPaginateByIndex($event,true)"
+    			></grid>
+			</div>
+		</div>
+	  <div class="row">
+	  	<div class="col-md-12">
+			<div class="resource-form clearfix" [hidden]="!isShowForm">
+				<resource-form
+					[allResources]="resourceGridRows"
+					[resourceObject]="resourceObjectSelected"
+					[allProjects]="allProjects"
+					[projectsAllocated]="newProjectsAllocated"
+					(onFormSubmit)="onResourceFormSubmit($event)"
+					(onFormCancel)="resetResourceForm()"
+					(onResetUsersPassword)="resetUsersPassword($event)"
+					(onProjectAllocation)="updateProjectAllocation($event)"
+    			></resource-form>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal'" [modalSize]="'small'">
+	<zui-modal-body>
+	 	<p> {{confirmationObject.text}} </p>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+	    <button type="button" class="zui-btn zui-btn-primary" id="user-confirmation-continue" [attr.value]="confirmationObject.action" (click)="confirmationActionCall($event)">{{confirmationObject.buttonText}}</button>
+	</zui-modal-footer>
+</zui-modal>
+<zui-modal [title]="'License Exceeded'" [modalId]="'license-modal'" [modalSize]="'small'">
+	<zui-modal-body>
+	 	<p> {{licenseError}} </p>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<a class="anchor-links btn-alias" href="http://www.getzephyr.com/products#add" target="_blank">Buy More</a>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">OK</button>
+	</zui-modal-footer>
+</zui-modal>
+<!-- confirmation unsaved-data popup HTML -->
+<zui-modal [title]="'Unsaved changes'" [backgroundBlur]="true" [modalId]="'confirmation-modal-unsaved-data'" [modalSize]="'extrasmall'">
+	<zui-modal-body>
+		<p class="white-space-pre-wrap"> You have some unsaved changes. Are you sure you want to continue </p>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+		<button type="button" class="zui-btn zui-btn-primary" [attr.value]="'CONTINUE_CLICK'" (click)="confirmationActionCall($event)">Continue</button>
+	</zui-modal-footer>
+</zui-modal>

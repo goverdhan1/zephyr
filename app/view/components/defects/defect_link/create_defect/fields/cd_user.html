@@ -1,0 +1,36 @@
+<div *ngIf="!hideLabel" class="col-md-12 fieldWrapper">
+    <div class="col-md-2">
+        <span>
+            <label><b>{{field.name}}</b></label>
+            <label class="required" *ngIf="field.required"><b>&nbsp;*</b></label>&nbsp;:
+        </span>
+    </div>
+    <div class="col-md-9">
+        <span>
+        <zee-select class="defect_user"
+            [selectId]="field.fieldKey + '-field'"
+            [selectClass]="field.fieldKey + '-autocomplete'"
+            [allowClear]="true"
+            [placeholder]="'User'"
+            [editOptions]="getSelect2Options('user')"
+            [formKey]="formkey"
+            (onSelect)="userUpdate($event, field.fieldKey)"
+            (onUnselect)="userUnselect($event, field.fieldKey)"
+        ></zee-select>
+        </span>
+    </div>
+</div>
+
+<span *ngIf="hideLabel">
+    <zee-select class="defect_user"
+        [multiple]="multiple"
+        [selectId]="field.fieldKey + '-field'"
+        [selectClass]="field.fieldKey + '-autocomplete'"
+        [allowClear]="true"
+        [placeholder]="'User'"
+        [editOptions]="getSelect2Options('user')"
+        [formKey]="formkey"
+        (onSelect)="userUpdate($event, field.fieldKey)"
+        (onUnselect)="multiUserUnselect($event, field.fieldKey)"
+    ></zee-select>
+</span>

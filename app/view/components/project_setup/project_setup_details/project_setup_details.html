@@ -1,0 +1,63 @@
+<div class="main-content clearfix">
+	<div class="module-subheader no-breadcrumb">
+		<div class="left-navs">
+		   <!-- <bread-crumb [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb> -->
+			<h3><b>Project Setup</b></h3>
+		</div>
+		<div class="right-navs">
+			<!-- <input type="text" [(ngModel)]="inputSearch" /> <span class="add-project-btn add-white-image cursor-pointer" (click)="onClickSearch()"> </span>
+			<span title= "Add project" class="add-project-btn add-white-image cursor-pointer pull-right" (click)="addProject()"></span> -->
+	      	<div class="zui-input-group project-search">
+		        <input type="text" class="form-control" (keypress)="inputSearchKeyPress($event)" [(ngModel)]="inputSearch" placeholder="Search for...">
+		        <span class="input-group-btn">
+		            <button (click)="onClickSearch()" class="zui-btn zui-btn-primary cursor-pointer" type="button">
+		        	    <span class="fa fa-search"></span>
+		        </button>
+		      </span>
+	      	</div>
+      		<button title= "Add project" class="zui-btn zui-btn-plus cursor-pointer" (click)="addProject()">+</button>
+		</div>
+	</div>
+	<div class="zui-content-layout layout4">
+
+		<!-- project setup grid -->
+		<div class="project-setup-grid clearfix">
+			<grid
+			    [rows]="projectSetupGrid && projectSetupGridRows"
+			    [paginationOptions]="projectSetupGrid && projectSetupGrid.paginationOptions"
+          		[gridType]="projectSetupGridType"
+			    (onGridActionIconClick)="projectSetupGridActionClick($event)"
+			    (onGridRowClick) = "projectSetupGridRowClicked($event)"
+			    (onGridPrevClick)="projectGridPrevClick($event)"
+          (onGridNextClick)="projectGridNextClick($event)"
+          (onGridPageSizeChange)="projectGridPageSizeChange($event)"
+          (onGridPaginateByIndex)="projectGridPaginateByIndex($event, true)"
+		    ></grid>
+		</div>
+
+		<!-- project form HTML -->
+		<project-form (confirmationDialogueData)="confirmationDialogueData($event)"></project-form>
+	</div>
+
+	<!-- confirmation popup HTML -->
+	<zui-modal [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal'" [modalSize]="'extrasmall'">
+		<zui-modal-body>
+			<p class="white-space-pre-wrap">{{confirmationObject.text}}</p>
+		</zui-modal-body>
+		<zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">{{confirmationObject.cancelButtonText}}</button>
+			<button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)">{{confirmationObject.buttonText}}</button>
+		</zui-modal-footer>
+	</zui-modal>
+
+	<!-- confirmation unsaved-data popup HTML -->
+	<zui-modal [title]="'Unsaved changes'" [backgroundBlur]="true" [modalId]="'confirmation-modal-unsaved-data'" [modalSize]="'extrasmall'">
+		<zui-modal-body>
+			<p class="white-space-pre-wrap">You have some unsaved changes. Are you sure you want to continue</p>
+		</zui-modal-body>
+		<zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+      		<button type="button" class="zui-btn zui-btn-primary" [attr.value]="'CONTINUE_CLICK'" (click) = "confirmationActionCall($event)">Continue</button>
+		</zui-modal-footer>
+	</zui-modal>
+</div>

@@ -1,0 +1,129 @@
+<!--<left-nav [columns]="navColumns" (onHeaderLinkClick)="navigateToProject(ev)" *ngIf="!isEmbedded">
+</left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'testcase-eas'"
+    *ngIf="!isEmbedded"
+></zui-project-left-nav>
+<div class="testcase-eas-wrapper" [ngClass]="{'full-width': isEmbedded }" #target>
+
+
+    <div class="main-content flex-grow-default">
+        <section class="module-subheader" *ngIf="!isEmbedded">
+            <div class="left-navs">
+                <!-- <h3><b>Test Planning</b></h3> -->
+                <bread-crumb [breadCrumbsList]="breadCrumbsList" (click)="onBreadCrumbClick($event)"></bread-crumb>
+            </div>
+        </section>
+
+        <!--<h2 class="zee-release-tile" *ngIf="isEmbedded">Testcase EAS</h2>-->
+        <div class="zee-module-header testcase-eas-wrapper-module-header" *ngIf="isEmbedded">
+            <span class="zee-eas-module-header-right" *ngIf="isEmbedded">{{calendarConfig.selectedTimeWindowText}}</span>
+            <span class="zee-module-header-left">Test Cycles -&nbsp;</span>
+        </div>
+        <div class="zui-content-layout flex-column-stretch">
+            <div class="row flex-column-stretch">
+                <div class="col-md-12 flex-column-stretch">
+                    <div class="flex calendar-block row" *ngIf="!isEmbedded">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-9 text-right">
+                            <span class="selectedTimePeriod pull-left">{{calendarConfig.selectedTimeWindowText}}</span>
+                            <span>Jump to : </span>
+                            <div class="btn-group datepicker-group" (click)="toggleDatepicker($event)">
+                                <button class="btn date-buttons" (click)= "onDateChange(true)">Today</button>
+                                <a class="btn date-buttons">
+                                    <i class="fa fa-calendar"></i>
+                                    <div *ngIf="showDatePicker">
+                                        <datepicker [(ngModel)]="dt" (ngModelChange)="onDateChange()" [onlyCurrentMonth]="true" ></datepicker>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="btn-group">
+                                <button class="btn date-buttons" [ngClass]="{'btn-theme': selectedTimeWindow === 'week'}" (click)="setTimeWindow('week')">Week</button>
+                                <button class="btn date-buttons" [ngClass]="{'btn-theme': selectedTimeWindow === 'month'}" (click)="setTimeWindow('month')">Month</button>
+                            </div>
+                            <button class="btn btn-secondary" (click)= "changeTimeWindow('prev')"><span class="fa fa-angle-double-left"></span></button>
+                            <button class="btn btn-secondary" (click)= "changeTimeWindow('next')"><span class="fa fa-angle-double-right"></span></button>
+                            <notifications class="btn" style="padding: 0px;border: none;"
+                              [appId]="appId"
+                              (onNotificationApply)="applyNotifications($event)"
+                            ></notifications>
+                        </div>
+                    </div>
+                    <div class="row absolute-eas-top" [style.width]="easCalendarWidth" [ngClass]="{'full-height': isEmbedded}">
+                        <div class="col-md-3 col-sm-3 " *ngIf="!isEmbedded">
+                            <div class="flex">
+                                <h3 class="fixed-top execution-txt">Execution Cycles</h3>
+                                <button class="zui-btn zui-btn-plus"  title="Add new cycle" (click)="addCycle()">+</button>
+                            </div>
+
+                        </div>
+                        <div [ngClass]="{'col-md-9 col-sm-9': !isEmbedded, 'col-md-12 col-sm-12': isEmbedded}">
+                            <div class="test-eas-period">
+                                <div *ngFor="let day of days" class="test-eas-unit-period" [ngClass]="day.class" [ngStyle]="day.style">
+                                    <span>{{day.text}}</span>
+                                    <span>{{day.date}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row unified-scroll planning-wrap" [ngClass]="{'not-embedded hide-scrollbar': !isEmbedded}">
+
+                        <div class="col-md-3 col-sm-3 box" *ngIf="!isEmbedded">
+                            <div class="eas-tree-wrapper">
+                                <tree-view
+                                    [showContextMenu]="true"
+                                    [forceSelect]=selectedIdTree
+                                    [openSelect]=selectedNodeId
+                                    [treeData]=treeData
+                                    [showFilter]='false'
+                                    [contextMenuItems]=easContextMenuItems
+                                    [selectID]="selectedIdTree"
+                                    [removeFromDefault]=removeFromDefault
+                                    [sortKey]="'startDate'"
+                                    [secondarySort]="true"
+                                    [treeContext]="'-eas-cycle'"
+                                    [showDocker]="true"
+                                    (onToggleNode)=onToggleNode($event)
+                                    (onTreeNodeClick)=onTestcaseEASCycleTreeClick($event)
+                                ></tree-view>
+                            </div>
+                        </div>
+                        <div class="box" [ngClass]="{'col-md-9 col-sm-9 hide-scrollbar': !isEmbedded, 'col-md-12 col-sm-12': isEmbedded}">
+                            <div class="gantt-chart-wrapper">
+                                <div *ngFor="let key of response">
+                                    <div class="test-eas-cycle" [attr.data-cycleId]="key.id" (click)="calendarCycleClick(key.id)">
+                                        <div class="cycle" [ngStyle]="key.style" (contextmenu)="showCustomContexMenu($event,'cycle',key.id,key.name)" (click)="editChart($event,'cycle',key.id,key.name)">
+                                            <strong title="{{key.name }} {{key.build ? 'build: ' + key.build : ''}} {{key.environment ? 'env: ' + key.environment : ''}}">
+                                               <b> {{key.name}}</b>
+                                            </strong>
+                                            <!-- <div class="cycle-stats">
+                                                <span class="title">{{key.name}}</span>
+                                                <p><span>Pass</span><span>23</span></p>
+                                                <p><span>Fail</span><span>9</span></p>
+                                                <p><span>WIP</span><span>8</span></p>
+                                                <p><span>Blocked</span><span>2</span></p>
+                                            </div> -->
+                                        </div>
+                                        <div *ngIf="key.cyclePhases && key.cyclePhases.length && !key.status" class="cycle-phase-wrapper">
+                                            <div class="cycle-phases" [ngStyle]="phase.style" *ngFor="let phase of key.cyclePhases" (contextmenu)="showCustomContexMenu($event,'phase', phase.id,phase.name,key.id)" (click)="editChart($event,'phase', phase.id,phase.name,key.id)">
+                                                <div>
+                                                  <strong title="{{phase.name}}">
+                                                    <b>{{phase.name}}</b>
+                                                  </strong>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <custom-context-menu [contextMenuItems]="easContextMenuItems" (onClickContextAction)="clickContextAction($event)"></custom-context-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="modal fade reqSyncNodeModal" data-backdrop="static" tabindex='-1' id="reqSyncNodeModal" role="dialog">
+    <div class="modal-dialog medium">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close">&times;</button>
+                <h4 class="modal-title">External Requirement Sync</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span class="col-md-12">
+                        <label>
+                            This selection will sync the complete release with external system
+                        </label>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="col-md-12">
+                        <div class="zui-checkbox2">
+                            <input type="checkbox" id="req-cascade" [(ngModel)]="isCascade">
+                            <label for="req-cascade">Apply to subnodes ?</label>
+                        </div>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="col-md-12">
+                        <div class="zui-checkbox2">
+                            <input type="checkbox" id="req-retry-delete" [(ngModel)]="retryDeleted">
+                            <label for="req-retry-delete">Retry deleted requirements ?</label>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                <button type="button" class="zui-btn zui-btn-primary" (click)="syncReqNode()">Sync</button>
+
+            </div>
+        </div>
+    </div>
+</div>

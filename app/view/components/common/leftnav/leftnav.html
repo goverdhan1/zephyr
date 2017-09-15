@@ -1,0 +1,67 @@
+<div id="sidr" class="navigation">
+    <!-- <nav class="nav"> -->
+        <div class="leftnav-content-wrapper">
+            <h4 [ngClass]="columns?.header?.title === 'Administration'? 'zui-cursor-default': ''">
+                <div (click)="_onHeaderLinkClick($event)">
+                    <span class="nav-icon">
+                      <i class="fa fa-cog admin-icon" aria-hidden="true"></i>
+                      <i class="fa fa-cubes project-icon" aria-hidden="true"></i>
+                    </span>
+                    <span class="title">{{columns?.header?.title}}</span>
+                    <span>{{columns?.header?.description}}</span>
+                </div>
+                <form class="form-margin-helper release-quick-link" *ngIf="!hideSubHeader && columns?.subHeader?.lastVisitedItems">
+                    <div class="dropdown" id="project-release-dropdown">
+
+                        <a *ngIf="columns?.subHeader?.id" (click)="checkForDirty($event)">
+                            <span class="nav-icon fa release"></span>
+                            <span>{{columns?.subHeader?.name}}</span>
+                        </a>
+                        <span class="dropdown-toggle release-dropdown-toggle" id="release-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="dropdownToggle()"></span>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" *ngFor="let release of columns?.subHeader?.lastVisitedItems" (click)="goToItem(release)">{{release.text}}</a>
+                            <div class="zui-ng-select zui-indrop" *ngIf="columns?.subHeader?.items && columns?.subHeader?.items.length">
+                                <zee-select
+                                    [allowClear]="true"
+                                    [items]="columns?.subHeader?.items"
+                                    [placeholder]="columns?.subHeader?.title"
+                                    (onSelect)="goToItem($event)"
+                                    (onToggle)="onToggle($event)"
+                                ></zee-select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </h4>
+            <ul *ngIf="columns?.group" class="leftnav-list" [ngClass]="{'activate-overlay': hideSubHeader }" >
+                <li *ngFor="let key of columns?.group" [hidden]= "!key?.permission" [class.disabled-temporarily]="!key?.isActive">
+                    <a [title]="key?.title" class="zee-nav-item" (click)="navigateToURL(key)" [ngClass]="key.isEnabled ? 'selected': ''">
+                        <span class="nav-icon fa {{key?.iconClass}}" [ngClass]="{'active': key.isEnabled}"></span>
+                        <span [ngClass]="{'parent-item' : key?.items}">{{key?.title}}</span>
+                    </a>
+                    <ul *ngIf="key?.items">
+                        <li *ngFor="let item of key?.items" [hidden]= "!item?.permission" (click)="navigateToURL(item, key)" [ngClass]="item?.isEnabled ? 'active': ''">
+                            <a [title]="item?.name" class="zee-nav-item" [ngClass]="item?.isEnabled ? 'selected': ''">
+                                <span class="child-item">{{item?.name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- start: add this link for temporary -->
+                <li>
+                    <a href="http://10.10.10.8:8088/#/site" class="zee-nav-item" title="Maestro" target="_blank">
+                        <span class="nav-icon fa maestro"></span>
+                        <span>Maestro</span>
+                    </a>
+                </li>
+                <!-- end: add this link for temporary -->
+            </ul>
+            <div class="collapse-menu">
+                <span (click)="onNavToggle()">
+                    <i class="fa {{navToggle}}"></i>
+                </span>
+            </div>
+        </div>
+    <!-- </nav> -->
+</div>

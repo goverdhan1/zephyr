@@ -1,0 +1,205 @@
+.operations-bar {
+  margin-top: 6px !important;
+  /* margin-right: 10px; */
+  padding-left: 10px !important;
+}
+
+// html, body {
+//     font-size: 14px !important;
+// }
+
+.zee-error {
+    color: #f06870;
+}
+.height-zero {
+    height: 0 !important;
+}
+
+.bg-white {
+    background: white;
+}
+
+.zee-priority-select {
+    width: 150px;
+    border-radius: 2px;
+}
+
+.zee-attachment-item {
+    width: 150px;
+    height: 150px;
+    float: left;
+}
+
+.zee-attachment-thumbnail {
+    width: 130px;
+    height: 130px;
+    border: 1px solid #333;
+}
+
+.zee-details-two-column-list .zee-column-value {
+    margin-left: 0px;
+    flex-grow: 1;
+    min-width: 0;
+    width: 50%;
+}
+.zee-column {
+    .zee-column-wrap {
+        span:first-child {
+            //display: inline-block;
+            //width: 95%;
+            //display: flex;
+            //flex-grow: 1;
+        }
+    }
+}
+
+.zee-column-wrap-left {
+    margin-bottom: 10px;
+}
+zephyr-inline-edit {
+    position: relative;
+    //top: -2px;
+    display: block;
+}
+.zee-testcase-automation-wrapper {
+    .zee-column-wrap {
+        .zee-column-name {
+            width: 80px;
+            min-width: 80px;
+        }
+    }
+}
+.zee-audithistory-table {
+  margin-top: 10%;
+  >tr>th {
+    padding: 7px 10px;
+  }
+}
+.testcase-edit-padding-helper {
+    padding-left: 12px;
+}
+.zee-layout .row {
+    margin: 0;
+    padding: 0;
+
+    > div {
+        padding: 0;
+    }
+}
+
+.zee-testcase {
+    width: 100%;
+    background: #F3F3F3;
+}
+
+.zee-sub-item {
+    background: #FFF;
+}
+
+.zee-testcase-stat {
+    background: #FFF;
+    padding: 15px 15px;
+    position: relative;
+
+    .resize-wrapper {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        z-index: 99;
+    }
+
+    paginator {
+        position: absolute;
+        right: 40px;
+        top: 5px;
+        z-index: 99;
+    }
+
+    .zee-nav-breadcrumbs {
+        margin: 0;
+    }
+}
+
+.resize-wrapper {
+
+    .edit-fields {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+}
+
+.zee-module-content,.zee-module {
+    li {
+        &.comment-wrapper {
+            .comment-inline-edit {
+                width: calc(100% - 80px);
+                .zui-inline-edit{
+
+                    .zephyr-inline-field-name {
+                        display: inline-block;
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+.zee-testcase-wrapper {
+    background: #f3f3f3;
+    margin: 0;
+}
+
+.zephyr-testcase-name {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    width: 85%;
+
+    .zephyr-inline-field-name {
+        font-weight: bold;
+    }
+
+    &.non-editable {
+        .zephyr-inline-field-name {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: block;
+            width: 93%;
+        }
+    }
+
+}
+
+.step-details-table {
+    // tr {
+    //     td {
+    //         padding: 5px 0.75rem;
+    //         vertical-align: middle;
+    //     }
+    // }
+    .zephyr-editable-field-edit-mode {
+        form {
+            textarea {
+                height: 30px;
+                min-height: 30px;
+                line-height: 1.2;
+                top: 0;
+                margin: 0;
+                vertical-align: bottom;
+            }
+        }
+    }
+}
+
+.save-wrapper {
+    padding: 10px;
+    text-align: right;
+}
+map-req-test[type='req']:enabled {
+    cursor: default;
+}
+map-req-test[type='req']:disabled {
+    cursor: not-allowed;
+}

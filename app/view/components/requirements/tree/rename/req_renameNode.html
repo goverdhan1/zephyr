@@ -1,0 +1,31 @@
+<div class="modal fade" data-backdrop="static" tabindex='-1' role="dialog" id="reqRenameNodeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form [formGroup]="editNodeForm">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title capitalize">Rename Node</h4>
+                </div>
+                <div class="modal-body" id="tree-modal-content">
+                    <span>
+						<div>
+							<span><label for="renameNodeName">Name:</label></span>
+                            <span><input type="text"  (keypress)="inputKeyPress($event)"  name="reqNodeName" value="" maxlength="255" id="renameNodeName" class="form-control" formControlName="name"></span>
+                        </div>
+                        <div>
+                            <span><label for="nodeDescription">Description:</label></span>
+                            <span><textarea rows="5" type="text" name="nodeDescription" value="" maxlength="1024" id="nodeDescription" class="form-control"  formControlName="description"></textarea></span>
+                        </div>
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="zui-btn zui-btn-primary" id="reqRenameNodeModalSave" (click)="renameReqNode()" [disabled]="editNodeForm.invalid">Rename</button>
+                </div>
+            </form>
+        </div>
+    <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

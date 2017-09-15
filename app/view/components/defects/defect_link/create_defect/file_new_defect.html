@@ -1,0 +1,56 @@
+<div class="file-new-defect-container">
+    <div id="project-issue-selection" class="project-issue-selection" *ngIf="!isProjectIssueSelected">
+        <form id="project-issue-selection-form">
+            <div class="row">
+                <span class="col-md-4">
+                    <label for="project"><b>{{'zephyr.defect.create.project.label' | i18nSelect: i18nMessages}}</b></label>
+                </span>
+                <span *ngIf="!parentIssue" class="col-md-6">
+                    <zee-select
+                        [selectId]="'fileNewDefectProject'"
+                        [items]="projects"
+                        [placeholder]="'Select Project'"
+                        (onSelect)="setProject($event)"
+                    ></zee-select>
+                </span>
+                <span *ngIf="parentIssue" class="col-md-6">
+                    <label><b>{{parentIssue.product}}</b></label>
+                </span>
+            </div>
+            <div class="row" *ngIf="parentIssue">
+                <span class="col-md-4">
+                    <label for="project"><b>Parent Issue</b></label>
+                </span>
+                <span class="col-md-6">
+                    <label><b>{{parentIssue.alternateId}}</b></label>
+                </span>
+            </div>
+            <div class="row">
+                <span class="col-md-4">
+                    <label for="issueType"><b>{{'zephyr.defect.create.issuetype.label' | i18nSelect: i18nMessages}}</b></label>
+                </span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectId]="'issueType'"
+                        [items]="issueTypes"
+                        [placeholder]="'Select Issue Type'"
+                        (onSelect)="setIssueType($event)"
+                    ></zee-select>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div id="create-defects-fields-container" *ngIf="isProjectIssueSelected">
+        <div *ngIf="!issueMetaData">Loading...</div>
+        <create-defect-form
+            [disableCopyTestStep]="disableCopyTestStep"
+            [selectedProject]="selectedProject"
+            [selectedIssueType]="selectedIssueType"
+            [parentIssueKey]="parentIssue && parentIssue.alternateId"
+            [selectedIssueTypeName]="selectedIssueTypeName"
+            [issueMetaData]="issueMetaData"
+            (triggerChangeDetection)="triggerChangeDetection($event)"
+            *ngIf="issueMetaData">
+        </create-defect-form>
+    </div>
+</div>

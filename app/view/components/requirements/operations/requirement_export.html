@@ -1,0 +1,24 @@
+<button [class]="'zui-btn zui-btn-tertiary'" type="button" data-toggle="modal"
+    id="zui-export-modal-trigger-{{fieldOptions.id}}" (click)="showReqChoiceModal($event)">{{fieldOptions.header}}</button>
+<div [class]="'modal fade zui-export-modal-choice'" data-backdrop="static" tabindex='-1' id="zui-export-modal-{{fieldOptions.id}}-choice" role="dialog">
+    <div [class]="'modal-dialog small'">
+        <div [class]="'modal-content'">
+            <div [class]="'modal-header'">
+                <button data-dismiss="modal" type="button" class="close">×</button>
+                <h4 [class]="'modal-title'">{{fieldOptions.choiceTitle}}</h4>
+            </div>
+            <div [class]="'modal-body'">
+                <div style="text-align: center;">
+                <button class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                    <button class="zui-btn zui-btn-primary" (click)="exportEntireTrac()">{{'zephyr.export.choice.traceability' | i18nSelect: i18nMessages}}</button>
+                    <button class="zui-btn zui-btn-primary" (click)="exportReqOnly()">{{'zephyr.export.choice.requirement' | i18nSelect: i18nMessages}}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<zui-export
+    [fieldOptions]="fieldOptions"
+    [isSearchView]="isSearchView"
+></zui-export>

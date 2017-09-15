@@ -1,0 +1,125 @@
+.nav-icon {
+
+  &.projects {
+    background: url(../../assets/styles/assets/images/project.png) center center no-repeat;
+    height: 25px;
+    width: 10px;
+    background-size: auto 100%;
+  }
+  &.release {
+    background: url(../../assets/styles/assets/images/release.png) 17px center no-repeat;
+    background-size: auto 50%;
+    height: 36px;
+    width: 36px;
+    & + span{
+      line-height: 36px;
+    }
+  }
+	&.requirements {
+		background: url(../../assets/styles/assets/images/leftnav/normal/requirements.png) 17px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activerequirements.png) 17px center no-repeat;
+            background-size: auto 56%;
+		}
+	}
+	&.tcc {
+		background: url(../../assets/styles/assets/images/leftnav/normal/tcc.png) 17px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activetcc.png) 17px center no-repeat;
+            background-size: auto 56%;
+		}
+	}
+	&.planning {
+		background: url(../../assets/styles/assets/images/leftnav/normal/planning.png) 17px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activeplanning.png) 17px center no-repeat;
+            background-size: auto 56%;
+		}
+	}
+	&.tce {
+		background: url(../../assets/styles/assets/images/leftnav/normal/tce.png) 17px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activetce.png) 17px center no-repeat;
+            background-size: auto 56%;
+		}
+	}
+	&.dts {
+		background: url(../../assets/styles/assets/images/leftnav/normal/dts.png) 18px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activedts.png) 18px center no-repeat;
+            background-size: auto 56%;
+		}
+	}
+	&.system-setup {
+		background: url(../../assets/styles/assets/images/leftnav/normal/system_setup.png) 17px center no-repeat;
+		height: 36px;
+		width: 36px;
+		background-size: auto 66%;
+	}
+	&.user-setup {
+		background: url(../../assets/styles/assets/images/leftnav/normal/user_setup.png) 17px center no-repeat;
+        background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+	}
+	&.zautomation {
+		background: url(../../assets/styles/assets/images/leftnav/normal/zbotpng.png) 17px center no-repeat;
+		height: 36px;
+		width: 36px;
+    background-size: auto 66%;
+
+		&.active {
+			background: url(../../assets/styles/assets/images/leftnav/active/activezbotpng.png) 17px center no-repeat;
+			background-size: auto 66%;
+		}
+	}
+	&.maestro {
+		background: url(../../assets/styles/assets/images/leftnav/active/mdash-32-wyt.png) 17px center no-repeat;
+		height: 28px;
+		width: 36px;
+    	background-size: auto 66%;
+	}
+	&.project-setup {
+		background: url(../../assets/styles/assets/images/leftnav/normal/project_setup.png) 17px center no-repeat;
+    background-size: auto 56%;
+		height: 36px;
+		width: 36px;
+	}
+    &.clickable-parent-item{
+        & + span {
+            font-size: 14px;
+            cursor: pointer;
+        }
+    }
+
+    .project-icon{
+        font-size: 25px;
+    }
+    .admin-icon{
+        font-size: 30px;
+    }
+
+    .project-icon, .admin-icon{
+        display: none;
+    }
+}

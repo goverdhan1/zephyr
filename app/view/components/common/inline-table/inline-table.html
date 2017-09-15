@@ -1,0 +1,55 @@
+<div class="zui-inline-dialog" zui-inline-dialog id="inline-options-{{parentId}}">
+  <a class="inline-dialog-trigger" (click)="openDialog(true)">
+    <span [class]="'zui-inline-options-trigger'">Manage</span>
+  </a>
+  <div class="inline-dialog-body" id="inline-table" [hidden]="hideDialogBox">
+    <div class="zui-inline-options zui-inline-table inline-dialog-content inline-dialog-content-without-padding">
+      <div [class]="'zui-panel-body'">
+        <div [class]="'zui-inline-options-header'">
+
+          <div class="form-group input-group search-table col-xs-8">
+            <input type="text" class="form-control" (keypress)="inputKeyPress($event)" [(ngModel)]="filter" aria-describedby="emailHelp" placeholder="{{searchPlaceholder}} ">
+            <div class="input-group-addon" (click)="searchTable()"><span class="fa fa-search zui-search-icon" aria-hidden="true"></span></div>
+          </div>
+
+          <div [class]="'pull-right'">
+            <button type="button" class="close" (click)="hideDialog()">&times;</button>
+          </div>
+        </div>
+        <div class="grey-background" id="table-container">
+          <table class="table table-hover">
+            <thead class="thead-inverse">
+              <tr>
+                <th class="text-center" width="10%">
+                  <div class="zui-checkbox2" id="select-all-table">
+                    <input id="select-all-options" (change)="onSelectAll($event)" class="zui-gadget-checkbox-select-all" name="zui-gadget-checkbox-select-all"
+                           type="checkbox" title="{{'zephyr.common.select.all' | i18nSelect: i18nMessages}}">
+                    <label></label>
+                  </div>
+                </th>
+                <th width="15%">#</th>
+                <th *ngFor="let column of columns;">{{column.text}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of options; let i = index" [hidden]="!row.show">
+                <td scope="row" class="text-center">
+                  <div class="zui-checkbox2">
+                    <input (change)="addToSelected($event, row)" type="checkbox" [(ngModel)]="row.marked"/>
+                    <label></label>
+                  </div>
+                </td>
+                <td scope="row">{{row.identifier}}</td>
+                <td *ngFor="let column of columns;">{{row | objectKeyPipe : column.key}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span><b>{{selectedOptions.length}}</b> out of <b>{{options.length}}</b> selected.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

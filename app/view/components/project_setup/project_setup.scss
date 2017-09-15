@@ -1,0 +1,72 @@
+.date-error input {
+    border: 1px solid $color-froly;
+}
+project-setup {
+	project-setup-details {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		overflow: hidden;
+		.project-setup-grid {
+			position: relative;
+	    }
+	    .project-search {
+	    	margin-right: 15px;
+	    }
+	    .project-setup-container {
+	    	padding:10px;
+		 	.add-project-btn {
+		 		margin: 10px 15px;
+		 	}
+	 	}
+		 .subform {
+			border-bottom:none;
+			padding:0px;
+
+			label {
+				width:31%;
+			}
+			.form-control, .field-value {
+				width: 65%;
+			}
+		 } 
+		 .project-form {
+		 	padding-top:15px;
+		 	border-top: 1px solid #f3f3f3;
+	 		h5 {
+	 			padding:20px 0px 0px 15px;
+	 		}
+	 		.form-footer {
+	 			padding: 15px 0px;
+	 		}
+	 		.resource-allocation {
+	 			padding-top: 10px;
+	 			label { 
+	 				width: 15.5%;
+	 			}
+	 		}
+	 		input[type="text"].form-control.ng-invalid.ng-untouched {
+          		border: 1px solid $color-froly !important;;
+        	}
+	 		.zui-select {
+ 	 			display: block;
+
+ 	 			select.form-control {
+ 	 				width: 100%;
+ 	 				height: inherit;
+ 	 			}
+ 	 		}
+	   }
+	}
+	bread-crumb {
+		display:block;
+		background-color:#f3f3f3;
+		ul.zui-breadcrumb {
+			background-color:#f3f3f3;
+		}
+	}
+	.zui-project-division {
+		border-bottom: 1px solid #e5e5e5;
+		padding-bottom: 15px;
+	}
+}

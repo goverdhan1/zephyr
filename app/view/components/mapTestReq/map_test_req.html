@@ -1,0 +1,90 @@
+<button id="mapTest{{buttonId}}" type="button" class="zui-btn" [ngClass]="isBulk ? 'zui-btn-tertiary' : 'zui-btn-primary'" [disabled]="!editable" (click)="getDetails()" data-toggle="modal" [attr.data-target]="getId('#zee-map-modal')">{{buttonText}}</button>
+
+<zui-modal [title]="title" [modalId]="getId('zee-map-modal')" [modalSize]="'large'" (onClose)="onClose()">
+    <zui-modal-body>
+        <div class="zui-flex-v-resizable ui-resizable">
+            <div class="zui-content-layout layout5">
+                <div class="row upper-split">
+                    <div class="col-md-12 resizable-flex-wrapper">
+                        <div class="collapsible-tree-container">
+                            <section [ngClass]="{'tree-tcr': true}">
+                                <div style="display:inline;">
+                                    <tree-view [ngClass]="{'disabled': !isChildren}"
+                                        [treeData]="treeData"
+                                        [showFilter]="false"
+                                        [treeContext]="getId('-mapTestReq')"
+                                        [options]="'checkbox'"
+                                        [removeFromDefault]="['dnd', 'contextmenu', 'search']"
+                                        [selectedNodes]="selectedNodes"
+                                        [threeStateCheckbox]="true"
+                                        [showDocker]="true"
+                                        [sectionTitle]="title"
+                                        (onTreeNodeClick)="onTreeNodeClick($event)"
+                                        (onTreeNodeSelect)="onTreeSelect($event)"
+                                    ></tree-view>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="zui-flex-h-fixed">
+                            <div id="map-grid" *ngIf="isModalShown">
+                                <grid class="tcr-grid-table"
+                                    [rows]="rows"
+                                    [secondaryIds]="secondaryIds"
+                                    [rowIds]="gridSelectIds"
+                                    [gridType]="_mapGridType"
+                                    [paginationOptions]="paginationOptions"
+                                    (onGridRowClick)="onGridClick($event)"
+                                    (onGridPrevClick)="onPrevClick($event)"
+                                    (onGridNextClick)="onNextClick($event)"
+                                    (onGridPageSizeChange)="onPageSizeChange($event)"
+                                    (onGridPaginateByIndex)="onIndexClick($event)"
+                                    (onGridRowSelection)="onGridSelection($event)"
+                                    (onClearSelectedTctIds)="clearSelectedNodes()"
+                                ></grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="map-details hide" *ngIf="!isBulk">
+            <div *ngIf="mapId">
+                <zee-testcase
+                    [editable]="false"
+                    [testcaseId]="mapId"
+                    [tcTestcaseId]="tcTestcaseId"
+                    [treeType]="treeType"
+                    [totalRecords]="totalCount"
+                    [currentRecord]="currentRecord"
+                    [releaseId]="releaseId"
+                    [allowRequirementMapping]="false"
+                    [hideDocker]="true"
+                    (onRecordChange)="recordChanged($event)"
+                ></zee-testcase>
+            </div>
+            <zee-requirement-details
+                [releaseId]="releaseId"
+                [selectedTreeId]="selectedTreeNode"
+                [editable]="false"
+                [allowMapping]="false"
+                [currentRecord]="currentRecord"
+                [totalRecords]="totalCount"
+                [hideDocker]="true"
+                (onRecordChange)="recordChanged($event)"
+            ></zee-requirement-details>
+        </div>
+
+    </zui-modal-body>
+    <zui-modal-footer>
+        <div class="row map-save">
+            <div class="col-xs-12">
+                <button class="zui-btn zui-btn-sec pull-right" data-dismiss="modal">Cancel</button>
+                <button [disabled]="isDisable()" class="zui-btn zui-btn-primary pull-right" (click)="saveMap()">Save</button>
+                <div class="zui-checkbox2 pull-right" *ngIf="isBulk">
+                    <input type="checkbox" id="override" (change)="cdr.markForCheck()">
+                    <label class="control-label" for="override">Over-write Existing Maps</label>
+                </div>
+            </div>
+        </div>
+    </zui-modal-footer>
+</zui-modal>

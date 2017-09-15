@@ -1,0 +1,53 @@
+<form [formGroup]="executionStatusForm" class="execution-status-form" >
+	<zui-modal (onBeforeClose)="onCloseExecutionStatusModal($event)" [title]="isexecutionStatusClicked ? 'Manage Test Execution Status' : 'Manage Test Step Execution Status'" [modalId]="'execution-status-modal'" [modalSize]="'medium'">
+		<zui-modal-body>
+			<div class="flexbox-row" style="justify-content: space-between;">
+				<p *ngIf="isexecutionStatusClicked"> Add a new test level execution status. Statuses with IDs 1-10 are system statuses and cannot be disabled. </p>
+				<p *ngIf="!isexecutionStatusClicked"> Add a new test step level execution status. Statuses with IDs 1-10 are system statuses and cannot be disabled. </p>
+				<div class="clearfix">
+					<span class="pull-right add-white-image cursor-pointer" title="Add New Status" (click)="addExecutionStatusConfirmation()"></span>
+				</div>
+			</div>
+			<div class="execution-status-grid">
+				<grid
+					[rows]="executionStatusGrid.rows"
+					[paginationOptions]="executionStatusGrid.paginationOptions"
+					[gridType]="executionStatusGridType"
+					(onGridToggleButtonClick)="executionStatusGridToggleButtonClick($event)"
+					(onGridRowClick) = "executionStatusGridRowClicked($event)">
+				</grid>
+			</div>
+			<div class="details-execution-status subform" *ngIf="isShowStatusForm">
+				<div class="row">
+		        	<div class="col-md-6 col-xs-12">
+			        	<div class="clearfix disabled" *ngIf="!isAddExecutionStatus">
+		        			<label><b>ID</b></label>
+		        			<input class="form-control" type="text" [formControl]="executionStatusForm.controls['id']"/>
+			        	</div >
+			        	<div class="clearfix">
+			        		<label for="execution-status-value"><b>Value</b></label>
+			        		<input class="form-control" id="execution-status-value" [formControl]="executionStatusForm.controls['value']" type="text" />
+			        	</div>
+			        	<div class="clearfix">
+				        	<label for="execution-status-color"><b>Color</b></label>
+		<!-- 	        		<div *ngIf="!isIE">
+				        		<input class="form-control coor-control" id="execution-status-color" [formControl]="executionStatusForm.controls['color']" type="color" />
+			        		</div> -->
+			        		<!-- Making consistent for all browsers -->
+			        	    <div id="colorPicker">
+						        <a class="color"><div class="colorInner"></div></a>
+						        <div class="track"></div>
+						        <ul class="dropdown"><li></li></ul>
+						        <input [formControl]="executionStatusForm.controls['color']" id="execution-status-color" class="colorInput"/>
+						    </div>
+			        	</div>
+			       	</div>
+				</div>
+			</div>
+		</zui-modal-body>
+		<zui-modal-footer *ngIf="isShowStatusForm">
+			<button type="button" class="zui-btn zui-btn-sec" (click)="cancelExecutionStatusFormConfirmation($event)">Cancel</button>
+			<button type="button" class="zui-btn zui-btn-primary"  (click)="updateStatusFormConfirmation()" [disabled]="!(executionStatusForm.valid && executionStatusForm.dirty)">Save</button>
+		</zui-modal-footer>
+	</zui-modal>
+</form>

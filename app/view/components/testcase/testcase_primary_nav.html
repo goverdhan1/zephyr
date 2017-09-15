@@ -1,0 +1,60 @@
+<div [class]="'zee-primary-nav-wrapper'">
+    <div [class]="'zee-primary-buttons'" *ngIf="isDetailView && !isSearchView">
+        <zee-create-dialog
+            [fieldOptions]="tcOpOptions['create']"
+            [isDisabled]="false"
+            [releaseId]="releaseId"
+            [tcrCatalogTreeId]="_testcase.tcrCatalogTreeId"
+        ></zee-create-dialog>
+        <button type="button" class="zui-btn zui-btn-tertiary" id="zui-modal-trigger-import-testcase-primary-nav" data-toggle="modal" data-target="#zee-import-modal-testcase">Import</button>
+        <zee-create-dialog
+            [fieldOptions]="tcOpOptions['clone']"
+            [isDisabled]="false"
+            [tcrCatalogTreeId]="_testcase.tcrCatalogTreeId"
+            [tctIds]="[_testcase.id]"
+        ></zee-create-dialog>
+        <zee-delete-dialog
+            [fieldOptions]="tcOpOptions['delete']"
+            [isDisabled]="false"
+            [tctIds]="[_testcase.id]"
+            [testcaseIds]="[_testcase.testcase.id]"
+        ></zee-delete-dialog>
+        <!--<zee-create-dialog [fieldOptions]="tcOpOptions['edit']"></zee-create-dialog>-->
+        <zee-export-dialog
+            [fieldOptions]="tcOpOptions['export']"
+            [tcrCatalogTreeId]="_testcase.tcrCatalogTreeId"
+            [isDisabled]="false"
+            [testcaseIds]="[_testcase.testcase.id]"
+        ></zee-export-dialog>
+    </div>
+    <div [class]="'zee-testcase-description'">
+        <div class="testcase-name-wrap">
+            <span class="testcase-id">{{testcase.id}}&nbsp;</span>
+            <p class="zephyr-testcase-name non-editable" *ngIf="!editable">
+                <span class="zephyr-inline-field-name" title="{{testcase.name}}">{{testcase.name}}</span>
+            </p>
+
+
+            <zephyr-inline-edit class="zephyr-testcase-name"
+                *ngIf="editable"
+                [validationPattern]="nameValidation"
+                [isRequired]=true
+                [maxLength]="250"
+                [placeholder]="'Enter name'"
+                [field]="testcase.name"
+                [editType]="'text'"
+                (onSubmit)="saveName($event)"
+            ></zephyr-inline-edit>
+        </div>
+
+        <span *ngIf="!editable">{{testcase.description}}</span>
+        <zephyr-inline-edit
+            *ngIf="editable"
+            [placeholder]="'Enter description'"
+            [validationPattern]="descriptionValidation"
+            [field]="testcase.description"
+            [editType]="'textarea'"
+            (onSubmit)="saveDescription($event)"
+        ></zephyr-inline-edit>
+    </div>
+</div>

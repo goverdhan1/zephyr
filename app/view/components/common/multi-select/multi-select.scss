@@ -1,0 +1,58 @@
+zee-multi-select {
+
+  .multiselect-container>li>a>label {
+    padding-left: 25px;
+  }
+
+  .multiselect-container>li>a>label>input[type=checkbox] {
+    margin-top: 3px;
+    position: absolute;
+    left: 6px;
+    /* top: 1px; */
+  }
+
+  .multiselect-container a:hover, .multiselect-container a:focus {
+    outline: none;
+  }
+
+  .multiselect-container > li > a > label > input[type=checkbox] {
+    height: auto;
+    width: auto;
+  }
+
+  .multiselect-container>li>a {
+    color: #000;
+  }
+
+  .glyphicon {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .glyphicon-search:before {
+    content: "\f002";
+  }
+
+  .glyphicon-remove-circle:before {
+    content: "\f057";
+  }
+
+  .multiselect-search {
+    height: 30px !important;
+  }
+
+  .filter .input-group {
+    margin-left: 0px !important;
+  }
+
+  .multiselect-clear-filter {
+    height: 30px;
+  }
+
+  .multiselect-container.dropdown-menu {
+    min-width: 200px;
+  }
+}

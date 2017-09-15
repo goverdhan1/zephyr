@@ -1,0 +1,23 @@
+<div [class]="'zee-testcase-requirements-wrapper'">
+    <zee-expander (onPanelToggle)="onPanelToggle($event)" id="zee-testcase-requirement-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Mapped Requirements</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <div class="row">
+                 <div class="col-md-12">
+                     <map-req-test
+                        *ngIf="allowRequirementMapping"
+                        [editable]="isMapPerm"
+                        [buttonText]="'Map Req'"
+                        [title]="'Map Requirements To Testcases'"
+                        [type]="'req'"
+                        [gridId]="testid"
+                        (onSaveMap)="saveMap($event)"
+                     ></map-req-test>
+                     <span class="map-text">{{coverage}}</span>
+                 </div>
+             </div>
+        </div>
+    </zee-expander>
+</div>

@@ -1,0 +1,95 @@
+<div [class]="'zee-layout zui-dashboard-container'" *ngIf="_dashboard">
+    <div [class]="'row'">
+        <div [class]="'col-md-9'">
+            <h1 style="display: inline;" class="component-heading zee-content-title link-title" (click)="goToDashboardDetailList()">
+                <i class="fa fa-angle-left"></i>
+                {{_dashboard.name}}
+            </h1>
+            <h5 class="zee-content-subtitle" style="margin-top: 10px;">{{_dashboard.description}}</h5>
+        </div>
+        <div class="col-md-3 dashboard-layout-bar" >
+
+          <button class="zui-btn zui-btn-plus pull-right gadget-add" *ngIf=" _userId == _dashboard.createdBy" id="zui-gadget-trigger-add" data-toggle="modal" [attr.data-target]="'#zui-gadget-modal-add'" title="Add Gadget">+</button>
+
+          <!--<button [class]="'zui-btn zui-btn-primary pull-right'">-->
+                <!--{{'zephyr.dashboard.add.gadget' | i18nSelect: i18nMessages}}-->
+            <!--</button>-->
+
+            <div class="pull-right" *ngIf=" _userId === _dashboard.createdBy">
+                <div [class]="'zui-dashboard-layout-contianer'"
+                    (click)="setDashboardLayout(_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_ONE_COLUMN)" [attr.title]="i18nMessages['zephyr.dashboard.layout.one.column.dashboard']">
+                    <span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_ONE_COLUMN == _dashboard.layout? '#77B2B6':'#C4E3FD'">
+                        <span [class]="'zui-dashboard-layout-1-inner'"></span>
+                    </span>
+                </div>
+                <div [class]="'zui-dashboard-layout-contianer'"
+                    (click)="setDashboardLayout(_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_TWO_COLUMN)" [attr.title]="i18nMessages['zephyr.dashboard.layout.two.column.dashboard']">
+                    <span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_TWO_COLUMN == _dashboard.layout? '#26282a':'#C4E3FD'">
+                        <span [class]="'zui-dashboard-layout-2-inner'"></span>
+                        <span [class]="'zui-dashboard-layout-2-inner zui-dashboard-layout-2-inner-last'"></span>
+                    </span>
+                </div>
+                <!--<div [class]="'zui-dashboard-layout-contianer'"-->
+                    <!--(click)="setDashboardLayout(_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_THREE_COLUMN)" [attr.title]="i18nMessages['zephyr.dashboard.layout.three.column.dashboard']">-->
+                    <!--<span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_THREE_COLUMN == _dashboard.layout? '#77B2B6':'#C4E3FD'">-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner'"></span>-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner'"></span>-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner zui-dashboard-layout-3-inner-last'"></span>-->
+                    <!--</span>-->
+                <!--</div>-->
+            </div>
+
+          <zui-modal [title]="'zephyr.dashboard.add.gadget' | i18nSelect: i18nMessages" [modalId]="'zui-gadget-modal-add'" [modalSize]="'medium'" [isDraggable]="false">
+              <zui-modal-body>
+                <div class="media gadget-list" *ngFor="let preGadget of _predefinedGadgets">
+                  <a class="media-left">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusRequirementsGadgetComponent'" class="media-object" src="html5/assets/images/release_requirement_status_gadget.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseTestcaseStatusGadgetComponent'" class="media-object" src="html5/assets/images/release_testcase_status_gadget.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ProjectStatusGadgetComponent'" class="media-object" src="html5/assets/images/project_status_gadget.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseAutomationStatusGadgetComponent'" class="media-object" src="html5/assets/images/release_automation_status_gadget.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusExecutionOverviewGadgetComponent'" class="media-object" src="html5/assets/images/release_status_execution_overview.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusExecutionProgressGadgetComponent'" class="media-object" src="html5/assets/images/release_status_execution_progress.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusOpenDefectsGadgetComponent'" class="media-object" src="html5/assets/images/release_status_open_defects.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseDefectsStatusGadgetComponent'" class="media-object" src="html5/assets/images/release_status_overall_defect.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseRequirementsTraceabilityComponent'" class="media-object" src="html5/assets/images/requirement_traceability.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseDailyPulseComponent'" class="media-object" src="html5/assets/images/daily_pulse.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusAutomationByPhaseTagGadgetComponent'" class="media-object" src="html5/assets/images/automation_by_phase_tag.png" alt="{{preGadget.name}}">
+                    <img *ngIf="preGadget.component === 'ReleaseStatusExecutionRemainingGadgetComponent'" class="media-object" src="html5/assets/images/execution_backlog.png" alt="{{preGadget.name}}">
+                  </a>
+                  <div class="media-body" class="add-gadget-modal-body">
+                    <div class="zui-gadget-media-body">
+                      <h4 class="media-heading">{{preGadget.name}}</h4>
+                      <button type="button" class="btn zui-btn zui-btn-primary zui-gadget-add-button floatRight" (click)="addGadgetToDashboard(preGadget)">Add</button>
+                    </div>
+                    {{preGadget.description}}
+                  </div>
+                </div>
+              </zui-modal-body>
+              <zui-modal-footer>
+                <button type="button" class="btn zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.close' | i18nSelect: i18nMessages}}</button>
+              </zui-modal-footer>
+          </zui-modal>
+        </div>
+    </div>
+
+    <div *ngIf="!_dashboard?.gadgets?.length && _userId === _dashboard.createdBy" data-toggle="modal" [attr.data-target]="'#zui-gadget-modal-add'">
+      <div class="box has-advanced-upload">
+        <div class="box__input">
+          <label class="add-new">
+            <h1><i class="fa fa-plus"></i></h1>
+            <strong>Add a New Gadget</strong>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div id="zui-gadget-sortable" [class]="'row'">
+      <div id="gadget-target" #target></div>
+        <!--<zui-dashboard-gadget-->
+              <!--[gadget]="gadget"-->
+              <!--[userId]="_userId"-->
+              <!--(onDeleteGadget)="onDeleteGadget($event)"-->
+            <!--(onUpdateGadget)="onUpdateGadget($event)"-->
+        <!--&gt;</zui-dashboard-gadget>-->
+    </div>
+</div>

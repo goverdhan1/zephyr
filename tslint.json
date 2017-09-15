@@ -1,0 +1,42 @@
+{
+  "rulesDirectory": ["node_modules/codelyzer"],
+  "rules": {
+    "class-name": true,
+    "curly": false,
+    "eofline": true,
+    "indent": ["spaces"],
+    "max-line-length": [true, 220],
+    "member-ordering": [true,
+      "public-before-private",
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "no-arg": true,
+    "no-construct": true,
+    "no-duplicate-variable": false,
+    "no-empty": false,
+    "no-eval": true,
+    "no-unused-expression": true,
+    "no-unused-variable": false,
+    "no-use-before-declare": true,
+    "one-line": [true,
+      "check-open-brace",
+      "check-catch",
+      "check-else"
+    ],
+    "semicolon": true,
+    "trailing-comma": true,
+    "triple-equals": false,
+    "variable-name": false,
+
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true
+  }
+}

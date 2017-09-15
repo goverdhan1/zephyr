@@ -1,0 +1,61 @@
+<zui-add-tab-cycles-component>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="clearfix form-group">
+                <label [class]="'zui-add-testcase-assignment-label'" for=""><b>{{'zephyr.eas.freeform.add.testcase.cycles.select.cycle' | i18nSelect: i18nMessages}}</b></label>
+
+                <select (change)="onCycleChange()" name="" id="" class="form-control zui-add-testcase-assignment-control" [(ngModel)]="selectedCycle">
+                  <option *ngFor="let cycle of cycles;" [attr.value]="cycle.id" >
+                    <span>{{cycle.name}}</span>
+                    <span *ngIf="cycle.build?.length">build : {{cycle.build}}</span>
+                    <span *ngIf="cycle.environment?.length">env : {{cycle.environment}}</span>
+                  </option>
+                </select>
+            </div>
+            <div class="clearfix form-group">
+                <label [class]="'zui-add-testcase-assignment-label'" for=""><b>{{'zephyr.eas.freeform.add.testcase.cycles.select.phase' | i18nSelect: i18nMessages}}</b></label>
+
+                <select name="" id="" class="form-control zui-add-testcase-assignment-control" [(ngModel)]="phase">
+                    <option *ngFor="let phase of cyclePhases;" [attr.value]="phase.id" >{{phase.name}}</option>
+                </select>
+            </div>
+            <div class="clearfix form-group">
+                <div class="zui-checkbox">
+                    <input type="checkbox" name="zui-cycles-maintain-assignment" id="zui-cycles-maintain-assignment" [(ngModel)]="maintainAssignment" />
+                    <label for="zui-cycles-maintain-assignment"><b>{{'zephyr.eas.freeform.add.testcase.cycles.maintain.assignments' | i18nSelect: i18nMessages}}</b></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="clearfix form-group">
+                <label [class]="'zui-add-testcase-assignment-label'" for=""><b>{{'zephyr.eas.freeform.add.testcase.cycles.filter.by.status' | i18nSelect: i18nMessages}}</b></label>
+
+                <select class="form-control zui-add-testcase-assignment-control" [(ngModel)]="selectedExecutionStatus">
+                    <option *ngFor="let status of executionStatus; let i=index" [attr.value]="i" >{{status.value}}</option>
+                </select>
+            </div>
+            <div class="clearfix form-group">
+                <button type="button" [class]="'zui-btn zui-btn-primary  zui-cycles-btn-go'" (click)="onCycleSearch(true)">
+                    {{'zephyr.button.go' | i18nSelect: i18nMessages}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zui-freeform-testcase-add-grid-wrapper">
+        <testcase-eas-phase-grid
+            *ngIf="goClicked"
+            [phaseTreeId]="phaseTreeId"
+            [selectedTreeNode]="selectedTreeNode"
+            [selectedTctIds]="selectedTctIds"
+            [keyOnRowSelect]="'originalId'"
+            [keyToCheck]="'originalId'"
+            [bubblePagination]="true"
+            [gridType]="gridType"
+            (onClearSelectedTctIds)="clearSelectedTctIdsPageUpdation($event)"
+            (onPhaseGridRowSelection)="phaseGridRowSelection($event)"
+            (onPhaseGridPageChange)="GridIndexPagination($event)"
+            (onPhaseGridPageSizeChange)="gridPageSizeChanged($event)"
+        ></testcase-eas-phase-grid>
+    </div>
+</zui-add-tab-cycles-component>

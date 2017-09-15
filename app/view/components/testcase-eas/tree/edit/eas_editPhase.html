@@ -1,0 +1,70 @@
+<form [formGroup]="editPhaseForm" (ngSubmit)="editPhaseFormSubmit(editPhaseForm.value)">
+	<zui-modal [title]="'Edit Phase'" [modalId]="'easEditNodeModal'" [modalSize]="'small'">
+	    <zui-modal-body>
+				<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix">
+								<label for=""><b>Cycle</b></label>
+								<span class="field-value">{{cycleInfo.name}}</span>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Start</b></label>
+								<span class="field-value">{{cycleInfo.startDate  | date:"MM/dd/yyyy"}}</span>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>End</b></label>
+								<span class="field-value">{{cycleInfo.endDate  | date:"MM/dd/yyyy"}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix">
+								<label for=""><b>Phase</b> <i class="ast-red">*</i></label>
+								<input type="text" class="form-control" [formControl]="editPhaseForm.controls['name']" style="width: 222px;">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Start Date</b> <i class="ast-red">*</i></label>
+								<!-- <div class="input-group">
+									<input type="text" class="form-control" [formControl]="editPhaseForm.controls['startDate']">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div> -->
+								<div class="datepicker-wrap">
+									<calendar
+									  [formkey]= "editPhaseForm.controls['startDate']"
+									  [model]= "startDate"
+									  [minDate]="startMinDate"
+									  [maxDate]="startMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>End Date</b> <i class="ast-red">*</i></label>
+								<!-- <div class="input-group">
+									<input type="text" class="form-control" [formControl]="editPhaseForm.controls['endDate']">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div> -->
+								<div class="datepicker-wrap">
+									<calendar
+									  [formkey]= "editPhaseForm.controls['endDate']"
+									  [model]= "endDate"
+									  [minDate]="endMinDate"
+									  [maxDate]="endMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormInValid(editPhaseForm)">Save</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

@@ -1,0 +1,91 @@
+<div class="clone-release clearfix" [hidden]="!isShowForm">
+	<h5 class="zui-panel-heading" >
+	    <span> Clone Release </span>
+	</h5>
+	<form [formGroup]="cloneForm" (ngSubmit)="onCloneFormSubmit(cloneForm.value)" [ngStyle]="{'background': '#fff'}">
+		 <div class="row subform">
+		 	<div class=" col-md-6 col-xs-12">
+
+				<div class="clearfix">
+					<label for="project">Project<span class="input-required">*</span> :</label>
+					<div class="zui-select">
+						<select id="project" class="form-control" [formControl]="cloneForm.controls['targetProjectId']" (change)="onChnangeProjectSelect($event.target.value)">
+							<option value=""> Select A Project </option>
+	    		 			<option  *ngFor="let project of projects;" value="{{project.id}}">{{project.name}}</option>
+	    		 		</select>
+    		 		</div>
+				</div>
+				<div class="clearfix">
+					<label for="release">Release<span class="input-required">*</span> :</label>
+					<div class="zui-select">
+						<select id="release" class="form-control" [formControl]="cloneForm.controls['oldReleaseId']" (change)="onChangeReleaseSelect($event.target.value)">
+							<option value=""> Select A Release </option>
+	    		 			<option  *ngFor="let release of filteredReleases;" value="{{release.id}}">{{release.name}}</option>
+	    		 		</select>
+    		 		</div>
+				</div>
+
+				<div class="clearfix">
+						<label for="user">User<span class="input-required">*</span> :</label>
+					<div class="zui-select">
+						<select id="user" class="form-control" [formControl]="cloneForm.controls['defaultUserId']">
+	    		 			<option  *ngFor="let user of users;" value="{{user.id}}">{{user.fullname}}</option>
+	    		 		</select>
+    		 		</div>
+    		 		<p class="italic-font-style">Substitute for users not in this project</p>
+				</div>
+		    </div>
+		    <div class="col-md-6 col-xs-12 ">
+		    	<div class="clearfix">
+		    		<label for="releaseStartDate">Start date :</label>
+		    		<!-- <input onkeydown="return false;" title="Start date is a required field. It should be after project's start date and before project's end date"
+					 id="releaseStartDate" class="form-control"  [formControl]="cloneForm.controls['releaseStartDate']" type="date"
+					 (change)="onChangeStartDate($event.target.value)" [attr.min]="datesValidation.startDateMin" [attr.max]="datesValidation.startDateMax"/> -->
+					 <div class="datepicker-wrap"  id="releaseStartDate" title="It should be after project's start date and before project's end date">
+					     <calendar
+					       [formkey]= "cloneForm.controls['releaseStartDate']"
+					       [model]= "releaseDateSelected"
+					       [minDate]="datesValidation.startDateMin"
+					       [maxDate]="datesValidation.startDateMax"
+					       (validateDate)="onChangeStartDate($event)">
+					     </calendar>
+					 </div>
+		    	</div>
+		    	<div class="clearfix">
+		    		<label >Offset :</label>
+		    		<span class="field-value">Offset {{offset >= 0 ? '+' : ''}}{{offset}} days </span>
+		    	</div>
+
+		    </div>
+		</div>
+		<div class="cloneTreeWrapper small-checkboxes" (click)="cloneTreeClicked($event)">
+
+		</div>
+		<div class="clearfix form-footer">
+		<button type="button" class="zui-btn zui-btn-sec" (click)="cancelCloneForm()">Cancel</button>
+      <button type="submit" class="zui-btn zui-btn-primary" [disabled]="!cloneForm.valid">Clone</button>
+
+		</div>
+	</form>
+
+	<zui-form-dirty-dialog
+	[identifier]="'clone_form'"
+    [show]="showDirtyCheckModal"
+    (dismissNavigation)="dismissNavigation($event)"
+    (continueNavigation)="continueNavigation($event)"
+  >
+  </zui-form-dirty-dialog>
+
+	<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal-clone'" [modalSize]="'medium'" *ngIf="confirmationObject">
+	    <zui-modal-body>
+			<p>{{confirmationObject.text}}</p>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+	    <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+		    <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+
+	     </zui-modal-footer>
+	</zui-modal>
+
+</div>
+<job-status [modalHeading]="'Cloning Release'"  (jobProgressRefreshClicked)="jobProgressRefreshClicked($event)" (jobCompleted)="hideCloneForm()" [messages]="cloneMessages" [jobStatusId]="'-cloneRelease'"> </job-status>

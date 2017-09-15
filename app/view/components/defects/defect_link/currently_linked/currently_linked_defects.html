@@ -1,0 +1,27 @@
+<div class="currently-linked-defects-container">
+    <div class="currently-linked-defects-header">
+        <h5 class="zee-content-subtitle">Currently linked defects</h5>
+    </div>
+    <div class="delete-mapped-schedule floatRight">
+        <button id="delete-mapped-schedule-button" disabled="disabled" (click)="showDeleteMappedScheduleModal()" [class]="'btn btn-secondary'" type="button">Delete</button>
+    </div>
+    <div class="currently-linked-defects-grid-container">
+        <grid class="currently-linked-defects-grid"
+            [rows]=gridRows
+            [gridType]="_currentlyLinkedDefectsGridType"
+            [paginationOptions]="paginationOptions"
+            (onGridPrevClick)="gridPrevClick()"
+            (onGridNextClick)="gridNextClick()"
+            (onGridRowSelection)="gridRowSelection($event)">
+        </grid>
+    </div>
+    <zui-modal [hideCloseIcon]="true" (onClose)="hideDeleteMappedScheduleModal()" [title]="'zephyr.defect.delete.mapped.schedule.header' | i18nSelect: i18nMessages" [modalId]="'delete-mapped-schedule-modal'" [modalSize]="'small'">
+        <zui-modal-body>
+            <label><b>{{'zephyr.defect.delete.mapped.schedule.message' | i18nSelect: i18nMessages}}</b></label>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="zui-btn zui-btn-sec" (click)="hideDeleteMappedScheduleModal()">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+            <button type="button" class="zui-btn zui-btn-primary" (click)="deleteMappedSchedule()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+        </zui-modal-footer>
+    </zui-modal>
+</div>

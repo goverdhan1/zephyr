@@ -1,0 +1,14 @@
+<div class="zui-inline-dialog" zui-inline-dialog [interactionHandler]="'hover'" title="Notifications">
+  <a class="inline-dialog-trigger" [ngClass]="{'notification-disable-pointer': notificationCount == 0}">
+    <span class="notification-wrapper">
+        <span class="notification-count">{{notificationCount}}</span>
+    </span>
+  </a>
+  <div class="inline-dialog-body" [hidden]="!notificationCount">
+	  <div class="inline-dialog-content grid-column-chooser-content inline-dialog-content-without-padding notification-content">
+	    <notification-list [notificationList]="notificationList" (applyNotification)="applyNotifications($event)"
+	                       (discardNotification)="discardNotifications($event)"></notification-list>
+	  </div>
+  </div>
+</div>
+

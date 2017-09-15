@@ -1,0 +1,34 @@
+<zui-modal (onBeforeClose)="cancelEtlTimingConfirmation()" [title]="'Trend Data Collection Daily Scheduling'" [modalId]="'scheduling-modal'" [modalSize]="'medium'">
+	<zui-modal-body>
+	    <p>You can setup Zephyr to automatically collect trending data on a daily basis. Please select what time this should happen, in the {{etlTimeZone}} timezone.</p>
+	    <div class="subform">
+	    	<p> Time (millitary format) </p>
+	    	<div class="row">
+		        	<div class="col-md-6 col-xs-12">
+		        		<div class="clearfix">
+						<label for="time-hour-select">HH24</label>
+						<div class="zui-select">
+							<select class="form-control" [(ngModel)] = "etlHourSelect">
+								<option id="time-hour-select" *ngFor="let obj of hourRepeatConstant; let i = index;"  [selected]="etlHourSelect == i" [attr.value]="i">{{i}}</option>
+							</select>
+						</div>
+			         </div>
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<div class="clearfix">
+						<label for="time-min-select">MM</label>
+						<div class="zui-select">
+							<select class="form-control" [(ngModel)] = "etlMmSelect">
+								<option id="time-min-select" *ngFor="let obj of minuteRepeatConstant; let i = index;" [selected]="etlMmSelect == i" [attr.value]="i">{{i}}</option>
+							</select>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" (click)="cancelEtlTimingConfirmation()" >Cancel</button>
+		<button type="button" class="zui-btn zui-btn-primary" [disabled]="isFormValid()" (click)="saveEtlTiming()">Save</button>
+	</zui-modal-footer>
+</zui-modal>

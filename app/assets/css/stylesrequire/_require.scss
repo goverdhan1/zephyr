@@ -1,0 +1,26 @@
+@import '../../assets/css/mixins';
+@import '../../assets/css/variables';
+@import '../../assets/css/typography';
+@import '../../assets/css/app-fonts';
+@import '../../assets/css/jquery-ui/jquery-ui.css';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/sidr/dist/stylesheets/jquery.sidr.dark.min';
+@import '../../../node_modules/select2/dist/css/select2';
+@import '../../../node_modules/toastr/toastr';
+@import '../../assets/styles/font-awesome';
+@import '../../assets/css/jstree.min';
+@import '../../assets/css/d3/nv.d3_1_8_5.min';
+@import '../../../node_modules/tinymce/skins/lightgray/skin.min';
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.input-error {
+  border:1px solid red !important;
+}
+.cursor-pointer {
+  cursor:pointer;
+}

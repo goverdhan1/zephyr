@@ -1,0 +1,81 @@
+.mobile-view {
+	$automation-strong-width: 110px;
+	$default-strong-width: 80px;
+
+	.zee-module-content,.zee-module {
+		li {
+			&.zee-column {
+				width: 100%;
+			}
+			&.comment-wrapper {
+				.comment-inline-edit {
+					width: calc(100% - 10px)!important;
+
+					.zephyr-editable-field-view-mode {
+						height: 100px;
+					}
+				}
+			}
+		}
+		.zee-column-wrap,.zee-column-wrap-left {
+			padding-left: $default-strong-width;
+
+			.zee-column-name {
+				width: $default-strong-width;
+				margin-left: -$default-strong-width;
+			}
+		}
+	}
+	zephyr-inline-rows-edit {
+		td {
+			padding: 5px 2px;
+		}
+		.zui-btn {
+			min-width: 50px;
+		}
+	}
+	.zee-primary-nav-wrapper {
+		clear: both;
+	}
+	test-repository-component {
+		padding: 10px 0;
+	}
+	.zee-testcase-automation-wrapper {
+		.zee-module-content,.zee-module {
+			li {
+				&.zee-column {
+					width: 100%;
+				}
+			}
+			.zee-column-wrap {
+				padding-left: $automation-strong-width;
+
+				.zee-column-name {
+					width: $automation-strong-width;
+					margin-left: -$automation-strong-width;
+				}
+			}
+		}
+
+	}
+	.testcase-grid #testcase_select {
+		width: 14%;
+	}
+	#testcase-grid-panel {
+		padding-top: 55px;
+	}
+	.zee-testcase-description {
+		.testcase-id {
+			width: 50px;
+		}
+		.zui-inline-edit {
+			width: calc(100% - 60px);
+		}
+	}
+	#testcase-fullscreen-resizer {
+		.fa {
+			padding-bottom: 10px;
+		}
+	}
+
+}

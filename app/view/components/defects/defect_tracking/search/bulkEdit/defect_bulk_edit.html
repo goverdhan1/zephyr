@@ -1,0 +1,117 @@
+<zui-modal [title]="'Change Multiple Defects'" [modalId]="'defect-bulk-edit'" [modalSize]="'small'" (onClose)="onCancelClearPrevious()">
+    <zui-modal-body>
+        <div class="defect-bulk-edit-header">
+            <label><b>Values to change</b></label>
+        </div>
+        <div class="defect-bulk-edit-wrapper">
+            <div class="row">
+                <span class="col-md-4 label">Component</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectClass]="'select-defect-edit'"
+                        [selectId]="'defect-bulk-edit-multiComponents'"
+                        [items]="components"
+                        [placeholder]="'Select Component'"
+                        (onSelect)="saveBulkEditValues($event,'multiComponents')"
+                        (onUnselect)="unSelectField($event, 'multiComponents')"
+                        [multiple]="true"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="col-md-4 label">Status</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectId]="'defect-bulk-edit-status'"
+                        [selectClass]="'select-defect-edit'"
+                        [allowClear]="true"
+                        [items]="statuses"
+                        [placeholder]="'Select Status'"
+                        (onSelect)="saveBulkEditValues($event,'status')"
+                        (onUnselect)="unSelectField($event, 'status')"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+            <span class="col-md-4 label">Resolution</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectId]="'defect-bulk-edit-resolution'"
+                        [selectClass]="'select-defect-edit'"
+                        [allowClear]="true"
+                        [items]="resoluctions"
+                        [placeholder]="'Select Resolution'"
+                        (onSelect)="saveBulkEditValues($event,'resolution')"
+                        (onUnselect)="unSelectField($event, 'resolution')"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="col-md-4 label">Version</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectClass]="'select-defect-edit'"
+                        [selectId]="'defect-bulk-edit-multiVersions'"
+                        [items]="versions"
+                        [placeholder]="'Select Version'"
+                        (onSelect)="saveBulkEditValues($event,'multiVersions')"
+                        (onUnselect)="unSelectField($event, 'multiVersions')"
+                        [multiple]="true"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="col-md-4 label">FixVersion</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectClass]="'select-defect-edit'"
+                        [selectId]="'defect-bulk-edit-fixVersions'"
+                        [items]="fixVersions"
+                        [placeholder]="'Select FixVersion'"
+                        (onSelect)="saveBulkEditValues($event,'fixVersions')"
+                        (onUnselect)="unSelectField($event, 'fixVersions')"
+                        [multiple]="true"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="col-md-4 label">Priority</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectId]="'defect-bulk-edit-priority'"
+                        [selectClass]="'select-defect-edit'"
+                        [allowClear]="true"
+                        [items]="priorities"
+                        [placeholder]="'Select Priority'"
+                        (onSelect)="saveBulkEditValues($event,'priority')"
+                        (onUnselect)="unSelectField($event, 'priority')"
+                    ></zee-select>
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="col-md-4 label">Assignee</span>
+                <span class="col-md-6">
+                    <zee-select
+                        [selectId]="'defect-bulk-edit-assignee'"
+                        [selectClass]="'select-defect-edit'"
+                        [allowClear]="true"
+                        [placeholder]="'Select Assignee'"
+                        [editOptions]="getSelect2Options('user')"
+                        (onSelect)="saveBulkEditValues($event,'assigned_to')"
+                        (onUnselect)="unSelectField($event, 'assigned_to')"
+                    ></zee-select>
+                </span>
+            </div>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" (click)="onCancelClearPrevious()" data-dismiss="modal">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="onBulkEdit()">Save</button>
+    </zui-modal-footer>
+</zui-modal>

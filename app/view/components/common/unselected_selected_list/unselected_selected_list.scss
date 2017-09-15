@@ -1,0 +1,45 @@
+.backward-image:after {
+	content: url(assets/images/backward.png);
+}
+
+.forward-image:after {
+	content: url(assets/images/forward.png);
+}
+
+unselected-selected-list {
+	display:block;
+
+	.unselected-selected-list-container {
+		display:flex;
+
+		> div {
+			width: 50%;
+			display: inline-block;
+
+			&:first-child {
+				padding-right:20px;
+			}
+		}
+		.box-container {
+			border:1px solid $grid-header-color;
+			.zui-checkbox2 {
+				margin: 5px 0 5px 5px;
+			}
+			.forward-image , .backward-image {
+				float: right;
+				margin: 5px;
+			}
+			.header-unselected-selected-list {
+				background-color: $grid-header-color;
+			}
+			div.container-all {
+				height:250px;
+				overflow:auto;
+				width:100%;
+				> div {
+					border-bottom: 1px solid $grid-header-color;
+				}
+			}
+		}
+	}
+}

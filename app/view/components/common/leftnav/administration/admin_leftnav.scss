@@ -1,0 +1,33 @@
+zui-administration-left-nav {
+    .sidr ul li {
+        ul li {
+            a {
+                cursor: pointer;
+            }
+        }
+        &:hover {
+            > a > span {
+                color: rgba(255,255,255,1);
+                opacity: 1;
+            }
+        }
+        > a {
+            cursor: default;
+            span{
+                &.parent-item {
+                    cursor: default;
+                    color: rgba(255, 255, 255, 0.5);
+                }
+            }
+        }
+        .zee-nav-item {
+            span {
+                color: rgba(255,255,255,0.8);
+                &.parent-item {
+                    font-size: $zui-stronger-font;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}

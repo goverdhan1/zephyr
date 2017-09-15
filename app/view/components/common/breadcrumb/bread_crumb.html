@@ -1,0 +1,8 @@
+<div>
+    <ul class="breadcrumb zui-breadcrumb">
+        <li *ngFor="let breadCrumb of breadCrumbsList; let last=last">
+            <button [attr.data-nodeid]="breadCrumb.id" [attr.title]="breadCrumb.text" [attr.data-type]="breadCrumb.type" [attr.data-islast]="last? true:false">{{breadCrumb.text}}</button>
+            <span *ngIf="!last"> > </span>
+        </li>
+    </ul>
+</div>

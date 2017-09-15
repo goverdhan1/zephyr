@@ -1,0 +1,34 @@
+paginator {
+    display: block;
+    // width: 10rem;
+    // position: absolute;
+    // right: 0;
+
+    .pager {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        list-style: none;
+
+        li {
+            margin: 0 10px 0 0;
+            padding: 0;
+            cursor: pointer;
+
+            &.previous,
+            &.next {
+                margin-right: 4px;
+                font-size: 1.6rem;
+            }
+
+            &.disable-icon {
+                color: #a59b9b;
+                pointer-events: none;
+                cursor: default;
+            }
+        }
+    }
+}
+

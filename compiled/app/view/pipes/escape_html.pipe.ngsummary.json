@@ -1,0 +1,1 @@
+{"summaries":[{"symbol":{"__symbol":0},"metadata":{"__symbolic":"class"},"type":{"summaryKind":0,"type":{"reference":{"__symbol":0},"diDeps":[],"lifecycleHooks":[]},"name":"escapeHTMLPipe","pure":true}}],"symbols":[{"__symbol":0,"name":"EscapeHTMLPipe","filePath":"/Users/goverdhan.koyalkar/Goverdhan/fayre/app/view/pipes/escape_html.pipe.d.ts"}]}

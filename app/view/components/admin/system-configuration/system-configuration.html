@@ -1,0 +1,137 @@
+<zui-admin-system-configuration [class]="'zui-admin-section'">
+    <div class="main-content" role="main">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3><b>System Configuration</b></h3>
+            </div>
+            <!--<div class="right-navs">-->
+                <!--<a class="zui-icon-btn">-->
+                    <!--<span [routerLink]="['/resource_management/details', {id: 1}]">Administrator</span>                    -->
+                <!--</a>-->
+            <!--</div>-->
+        </div>
+        <div class="zui-content-layout layout6">
+            <div class="subform company-info-subform">
+                <div class="zee-module-header"><span class="zee-module-header-left">Company Info</span></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="full-width" for="company_name"><b>Company Name:</b></label>
+                            <div class="input-group full-width url-group desktop-group">
+                                <zephyr-inline-edit
+                                    [placeholder]="'None'"
+                                    [field]="companyName"
+                                    [editType]="'text'"
+                                    [isRequired]=true
+                                    [maxCount]="50"
+                                    [minCount]="2"
+                                    (onSubmit)="saveAdminPref($event , companyNameKey)"
+                                ></zephyr-inline-edit>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="full-width" for="system_name"><b>System Name:</b></label>
+                            <div class="input-group full-width url-group desktop-group">
+                                <zephyr-inline-edit
+                                    [placeholder]="'None'"
+                                    [field]="systemName"
+                                    [editType]="'text'"
+                                    [isRequired]=true
+                                    [maxCount]="50"
+                                    [minCount]="2"
+                                    (onSubmit)="saveAdminPref($event , systemNameKey)"
+                                ></zephyr-inline-edit>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="subform access-url-subform">
+                <div class="zee-module-header"><span class="zee-module-header-left"><b>Access URL</b></span></div>
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="desktop_url" class="full-width"><b>Desktop URL:</b></label>
+                            <div class="input-group full-width url-group desktop-group">
+                                <span [class]="'zui-admin-http'">{{isProtocol}}//</span>
+                                <zephyr-inline-edit
+                                    [placeholder]="'None'"
+                                    [field]="desktopUrl"
+                                    [editType]="'text'"
+                                    [isRequired]=true
+                                    [maxCount]="40"
+                                    [minCount]="2"
+                                    (onSubmit)="saveAdminPref($event , desktopUrlKey)"
+                                ></zephyr-inline-edit>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dashboard_url" class="full-width"><b>Dashboard URL:</b></label>
+                            <div class="input-group full-width url-group dashboard-group">
+                                <span [class]="'zui-admin-http'">{{isProtocol}}//</span>
+                                <zephyr-inline-edit
+                                    [placeholder]="'None'"
+                                    [field]="dashboardUrl"
+                                    [editType]="'text'"
+                                    [isRequired]=true
+                                    [maxCount]="40"
+                                    [minCount]="2"
+                                    (onSubmit)="saveAdminPref($event , dashboardUrlKey)"
+                                ></zephyr-inline-edit>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="subform mail-server-subform">
+                <div class="zee-module-header"><span class="zee-module-header-left"><b>Mail Server</b></span></div>
+                <form [formGroup]="mailServerForm" (ngSubmit)="onSubmit(mailServerForm.value)" class="mail-server-form" >
+                    <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="clearfix">
+                            <label for="name_ip"><b>Host Name:</b></label>
+                            <input type="text" id="name_ip" [formControl]="mailServerForm.controls['nameIpKey']" class="form-control"/>
+                        </div>
+                        <div class="clearfix">
+                            <label for="username"><b>Username:</b></label>
+                            <input type="text" id="username" [formControl]="mailServerForm.controls['usernameKey']"  class="form-control"/>
+                        </div>
+                        <div class="clearfix checkbox-wrap">
+                            <div class="zui-checkbox margin-helper">
+                                <input id="smtpcb" #smtpcb type="checkbox" [formControl]="mailServerForm.controls['authenticationSMTPKey']" (change)="onChangeAuthenticationCheckbox(smtpcb.checked)">
+                                <label for="smtpcb"><b>Use SMTP Authentication</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="clearfix">
+                            <label for="port"><b>Port:</b></label>
+                            <input type="text" id="port" [formControl]="mailServerForm.controls['portKey']" class="form-control"/>
+                        </div>
+                        <div class="clearfix">
+                            <label for="password_mailserver"><b>Password:</b></label>
+                            <input type="password" id="password_mailserver" [formControl]="mailServerForm.controls['passwordMailserverKey']" class="form-control"/>
+                        </div>
+                        <div class="clearfix checkbox-wrap">
+                            <div class="zui-checkbox margin-helper">
+                            <input id="sslcb" #sslcb type="checkbox"  [formControl]="mailServerForm.controls['authenticationSSLKey']">
+                            <label for="sslcb"><b>Use SSL Authentication</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="clearfix form-footer">
+                    <button type="button" class="zui-btn zui-btn-sec" [disabled]="hasChanges()" (click)="cancelAdminPref()">Cancel</button>
+                    <button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormValid(mailServerForm)">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+     <!-- Dirty check component -->
+    <zui-form-dirty-dialog
+      [show]="showDirtyCheckModal"
+      (dismissNavigation)="dismissNavigation()"
+      (continueNavigation)="continueNavigation()"
+    ></zui-form-dirty-dialog>
+</zui-admin-system-configuration>

@@ -1,0 +1,51 @@
+<!-- View mode -->
+<div id="zui-gadget-view-mode-{{componentOptions.id}}">
+    <div>
+    <ul class="breadcrumb zui-breadcrumb">
+        <li>
+            <button [attr.data-nodeid]="componentOptions.params.projectId">{{componentOptions.params.projectName}}</button>
+            <span>></span>
+        </li>
+        <li>
+            <button [attr.data-nodeid]="componentOptions.params.releaseId">{{componentOptions.params.releaseName}}</button>
+        </li>
+    </ul>
+</div>
+    <div class="stacks">
+        <span *ngFor="let data of chartStack; let i = index" (click)= "manageStack(i)">Level {{i}}</span>
+    </div>
+    <div class="stackPop" style="float:right;margin-top: -20px;">
+        <span (click)= "popFromChartStack()">Level up</span>
+    </div>
+    <test-dist-chart
+        [data]="testDistData"
+        [chartType]="componentOptions.params.chartType"
+        [dashBoardLayout]="dashBoardLayout"
+        (onChartClick)="fetchNextLevelChart($event)">
+    </test-dist-chart>
+</div>
+<!-- Edit mode -->
+<div id="zui-gadget-edit-mode-{{componentOptions.id}}">
+    <fieldset>
+        <div [class]="'form-group'">
+            <label for="dashboard-name">{{'zephyr.dashboard.name' | i18nSelect: i18nMessages}}</label>
+            <input type="text" [(ngModel)]="gadgetName" [class]="'form-control'" id="dashboard-name" placeholder="Name">
+        </div>
+        <zui-gadgets-project-release
+            [projectId]="componentOptions.params.projectId"
+            [releaseId]="componentOptions.params.releaseId"
+            (onProjectReleaseSelection)="updateProjectReleaseIds($event)"
+        ></zui-gadgets-project-release>
+        <div [class]="'form-group'">
+            <label for="chart-type">{{'zephyr.chart.type.title' | i18nSelect: i18nMessages}}</label>
+            <select class="form-control" [ngModel]="selectedChartType" (change)="onChartTypeChange($event)">
+                <option value="bar">{{'zephyr.chart.type.bar' | i18nSelect: i18nMessages}}</option>
+                <option value="pie">{{'zephyr.chart.type.pie' | i18nSelect: i18nMessages}}</option>
+            </select>
+        </div>
+    </fieldset>
+    <div [style.margin-top.px]="20">
+        <button type="button" class="btn btn-default" (click)="onSaveEditGadget()">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+        <button type="button" class="btn btn-default" (click)="onCancelEditGadget()" [disabled]="!componentOptions.params.releaseId">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+    </div>
+</div>

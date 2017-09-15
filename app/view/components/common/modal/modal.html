@@ -1,0 +1,22 @@
+<div [attr.id]="modalId" [class]="'modal fade' + modalClass" data-backdrop="static" role="dialog" [attr.data-keyboard]="dataKeyboard">
+    <div class="modal-dialog" [ngClass]="{'extralarge': modalSize == 'extralarge','large': modalSize == 'large','medium': modalSize == 'medium','small': modalSize == 'small','extrasmall': modalSize == 'extrasmall'}">
+        <div class="modal-content">
+            <div class="modal-header modal-draggable-handle">
+                <div>
+                    <h4 class="modal-title" [innerHtml]="title"></h4>
+                    <p [class]="'modal-description'" [innerHtml]="description"></p>
+                </div>
+                <div class="modal-header-buttons-container">
+                    <ng-content select="zui-modal-header-buttons"></ng-content>
+                    <button *ngIf="!hideCloseIcon" type="button" class="close" (click)="closeModal()">&times;</button>
+                </div>
+            </div>
+            <div [class]="'modal-body' + modalBodyClass">
+            	<ng-content select="zui-modal-body"></ng-content>
+            </div>
+            <div class="modal-footer modal-draggable-handle" *ngIf="!hideFooter">
+                <ng-content select="zui-modal-footer"></ng-content>
+            </div>
+         </div>
+     </div>
+</div>

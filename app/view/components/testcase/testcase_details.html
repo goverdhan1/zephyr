@@ -1,0 +1,110 @@
+<div [class]="'zee-testcase-details-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Details</h5>
+         </div>
+         <div [class]="'zee-module-content zee-module-content-inline'">
+             <ul class="zee-details-two-column-list">
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>ID</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span>{{testcase.id}}</span>
+                        </span>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Priority</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span *ngIf="!editable" [innerHTML]="testcase.priority | gridActionsPipe : [{'key' : 'testcasePriority'}]"></span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Enter priority'"
+                                [field]="testcase.priority | gridActionsPipe : [{'key' : 'testcasePriority'}]"
+                                [selectedOption]="testcase.priority"
+                                [fieldOptions]="testcase.priorities"
+                                [editType]="'singleselect'"
+                                [editOptions]="getSelect2Options('priority')"
+                                (onSubmit)="savePriority($event)"
+                            ></zephyr-inline-edit>
+                        </span>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Alt ID</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span *ngIf="!editable">{{testcase.externalId}}</span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Enter alt ID'"
+                                [maxCount]="255"
+                                [validationPattern]="altIdValidation"
+                                [field]="testcase.externalId"
+                                [editType]="'text'"
+                                (onSubmit)="saveExternalId($event)"
+                             ></zephyr-inline-edit>
+                        </span>
+                     </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Tags</b></strong>
+                        <span id="type-val" [class]="'zee-column-value'">
+                            <span *ngIf="!editable">{{testcase.tags}}</span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Enter tags'"
+                                [field]="testcase.tags"
+                                [fieldOptions]="testcase.tagOptions"
+                                [editType]="'multiselect-ajax'"
+                                [editOptions]="getSelect2Options('tags')"
+                                [selectedOption]="testcase.tags"
+                                [tags]="true"
+                                [multiple]="true"
+                                [saveOnEnter]="true"
+                                (onSubmit)="saveTags($event)"
+                            ></zephyr-inline-edit>
+                        </span>
+                     </div>
+                </li>
+                <li [class]="'zee-column comment-wrapper'" style="width: 100%">
+                    <div [class]="'zee-column-wrap textarea'">
+                        <strong [class]="'zee-column-name'"><b>Comment</b></strong>
+                        <span class="comment-inline-edit">
+                            <span *ngIf="!editable">{{testcase.comments}}</span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Enter comment'"
+                                [field]="testcase.comments"
+                                [validationPattern]="commentsValidation"
+                                [maxCount]="2048"
+                                [editType]="'textarea'"
+                                (onSubmit)="saveComment($event)"
+                            ></zephyr-inline-edit>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <!-- <ul class="zee-details-column-list clearfix">
+                <li [class]="'zee-column comment-wrapper'" [style.padding.px]="'0'">
+                    <div [class]="'zee-column-wrap-left'">
+                        <strong [class]="'zee-column-name'" [style.margin-bottom.px]="'10'">Comment</strong>:
+                        <span class="comment-inline-edit" style="display: inline-block; width: calc(100% - 160px)">
+                            <span *ngIf="!editable">{{testcase.comments}}</span>
+                            <zephyr-inline-edit
+                                *ngIf="editable"
+                                [placeholder]="'Click to add comment'"
+                                [field]="testcase.comments"
+                                [isRequired]="true"
+                                [editType]="'textarea'"
+                                (onSubmit)="saveComment($event)"
+                            ></zephyr-inline-edit>
+                        </span>
+                    </div>
+                </li>
+             </ul> -->
+        </div>
+    </zee-expander>
+</div>

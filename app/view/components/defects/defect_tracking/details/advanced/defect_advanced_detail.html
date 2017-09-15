@@ -1,0 +1,24 @@
+<zui-modal [ngClass]="{'create-issue-form': true}" (onClose)="dismissModal()" [title]="'Update Defect : ' + selectedDefect.alternateId" [modalId]="'defect-advanced-detail-modal-'+selectedDefect.id" [modalSize]="'medium'">
+    <zui-modal-body>
+        <div class="file-new-defect-container">
+            <div id="create-defects-fields-container">
+                <create-defect-form
+                    [disableCopyTestStep]="true"
+                    [isUpdate]="true"
+                    [parentIssueKey]="parentIssueKey"
+                    [selectedDefect]="selectedDefect"
+                    [selectedProject]="selectedProject"
+                    [selectedIssueType]="selectedIssueType"
+                    [selectedIssueTypeName]="selectedIssueTypeName"
+                    [issueMetaData]="issueMetaData"
+                    *ngIf="issueMetaData">
+                </create-defect-form>
+            </div>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button *ngIf="manageModalClose" type="button" class="zui-btn zui-btn-sec" (click)="dismissModal($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button *ngIf="!manageModalClose" type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: cdFormCmp && cdFormCmp.createDefectForm && cdFormCmp.createDefectForm.invalid}" type="button" (click)="onDefectUpdate()">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>

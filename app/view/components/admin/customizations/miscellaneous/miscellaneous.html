@@ -1,0 +1,17 @@
+<zui-modal (onBeforeClose)="cancelMiscSettingsConfirmation($event)" [title]="'Miscellaneous'" [modalId]="'miscellaneous-modal'" [modalSize]="'medium'">
+	<zui-modal-body>
+	    <div >
+	    	<p>
+	    		Enable Secondary Authentication if you have temp users that are not in your primary authentication mechanism (LDAP, Crowd etc). They will then be able to log into Zephyr based on the authentication (username/password) set up for them in the User Setup.
+	    	</p>
+	    	<div class="zui-checkbox2"  >
+	    		<input [disabled]="isSaml" [(ngModel)] = "isEnableSecondryAuth" type="checkbox" id= "enable-secondry-authentication">
+	    		<label  for="enable-secondry-authentication">Enable Secondary Authentication</label>
+	    	</div>
+	    </div>
+	</zui-modal-body>
+	<zui-modal-footer>
+	    <button type="button" class="zui-btn zui-btn-sec" (click)="cancelMiscSettingsConfirmation($event)" >Cancel</button>
+	    <button type="button" [disabled]="isFormValid()" class="zui-btn zui-btn-primary" (click)="saveMiscSettingsConfirmation()">Save</button>
+	</zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,115 @@
+
+<div *ngIf="isConfigureMode">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <h5 class="zee-content-subtitle">Configure Gadget</h5>
+            </div>
+        </div>
+    </div>
+
+    <form [class]="'form-margin-helper'">
+        <div class="form-group">
+            <label for="projects"> Project </label>
+            <div class="zui-ng-select">
+                <zee-select
+                    [items]="projects"
+                    [active]="selectedProject"
+                    [placeholder]="'Select Project'"
+                    (onSelect)="setProject($event)"
+                ></zee-select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="releases"> Release </label>
+            <div class="zui-ng-select">
+                <zee-select
+                    [items]="releases"
+                    [active]="selectedRelease"
+                    [placeholder]="'Select Release'"
+                    (onSelect)="setReleaseValue($event)"
+                ></zee-select>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="releases"> Track By </label>
+          <div class="zui-ng-select">
+              <zee-select
+                [items]="trackByOptions"
+                [active]="additionalConfig.selectedPulseOptions"
+                [placeholder]="'Track by'"
+                [multiple]="true"
+                (onSelect)="setPulseOptions($event)"
+              ></zee-select>
+          </div>
+        </div>
+
+        <date-range-picker
+          [dateRange]="additionalConfig.selectedDateRange"
+          [startDate]="additionalConfig.selectedStartDate"
+          [endDate]="additionalConfig.selectedEndDate"
+          (dateChanged)="setChangedDate($event)"
+        ></date-range-picker>
+
+        <!--<div class="form-group">-->
+            <!--<label for="refreshrate"> Refresh Rate </label>-->
+            <!--<div class="zui-ng-select">-->
+                <!--<zee-select-->
+                    <!--[items]="refreshRates"-->
+                    <!--[active]="selectedRefreshRate"-->
+                    <!--[placeholder]="'Select Refresh Rate'"-->
+                    <!--(onSelect)="setRefreshRate($event)"-->
+                <!--&gt;</zee-select>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="clearfix subform text-right">
+          <button type="button" class="zui-btn zui-btn-sec" (click)="toggleConfigurationMode(false)" *ngIf="_gadget?.projectId && _gadget?.releaseId">Cancel</button>
+          <button type="submit" class="zui-btn zui-btn-primary" (click)="saveConfig()" [disabled]="!enableSave()" >Save</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!isConfigureMode">
+    <zui-gadget-metadata
+      [projectName]="projectName"
+      [releaseName]="releaseName">
+    </zui-gadget-metadata>
+
+    <!--<div class="row date-picker-container">-->
+      <!--<date-range-picker-->
+        <!--class="date-picker"-->
+        <!--[dateRange]="additionalConfig.selectedDateRange"-->
+        <!--[startDate]="additionalConfig.selectedStartDate"-->
+        <!--[endDate]="additionalConfig.selectedEndDate"-->
+        <!--(dateChanged)="setChangedDate($event)"-->
+      <!--&gt;</date-range-picker>-->
+
+      <!--<button type="submit" class="zui-btn zui-btn-primary" (click)="refreshMetrics()">View</button>-->
+    <!--</div>-->
+
+    <div class="row">
+      <div class="col-xs-{{12 / summary.length}}" *ngFor="let summ of summary">
+        <div class="zee-module1-wrapper zee-align-center">
+          <div>
+            <span class="zee-module1-title">{{summ.value}}</span>
+            <br />
+            <span class="zee-module1-summary-name">{{summ.key}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <zui-line-chart
+      *ngIf="data"
+      [data]="data"
+      [dataLegends]="trackByOptionsObj"
+      [dataKeys]="dataKeys"
+      [timeKey]="timeKey"
+      [width]="width"
+      [columnColors]="columnColors"
+      [height]="500">
+    </zui-line-chart>
+</div>

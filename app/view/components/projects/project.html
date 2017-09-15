@@ -1,0 +1,60 @@
+<div class="main-content" role="main">
+    <div class="module-subheader no-breadcrumb">
+        <div class="left-navs">
+            <h3>
+                <b>{{project?.name}}</b>
+            </h3>
+        </div>
+        <div class="right-navs">
+            <!--<a class="zui-icon-btn coming-soon">-->
+                <!--<img src="assets/images/manage.png"/>-->
+                <!--<span>Manage</span>-->
+            <!--</a>-->
+            <a class="zui-icon-btn" *ngIf="ifReleaseSetupPermitted" (click)="navigateToreleaseSetup()">
+                <img src="html5/assets/images/manage.png"/>
+                <span>Manage Release</span>
+            </a>
+            <notifications [appId]="appId" (onNotificationApply)="applyNotifications($event)"
+            ></notifications>
+        </div>
+    </div>
+    <div class="zui-content-layout layout4 flex-column-stretch">
+        <div class="row">
+            <div class="col-md-12">
+              <!--<zephyr-inline-edit-->
+                <!--[fieldOptions]="items"-->
+                <!--[editType]="'multiselect-checkbox'"-->
+                <!--[selectedOption]="[]"-->
+                <!--[identifier]="'test123'"-->
+              <!--&gt;</zephyr-inline-edit>-->
+
+            </div>
+            <div class="col-md-12">
+                <project-details [appId]="appId"></project-details>
+            </div>
+        </div>
+        <!--<div class="row" style="flex-grow:1">
+            <div class="col-md-12" [style.background]="'#fff'">
+                <zee-testcase-time-series></zee-testcase-time-series>
+            </div>
+        </div>-->
+        <div class="row" [style.flex]="'1'">
+            <div class="col-md-8">
+                <project-releases [class]="'flex-column-stretch'"></project-releases>
+            </div>
+            <div class="col-md-4">
+                <project-team-location></project-team-location>
+            </div>
+        </div>
+    </div>
+</div>
+
+<zui-modal (onClose)="closelicenExpModal()" [title]="'License Expired'" [modalId]="'zui-license-expired-authentication-warning'" [modalSize]="'small'">
+  <zui-modal-body>
+    <p>Your ZAutomation license is Expired/Invalid.
+       Please contact zephyr support.</p>
+  </zui-modal-body>
+  <zui-modal-footer>
+    <button type="button" class="btn btn-default" (click)="closelicenExpModal()" >Ok</button>
+  </zui-modal-footer>
+</zui-modal>

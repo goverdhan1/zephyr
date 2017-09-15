@@ -1,0 +1,58 @@
+warning: LF will be replaced by CRLF in app/view/components/common/chart/drilldown-stacked-bar/drilldown-stacked-bar.ts.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in app/view/components/dashboard/gadgets/release_status_execution_overview/release_status_execution_overview.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in gulpfile.ts.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/app/view/components/common/chart/drilldown-stacked-bar/drilldown-stacked-bar.ts b/app/view/components/common/chart/drilldown-stacked-bar/drilldown-stacked-bar.ts[m
+[1mindex 1ba6a45..966afbe 100644[m
+[1m--- a/app/view/components/common/chart/drilldown-stacked-bar/drilldown-stacked-bar.ts[m
+[1m+++ b/app/view/components/common/chart/drilldown-stacked-bar/drilldown-stacked-bar.ts[m
+[36m@@ -39,7 +39,7 @@[m [mexport class DrillDownBarChartComponent implements OnChanges {[m
+     } else {[m
+       this.currentLevel = 1;[m
+ [m
+[31m-      this.chart = Highcharts.chart('container', {[m
+[32m+[m[32m      this.chart = Highcharts.chart(`container-${this.identifier}`, {[m
+         chart: {[m
+           type: 'bar',[m
+           events: {[m
+[1mdiff --git a/app/view/components/dashboard/gadgets/release_status_execution_overview/release_status_execution_overview.html b/app/view/components/dashboard/gadgets/release_status_execution_overview/release_status_execution_overview.html[m
+[1mindex 0febb1a..ada5918 100644[m
+[1m--- a/app/view/components/dashboard/gadgets/release_status_execution_overview/release_status_execution_overview.html[m
+[1m+++ b/app/view/components/dashboard/gadgets/release_status_execution_overview/release_status_execution_overview.html[m
+[36m@@ -85,6 +85,4 @@[m
+   >[m
+ [m
+   </zui-bar-drilldown-chart>[m
+[31m-[m
+[31m-  <div id="container"></div>[m
+ </div>[m
+[1mdiff --git a/gulpfile.ts b/gulpfile.ts[m
+[1mindex 3645680..f23e996 100644[m
+[1m--- a/gulpfile.ts[m
+[1m+++ b/gulpfile.ts[m
+[36m@@ -12,7 +12,7 @@[m [mloadTasks(PROJECT_TASKS_DIR);[m
+ gulp.task('build.dev', (done: any) =>[m
+ [m
+   runSequence(// 'clean.dev',[m
+[31m-              'tslint',[m
+[32m+[m[32m              // 'tslint',[m
+              // 'css-lint',[m
+               'build.assets.dev',[m
+               'build.html_css',[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex b4af230..a0d8509 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -139,7 +139,7 @@[m
+     "es6-module-loader": "^0.17.8",[m
+     "es6-promise": "^3.1.2",[m
+     "gulp-url-replace": "^1.0.2",[m
+[31m-    "highcharts": "^5.0.9",[m
+[32m+[m[32m    "": "^5.0.9",[m
+     "jquery": "^2.2.0",[m
+     "jstree": "^3.2.1",[m
+     "lodash": "^4.5.1",[m
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory.

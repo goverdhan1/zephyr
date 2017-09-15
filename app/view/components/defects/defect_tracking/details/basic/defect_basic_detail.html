@@ -1,0 +1,268 @@
+<div class="defect-basic-detail-view-container zui-content-layout layout4" *ngIf="defect.alternateId">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="zee-testcase-stat">
+				<paginator [currentRecord]="currentRecord" [totalRecords]="totalRecords" (recordChange)="recordChanged($event)"></paginator>
+				<div style="float: right;">
+					<button class="btn btn-secondary" (click)="showUpdateDefectModal($event)">
+						<i aria-hidden="true" class="fa fa-pencil edit-fields"></i>
+						Edit
+					</button>
+				</div>
+				<div class="defect_detail_id">
+					<a target="_blank" class="zui-link" href="{{defectSystemUrl}}/browse/{{defect.alternateId}}">{{defect.alternateId}}</a>
+				</div>
+				<!-- <paginator [currentRecord]="currentRecord" [totalRecords]="totalRecords" (recordChange)="recordChanged($event)"></paginator> -->
+				<!-- <zee-panel-content1 [releaseId]="releaseId" [isSearchView]="isSearchView" [isDetailView]="isDetailView" [showMenu]="!showMenu" [testcase]="testcaseModel" [editable]="editable" (updateTestCase)="updateTestCase()"></zee-panel-content1> -->
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="zee-details-column-list">
+				<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Summary</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="defect.shortDesc"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Summary'"
+									[field]="defect.shortDesc"
+									[selectedOption]="defect.shortDesc"
+									[editType]="'text'"
+									(onSubmit)="updateDefect($event, 'shortDesc')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+			</ul>
+		</div>
+	</div>
+	<div>
+		<div class="col-md-12 defect_detail">
+			<div id="zee-testcase-details-module-heading" [class]="'zee-module-header defect-details-header-title'">
+				<h5 [class]="'zee-module-title'">Details</h5>
+			</div>
+			<div class="row">
+				<div class="column col-md-8">
+					<ul class="zee-details-column-list">
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Project</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{defect.product}}</span>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Issue Type</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{defect.issueTypeName}}</span>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Component</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.componentLabels"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Components'"
+									[field]="selectedOptions.componentLabels"
+									[fieldOptions]="defectAllOptions.components"
+									[selectedOption]="selectedOptions.components"
+									[editType]="'multiselect'"
+									(onSubmit)="updateDefect($event, 'multiComponents')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Version</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.versionLabels"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Version'"
+									[field]="selectedOptions.versionLabels"
+									[fieldOptions]="defectAllOptions.versions"
+									[selectedOption]="selectedOptions.versions"
+									[editType]="'multiselect'"
+									(onSubmit)="updateDefect($event, 'multiVersions')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Fix Versions</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.fixVersionLabels"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Fix Versions'"
+									[field]="selectedOptions.fixVersionLabels"
+									[fieldOptions]="defectAllOptions.fixVersions"
+									[selectedOption]="selectedOptions.fixVersions"
+									[editType]="'multiselect'"
+									(onSubmit)="updateDefect($event, 'fixVersions')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Add comment</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="''"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Comment'"
+									[editType]="'textarea'"
+									(onSubmit)="updateComment($event)"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+					</ul>
+					<div class="defect-comment-wrapper">
+						<span class="comment-heading col-md-2">
+							<label><b>Comments :</b></label>
+						</span>
+						<span class="comment-content col-md-9">
+							<cd-comments [defectSystemUrl]="defectSystemUrl" [comments]="comments"></cd-comments>
+						</span>
+					</div>
+				</div>
+				<div class=" column col-md-4">
+					<ul class="zee-details-column-list">
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Status</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{selectedOptions.status}}</span>
+									<a (click)="showStatusResolutionUpdateModal($event)" [class]="'zui-link update-status-resolution-link'">Update</a>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column status-resolution-wrapper'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Resolution</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{selectedOptions.resolution}}</span>
+								</span>
+							</div>
+						</li>
+						<!-- <div [class]="'status-resolution-wrapper'">
+							<a (click)="showStatusResolutionUpdateModal($event)" [class]="'zui-link'">Update Status/Resolution</a>
+						</div> -->
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Priority</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.priority"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Enter Priority'"
+									[field]="selectedOptions.priority"
+									[fieldOptions]="defectAllOptions.priority"
+									[selectedOption]="selectedOptions.priority"
+									[editType]="'singleselect'"
+									(onSubmit)="updateDefect($event, 'priority', 'text')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Assigned To</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.assigned_to"></span>
+                  <zephyr-inline-edit
+                  [allowClear]="true"
+									[placeholder]="'Select Assignee'"
+									[field]="selectedOptions.assigned_to"
+									[fieldOptions]="defectAllOptions.assigned_to"
+									[selectedOption]="selectedOptions.assigned_to"
+									[editOptions]="getSelect2Options('user')"
+									[editType]="'singleselect'"
+									(onSubmit)="updateDefect($event, 'assigned_to', 'text')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Environment</b></strong>
+								<span [class]="'zee-column-value'">
+									<span *ngIf="false" [innerHTML]="selectedOptions.environment"></span>
+									<zephyr-inline-edit
+									[placeholder]="'Select Environment'"
+									[field]="selectedOptions.environment"
+									[fieldOptions]="defectAllOptions.environment"
+									[selectedOption]="selectedOptions.environment"
+									[editType]="'textarea'"
+									(onSubmit)="updateDefect($event, 'environment')"
+									></zephyr-inline-edit>
+								</span>
+							</div>
+						</li>
+						<li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Filed By</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{defect.created_by}}</span>
+								</span>
+							</div>
+						</li><li [class]="'zee-column'">
+							<div [class]="'zee-column-wrap'">
+								<strong [class]="'zee-column-name'"><b>Created On</b></strong>
+								<span [class]="'zee-column-value'">
+									<span>{{defect.creation_time | date}}</span>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+	</div>
+	<zui-modal [title]="'Update Status/Resolution'" [modalId]="'zee-defect-update-status-resolution'" [modalSize]="'small'">
+		<zui-modal-body>
+			<div class="defect-update-status-resolution-wrapper">
+				<div class="row">
+					<span class="col-md-3 label">Status</span>
+					<span class="col-md-7">
+						<zee-select
+							[selectId]="'defect-status-detail-view'"
+							[selectClass]="'defect-status'"
+							[items]="defectAllOptions.status"
+							[placeholder]="'Select Status'"
+							[allowClear]="true"
+							(onSelect)="saveStatus($event)"
+							(onUnselect)="unSelectStatus($event)"
+						></zee-select>
+					</span>
+				</div>
+				<div class="row">
+					<span class="col-md-3 label">Resolution</span>
+					<span class="col-md-7">
+						<zee-select
+							[selectId]="'defect-resolution-detail-view'"
+							[selectClass]="'defect-resolution'"
+							[items]="defectAllOptions.resolution"
+							[placeholder]="'Select Resolution'"
+							[allowClear]="true"
+							(onSelect)="saveResolution($event)"
+							(onUnselect)="unSelectResolution($event)"
+						></zee-select>
+					</span>
+				</div>
+			</div>
+		</zui-modal-body>
+		<zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+			<button type="button" (click)="updateStatusResolution($event)" class="zui-btn zui-btn-primary">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+		</zui-modal-footer>
+	</zui-modal>
+</div>

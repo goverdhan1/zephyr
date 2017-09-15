@@ -1,0 +1,107 @@
+<button [disabled]="!parentTreeId"
+        [title]="!parentTreeId ? i18nMessages['zephyr.eas.freeform.add.testcase.please.select.tree.node']: 'Click here to add more tests to this phase.'"
+        [class]="'pull-left wzui-operations-trigger zui-action-icons'"
+        data-toggle="modal"
+        id="zui-modal-trigger-eas-freform-add-testcase"
+        [attr.data-target]="'#zui-eas-freform-add-testcase-modal'">
+  <i [class]="'fa fa-file-text-o'" aria-hidden="true"></i>
+</button>
+
+<zui-modal (onClose)="closeModal()" [title]="'zephyr.eas.freeform.add.testcase' | i18nSelect: i18nMessages" [modalId]="'zui-eas-freform-add-testcase-modal'" [modalSize]="'large'">
+    <zui-modal-body>
+        <div class="zui-modal zui-modal-tabs-heading margin-bottom-15" (click)="onClickOfTab($event)">
+            <div [class]="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_SEARCH_TAB ? 'zui-modal-tab-bar-heading-label selected' : 'zui-modal-tab-bar-heading-label'"
+                [attr.data-target-name]="_FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_SEARCH_TAB">
+                {{'zephyr.common.search' | i18nSelect: i18nMessages}}
+            </div>
+            <div [class]="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_BROWSE_TAB ? 'zui-modal-tab-bar-heading-label selected' : 'zui-modal-tab-bar-heading-label'"
+                [attr.data-target-name]="_FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_BROWSE_TAB">
+                {{'zephyr.common.browse' | i18nSelect: i18nMessages}}
+            </div>
+            <div [class]="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_CYCLES_TAB ? 'zui-modal-tab-bar-heading-label selected' : 'zui-modal-tab-bar-heading-label'"
+                [attr.data-target-name]="_FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_CYCLES_TAB">
+                {{'zephyr.common.other.cycles' | i18nSelect: i18nMessages}}
+            </div>
+        </div>
+        <div>
+            <zui-testcase-eas-freeform-add-search *ngIf="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_SEARCH_TAB"
+                [releaseId]="releaseId"
+                [projectId]="projectId"
+                [cyclePhaseId]="cyclePhaseId"
+                [parentTreeId]="parentTreeId"
+                [includeHierarchy]="_includeHierarchy"
+            ></zui-testcase-eas-freeform-add-search>
+            <zui-testcase-eas-freeform-add-browse *ngIf="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_BROWSE_TAB"
+                [releaseId]="releaseId"
+                [projectId]="projectId"
+                [cyclePhaseId]="cyclePhaseId"
+                [parentTreeId]="parentTreeId"
+                [includeHierarchy]="_includeHierarchy"
+            ></zui-testcase-eas-freeform-add-browse>
+            <zui-testcase-eas-freeform-add-cycles *ngIf="_testcaseTab == _FREE_FORM_CONSTANTS.TESTCASE_EAS_FREEFORM_CYCLES_TAB"
+                [releaseId]="releaseId"
+                [cyclePhaseId]="cyclePhaseId"
+                [parentTreeId]="parentTreeId"
+                [includeHierarchy]="_includeHierarchy"
+            ></zui-testcase-eas-freeform-add-cycles>
+        </div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <div class="zui-heirarchy-wrapper">
+            <div class="zui-checkbox2">
+                <input type="checkbox" [checked]="_includeHierarchy" (change)="_includeHierarchy = !_includeHierarchy" name="zui-heirarchy" id="zui-heirarchy" />
+                <label [attr.for]="'zui-heirarchy'"><b>{{'zephyr.eas.freeform.add.testcase.bring.hierarchy' | i18nSelect: i18nMessages}}</b></label>
+            </div>
+        </div>
+        <button type="button" [class]="'zui-btn zui-btn-sec'" (click)="closeModal()">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button [disabled]="isFormValid()" (click)="addFreeformTestcases()" type="button" [class]="'zui-btn zui-btn-primary'">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>
+
+<zui-modal (onClose)="dismissModal()" [title]="'zephyr.eas.freeform.add.testcase.status' | i18nSelect: i18nMessages" [modalId]="'testcase-modal-confirmation'" [modalSize]="'large'">
+    <zui-modal-body>
+       <div id="testcaseAdded"><span></span></div>
+        <div id="testcaseIgnored"><span></span></div>
+        <ul id="nodeList">
+        </ul>
+        <ul id="testcaseList">
+        </ul>
+        <div id="confirmationMessage"><span></span></div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="btn btn-default" (click)="dismissModal()">
+        {{'zephyr.button.ok' | i18nSelect: i18nMessages}}
+        </button>
+    </zui-modal-footer>
+
+</zui-modal>
+
+<div class="modal fade" [attr.id]="'testcase-modal-confirmation'" data-backdrop="static" role="dialog" [attr.data-keyboard]="dataKeyboard" tabindex="-1">
+  <div class="modal-dialog medium">
+    <div class="modal-content">
+      <div class="modal-header modal-draggable-handle">
+        <div>
+          <h4 class="modal-title">{{'zephyr.eas.freeform.add.testcase.status' | i18nSelect: i18nMessages}}</h4>
+        <div class="modal-header-buttons-container">
+          <button type="button" class="close" (click)="dismissModal()" id="cross">&times;</button>
+        </div>
+         </div>
+      </div>
+      <div class="modal-body">
+        <div id="testcaseAdded"><span></span></div>
+        <div id="testcaseIgnored"><span></span></div>
+        <ul id="nodeList">
+        </ul>
+        <ul id="testcaseList">
+        </ul>
+        <div id="confirmationMessage"><span></span></div>
+      </div>
+      <div class="modal-footer modal-draggable-handle">
+        <button type="button" class="btn btn-default" (click)="dismissModal()">
+        {{'zephyr.button.ok' | i18nSelect: i18nMessages}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

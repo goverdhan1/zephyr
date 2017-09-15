@@ -1,0 +1,65 @@
+<div [class]="'zee-primary-buttons'">
+    <!-- <zee-add-create-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['add-create']"
+        [isDisabled]="!isMenuShown"
+        [releaseId]="releaseId"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [doDirtyCheck]="true"
+    ></zee-add-create-dialog> -->
+
+    <zee-create-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['create']"
+        [isDisabled]="!isMenuShown"
+        [releaseId]="releaseId"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [doDirtyCheck]="true"
+        [tooltip]="'ADD / SELECT node to create testcase'"
+    ></zee-create-dialog>
+
+  <button *ngIf="!isSearchView" type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#zee-import-modal-testcase">Import</button>
+
+  <zee-create-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['clone']"
+        [isDisabled]="!isMenuShown"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [releaseId]="releaseId"
+        [tctIds]="tctIds"
+    ></zee-create-dialog>
+    <zee-delete-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['delete']"
+        [isDisabled]="!isMenuShown"
+        [tctIds]="tctIds"
+        [testcaseIds]="testcaseIds"
+    ></zee-delete-dialog>
+    <zee-create-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['edit']"
+        [isDisabled]="!isMenuShown || treeType=='import'"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [releaseId]="releaseId"
+        [tctIds]="tctIds"
+        [testcaseIds]="testcaseIds"
+    ></zee-create-dialog>
+    <zee-export-dialog
+        [fieldOptions]="fieldOptions"
+        [tcrCatalogTreeId]="tcrCatalogTreeId"
+        [isDisabled]="!isMenuShown || treeType=='import'"
+        [testcaseIds]="testcaseIds"
+        [isSearchView]="isSearchView"
+        [releaseId]="releaseId"
+        [isAdvancedSearch]="isAdvancedSearch"
+        [searchText]="searchText"
+        [inRelease]="inRelease"
+    ></zee-export-dialog>
+    <zee-map-dialog
+        *ngIf="!isSearchView"
+        [fieldOptions]="tcrBulkOptions['map']"
+        [isDisabled]="!isMenuShown || treeType=='import'"
+        [releaseId]="releaseId"
+        [testcaseIds]="testcaseIds"
+    ></zee-map-dialog>
+</div>

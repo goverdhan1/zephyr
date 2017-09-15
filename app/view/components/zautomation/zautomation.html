@@ -1,0 +1,487 @@
+<!--<left-nav [columns]="navColumns" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav [activeItemKey]="'zautomation'"></zui-project-left-nav>
+
+<div class="main-content" role="main">
+  <div class="module-subheader clearfix">
+    <div class="left-navs">
+      <!-- <h3 id="zaheader"><b>ZE Automaion</b></h3> -->
+    </div>
+    <div class="zui-tcr-folder-view">
+
+      <section>
+        <div class="right-navs">
+          <button title="ADD-Configure-Job" class="zui-btn zui-btn-plus cursor-pointer" id="AddJob" (click)="configureAutomationJob()">+</button>
+        </div>
+      </section>
+      <notifications *ngIf="!isFileWatcher"
+        [appId]="appId"
+        (onNotificationApply)="applyNotifications($event)">
+      </notifications>
+      <notifications *ngIf="isFileWatcher"
+      [appId]="fileWatcherApp"
+      (onNotificationApply)="applyNotificationsForFileWatcher($event)">
+    </notifications>
+    </div>
+  </div>
+<div class="zui-content-layout">
+  <div class="zautomation-wrapper">
+<zui-tabs>
+    <zui-tabs-header>
+    <ul class="zui-tabs nav nav-tabs" role="tablist">
+       <li class="nav-item"><a (click)="onTabClick($event)" class="active" href="#zeAutomation" role="tab" data-toggle="tab"><span>AUTOMATION</span></a></li>
+       <li class="nav-item"><a (click)="onTabClick($event)" href="#fileWatcher" role="tab" data-toggle="tab"><span>FOLDER WATCHER</span></a></li>
+    </ul>
+    </zui-tabs-header>
+    <zui-tabs-content>
+       <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="zeAutomation">
+             <div class="clearfix"></div>
+
+                  <div class="zui-content-layout layout4">
+                    <!--<div class="right-navs pull-right zui-zauto-list-detail-view">
+                      <button [class]="'zui-btn zui-btn-tertiary'" [ngClass]="{'disabled' : this.selectdJobs.length <= 0}" style="margin-top:10px" id="zui-modal-execution" type="button" data-toggle="modal" [attr.data-target]="'#prefix-add-modal-two'" title="Execute">Execute</button>
+                      <button [class]="'zui-btn zui-btn-tertiary'" [ngClass]="{'disabled' : this.selectdJobs.length <= 0}" style="margin-top:10px" id="zui-modal-delete-four"  (click)="automationMultipleDelete()" type="button" data-toggle="modal" [attr.data-target]="'#confirmation-modal-four'" title="Delete">Delete</button>
+                    </div> *BULK EXECUTE AND BULK DELETE AUTOMATION-->
+ 
+                      <div class="zAutomation-grid grid-10-row-fix " style="margin-top: 24px">
+                        <grid
+                              [rows]=zautoGridRows
+                              [rowIds]="selectedJobIds "
+                              [gridType]="_zautoGridType "
+                              [paginationOptions]="paginationOptions "
+                              (onGridRowClick)="zautoGridRowClick($event)"
+                              (onGridPrevClick)="zautoGridPrevClick($event) "
+                              (onGridNextClick)="zautoGridNextClick($event) "
+                              (onGridPageSizeChange)="zautoGridPageSizeChange($event) "
+                              (onGridPaginateByIndex)="zautoGridPaginateByIndex($event)"
+                              (onGridActionIconClick)="automationGridIconClick($event) "
+                              (onClearSelectedTctIds)="clearSelectedJobIds()"
+                              (onGridLinkClick)="scheduleJob($event)"
+
+                        >
+                        </grid>
+                      </div>
+    <div class="zAutomation-form grid-10-row-fix" *ngIf="showConfig">
+
+      <form (confirmationDialogueData)="confirmationDialogueData($event)"></form>
+      <h4 style="padding: 10px; color: green; display:none; " id="jobScheduledMsg ">Job Scheduled</h4>
+
+
+      <h2 style="margin-bottom: 40px;">Automation Jobs Creation</h2>
+
+      <form class="clearfix" [formGroup]="addZAutomationJob"
+           (ngSubmit)="addAutomationJobFormSubmit(addZAutomationJob.value)">
+        <div class="subform padding15">
+          <div class="row zui-project-division">
+            <div class="col-xs-12">
+
+
+              <div class="clearfix">
+                <label ><b>Automation tool :</b></label>
+                <div class="field-value">
+                  <div class="zui-select">
+                    <select id="aframwork" #abc [formControl]="addZAutomationJob.controls['automationTool']"
+                    (change)="togglecreatePkg(abc, addZAutomationJob)"
+                            class="form-control" >
+                      <option value="" disabled selected hidden>Select a automation tool</option>
+                      <!--<option  selected><b>Select a automation tool</b></option>-->
+                      <!--<option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>-->
+                      <option value="Selenium" >Selenium</option>
+                      <option value="uft">UFT</option>
+                      <option value="tosca">Tricentis Tosca</option>
+                      <option value="EggPlant">Egg Plant</option>
+                      <option value="Junit">Junit</option>
+                      <option value="TestNg">TestNg</option>
+                      <option value="Cucumber">Cucumber</option>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="clearfix">
+                 <label id="scrptpth1" ><b>Script path :</b></label>
+                <!--<div class="field-value" >-->
+                   <th class="text-center">
+                <div class="zui-checkbox2">
+                  <input type="checkbox" id="chkbx"
+                         [formControl]="addZAutomationJob.controls['invokscript']"
+                         [checked]="isinvokeScript"
+                         (click)="togglePhaseSelection()">
+                  <label for="chkbx"><b>Invoke the script</b></label>
+                <!--</div>-->
+                </div>
+                   </th>
+              </div>
+
+              <div class="clearfix ">
+                <label><b></b></label>
+                <div class="field-value" id="scrptpth">
+                   <input title="Path should be <= 255 characters" [ngClass]="{disabled: !isinvokeScript}" type="text"
+                           placeholder="Enter the path of the script"
+                           id="SCRIPT" class="form-control" [formControl]="addZAutomationJob.controls['scriptpath']"/>
+                 </div>
+              </div>
+
+
+              <div class="clearfix">
+                <label><b>Result path :</b></label>
+                <div class="field-value" id="rsltpth">
+                    <input  title="Path should be <= 255 characters" type="text"
+                           placeholder="Enter the path of the result file/folder"
+                           id="ResultPath" class="form-control"
+                           [formControl]="addZAutomationJob.controls['resultPath']" />
+                </div>
+              </div>
+
+
+            <div class="clearfix">
+              <label ><b>Create Package :</b></label>
+                <!--<div class="field-value" >-->
+                <div class="zui-checkbox2">
+                  <input type="checkbox" value="" id="clrpkg"
+                  [ngClass]="{disabled: !iscreatePkg}"
+                  [formControl]="addZAutomationJob.controls['createPackage']">
+                  <label for="clrpkg" [ngClass]="{disabled: !iscreatePkg}"><b> Package structure.</b></label>
+                  <br/><label>
+                    (Create package structure is not supported by <b>Tricentis Tosca</b>,<b>UFT</b> and <b>Egg Plant</b> frameworks)
+                    </label>
+                  <!--</div>-->
+                </div>
+              </div>
+
+              <div class="clearfix">
+                <label ><b>Zbot :</b></label>
+                <div class="field-value" id="zblst">
+                  <div class="zui-select" id="Zbotagenmachine">
+                    <select  [formControl]="addZAutomationJob.controls['zBoatmachine']" class="form-control" >
+                        <option value="" disabled selected hidden>Select a Zbot</option>
+                        <option *ngFor="let agent of zbotAgents" value="{{agent.agentHostAndIp}}" title="{{agent.agentHostAndIp}}">{{agent.agentHostAndIp}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="clearfix">
+                <label ><b>Cycle Duration :</b></label>
+                <div class="field-value">
+                  <div class="zui-select">
+                    <select id="cycleduration"
+                            [formControl]="addZAutomationJob.controls['cycleDuration']" class="form-control">
+                     <!--<option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>-->
+                       <option value="" disabled selected hidden>Select the Cycle Duration</option>
+                      <option value="1" selected>1 day</option>
+                      <option value="7">7 days</option>
+                      <option value="15">15 days</option>
+                      <option value="30">30 days</option>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+<!--
+               <div class="clearfix" id="createdBy" >
+              <div class="zee-column-wrap">
+                <label><b>Created By :</b></label>
+                   <div class="field-value">
+                   <label title="{{username}}" >{{username}}</label>
+                  </div>
+                 </div>
+           </div>
+            <div class="clearfix" id="createDate" >
+             <div class="zee-column-wrap">
+                <label><b>Created Date :</b></label>
+                   <div class="field-value">
+                  <label title="{{createdDate | date: 'dd/MM/yyyy'}}" >{{createdDate | date: 'dd/MM/yyyy'}}</label>
+                   </div>
+                </div>
+            </div>
+            <div class="clearfix" id="modifyDate" >
+             <div class="zee-column-wrap">
+                <label><b>Modify Date :</b></label>
+                  <div class="field-value">
+                   <label title="{{modifiedDate | date: 'dd/MM/yyyy'}}" >{{modifiedDate | date: 'dd/MM/yyyy'}}</label>
+                   </div>
+                 </div>
+            </div>
+           <div class="clearfix" id="scheduleDate" >
+              <div class="zee-column-wrap">
+                <label><b>Schedule Date :</b></label>
+                   <div class="field-value">
+                   <label title="{{scheduleDate | date: 'dd/MM/yyyy'}}" >{{scheduleDate | date: 'dd/MM/yyyy'}}</label>
+                   </div>
+                 </div>
+            </div>-->
+
+        <div class="clearfix form-footer">
+          <button class="zui-btn zui-btn-sec" type="button"  (click)="ClearFields()">Cancel</button>
+          <button class="zui-btn zui-btn-primary" [disabled]="addZAutomationJob.invalid" id="btn" type="submit">Add</button>
+        </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!--<label>Please Ensure Script and Result Path is valid.</label>-->
+       </div>
+    </div>
+   </div>
+           <div role="tabpanel" id="tab2" class="tab-pane fade" id="fileWatcher">
+             <!--<div class="flex">-->
+             <div class="clearfix"></div>
+
+                  <div class="zui-content-layout layout4">
+
+                    <!--<div class="right-navs pull-right zui-zauto-list-detail-view">
+                      <button [class]="'zui-btn zui-btn-tertiary'" [ngClass]="{'disabled' : this.selectedFileWatchJobs.length <= 0}" id="delete-button-three" style="margin-top:10px" (click)="fileWatchMultipleDelete()" type="button" data-toggle="modal" [attr.data-target]="'#confirmation-modal-three'" title="Delete">Delete</button>
+                    </div> *BULK DELETE FILE WATCH-->
+
+                      <div class="fileWatcher-grid grid-10-row-fix " style="margin-top: 48px"> 
+                        <grid 
+                              [rows]=fileWatcherGridRows
+                              [rowIds]="selectedFileWatchIds "
+                              [secondaryIds]="selectedTestcaseIds "
+                              [gridType]="_fileWatcherType "
+                              [paginationOptions]="paginationOption"
+                              (onGridRowClick)="fileWatchGridRowClick($event)"
+                              (onGridPrevClick)="fileWatchGridPrevClick($event) "
+                              (onGridNextClick)="fileWatchGridNextClick($event) "
+                              (onGridPageSizeChange)="fileWatchGridPageSizeChange($event) "
+                              (onGridPaginateByIndex)="fileWatchGridPaginateByIndex($event)"
+                              (onGridActionIconClick)="fileWatchGridIconClick($event) "
+
+                        >
+                        </grid>
+                      </div>
+    <div class="fileWatch-form grid-10-row-fix" *ngIf="showConfig">
+        <!--<form (confirmationDialogueData)="cconfirmationMultipleFileWatchDialogueData($event)"></form>-->
+      <h2 style="margin-bottom: 40px;">Folder Watcher Job Creation</h2>
+
+      <form class="clearfix" [formGroup]="addFileWatcherJob"
+            (ngSubmit)="addFileWatchJobFormSubmit(addFileWatcherJob.value)">
+        <div class="subform padding15">
+          <div class="row zui-project-division">
+            <div class="col-xs-12">
+
+              <div class="clearfix">
+                <label ><b>Automation tool :</b></label>
+                <div class="field-value">
+                  <div class="zui-select">
+                    <select id="aframwork" #abc [formControl]="addFileWatcherJob.controls['automationTool']"
+                    (change)="togglecreatePkg(abc, addFileWatcherJob)"
+                            class="form-control" >
+                      <option value="" disabled selected hidden>Select a automation tool</option>
+                      <!--<option  selected><b>Select a automation tool</b></option>-->
+                      <!--<option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>-->
+                      <option value="Selenium" >Selenium</option>
+                      <option value="uft">UFT</option>
+                      <option value="tosca">Tricentis Tosca</option>
+                      <option value="EggPlant">Egg Plant</option>
+                      <option value="Junit">Junit</option>
+                      <option value="TestNg">TestNg</option>
+                      <option value="Cucumber">Cucumber</option>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+             <div class="clearfix">
+              <label ><b>Create Package :</b></label>
+                <!--<div class="field-value" >-->
+                <div class="zui-checkbox2">
+                  <input type="checkbox" value="" id="clrpkg"
+                  [ngClass]="{disabled: !iscreatePkg}"
+                  [formControl]="addFileWatcherJob.controls['createPackage']">
+                  <label for="clrpkg" [ngClass]="{disabled: !iscreatePkg}"><b> Package structure.</b></label>
+                  <br/><label>
+                    (Create package strucure is not supported by <b>Tricentis Tosca</b>,<b>UFT</b> and <b>Egg Plant</b> frameworks)
+                    </label>
+                  <!--</div>-->
+                </div>
+              </div>
+
+              <!-- <div class="clearfix">
+              <label ><b>Create Phase :</b></label>
+                <div class="zui-checkbox2">
+                  <input type="checkbox" value="" id="clrphs"
+                  [ngClass]="{disabled: !iscreatePhase}"
+                  [formControl]="addFileWatcherJob.controls['createPhase']">
+                </div>
+              </div> -->
+
+
+              <div class="clearfix">
+                <label><b>Sleepover Period :</b></label>
+                <div class="field-value" id="sleepoverperiod">
+                    <input  title="Sleepover Period should be in minutes" type="number" min="1"
+                           placeholder="Enter the time period in minute"
+                           id="sleepoverPeriod" class="form-control"
+                           [formControl]="addFileWatcherJob.controls['delay']" />
+                </div>
+              </div>
+
+              <div class="clearfix">
+                <label ><b>Cycle Duration :</b></label>
+                <div class="field-value">
+                  <div class="zui-select" style="max-width: 100%">
+                    <select id="cycleduration"
+                            [formControl]="addFileWatcherJob.controls['cycleDuration']" class="form-control">
+                     <!--<option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>-->
+                       <option value="" disabled selected hidden>Select the Cycle Duration</option>
+                      <option value="1" selected>1 day</option>
+                      <option value="7">7 days</option>
+                      <option value="15">15 days</option>
+                      <option value="30">30 days</option>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="clearfix">
+                <label><b>Folder path :</b></label>
+                <div class="field-value" id="folderPath">
+                    <input  title="Path should be <= 255 characters" type="text"
+                           placeholder="Enter the path of the file/folder"
+                           id="ResultPath" class="form-control"
+                           [formControl]="addFileWatcherJob.controls['folderPath']" />
+                </div>
+              </div>
+
+              <div class="clearfix">
+                <label ><b>Zbot :</b></label>
+                <div class="field-value" id="zblst">
+                  <div class="zui-select" id="Zbotagenmachine">
+                    <select  [formControl]="addFileWatcherJob.controls['zBoatmachine']" class="form-control" >
+                        <option value="" disabled selected hidden>Select a Zbot</option>
+                       <option *ngFor="let agent of zbotAgents" value="{{agent.agentHostAndIp}}" title="{{agent.agentHostAndIp}}">{{agent.agentHostAndIp}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+    <div class="clearfix form-footer">
+          <button class="zui-btn zui-btn-sec" type="button"  (click)="ClearFieldsForFileWatcher()">Cancel</button>
+          <button class="zui-btn zui-btn-primary" [disabled]="addFileWatcherJob.invalid" id="btn" type="submit">Add</button>
+        </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!--<label>Please Ensure Script and Result Path is valid.</label>-->
+       </div>
+    </div>
+   <!--</div>-->
+  </div>
+</div>
+    </zui-tabs-content>
+</zui-tabs>
+</div>
+</div>
+
+  <!--<zui-modal [modalId]="'prefix-add-modal'" [modalSize]="'medium'">-->
+    <div class="modal fade"  data-backdrop="static" tabindex='-1' id="prefix-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header" style="cursor:default">
+                <button type="button" style="font-size: 24px" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+    <h2  class="modal-title">Add Prefix To Testcase Cycle</h2>
+  </div>
+   <div class="modal-body">
+      <p id=""><b>Optionally provide a prefix for the test cycle</b></p>
+     	<div class="clearfix">
+         <label><b>Prefix :</b></label>
+        <input id="prefix-value" type="text"  placeholder="Enter the prefix" class="form-control">
+   </div>
+   </div>
+         <div class="modal-footer" style="cursor:default">
+             <button type="button" class="zui-btn zui-btn-sec" style="cursor:pointer"  (click)="dismissModal()" data-dismiss="modal">Cancel</button>
+       <!--<button type="button" class="zui-btn zui-btn-sec" style="cursor:pointer" (click)="dismissAddPrefixModal()" data-dismiss="modal">Continue</button>-->
+      <button type="button" id = "check"  style="cursor:pointer" class="zui-btn zui-btn-primary" (click)="addTestCyclePrefix()" data-dismiss="modal">Execute</button>
+        </div>
+       </div>
+	  </div>
+	</div>
+
+ <div class="modal fade"  data-backdrop="static" tabindex='-1' id="prefix-add-modal-two" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header" style="cursor:default">
+                <button type="button" style="font-size: 24px" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+    <h2  class="modal-title">Add Prefix To Testcase Cycle</h2>
+  </div>
+   <div class="modal-body">
+      <p id=""><b>Optionally provide a prefix for the test cycle</b></p>
+     	<div class="clearfix">
+         <label><b>Prefix :</b></label>
+        <input id="prefix-value" type="text"  placeholder="Enter the prefix" class="form-control">
+   </div>
+   </div>
+         <div class="modal-footer" style="cursor:default">
+             <button type="button" class="zui-btn zui-btn-sec" style="cursor:pointer"  (click)="dismissModal()" data-dismiss="modal">Cancel</button>
+       <!--<button type="button" class="zui-btn zui-btn-sec" style="cursor:pointer" (click)="dismissAddPrefixModal()" data-dismiss="modal">Continue</button>-->
+      <button type="button" id = "check"  style="cursor:pointer" class="zui-btn zui-btn-primary" (click)="scheduleMultipleJobs($event)" data-dismiss="modal">Execute</button>
+        </div>
+       </div>
+	  </div>
+	</div>
+
+  <zui-modal [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+      <p class="white-space-pre-wrap"> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+      <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+
+  <zui-modal [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal-two'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+      <p class="white-space-pre-wrap"> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+      <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCallTwo($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+
+   <zui-modal [title]="confirmationObject.heading" (click)="clearSelectedFileWatchJobIds()" [backgroundBlur]="true" [modalId]="'confirmation-modal-three'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+      <p class="white-space-pre-wrap"> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+      <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCallThree($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+
+   <zui-modal [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal-four'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+      <p class="white-space-pre-wrap"> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="zui-btn zui-btn-sec" (click)="clearSelectedJobIds()" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+      <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCallFour($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+
+
+   <zui-modal [title]="'Unsaved changes'" [modalId]="'zui-unsaved-changes-prompt'" [backgroundBlur]="true" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+     <p>{{'zephyr.import.map.changes.unsaved.confirmation' | i18nSelect: i18nMessages}}</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="btn btn-primary" (click)="continueNavigation()">{{'zephyr.button.continue' | i18nSelect: i18nMessages}}</button>
+  <button type="button" (click)="dismissNavigation()" class="btn btn-default">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+  </zui-modal>
+
+</div>

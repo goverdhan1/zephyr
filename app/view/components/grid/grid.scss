@@ -1,0 +1,400 @@
+$selected-row-color: #e7f2dd;
+$grid-header-color: #e7e7e7;
+
+.coverage {
+  cursor: pointer !important;
+}
+
+.reset-prefs:before {
+  content:url(../../assets/styles/assets/images/reset.png);
+}
+
+.defect-details-grid,
+.defect-search-grid-container {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.grid-10-row-fix {
+	.grid-container {
+		min-height: 340px;
+	}
+}
+
+.grid-container {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 150px;
+
+	.grid-wrapper {
+		max-height: none;
+	}
+}
+
+.grid-wrapper {
+  position: relative;
+  height: 100%;
+  flex: 1;
+  overflow-x: auto!important;
+  &.no-scroll {
+    overflow: hidden;
+    //overflow-y: scroll;
+  }
+  max-height: none;
+  .grid-content {
+    overflow-y: scroll;
+    padding-bottom: 0;
+
+    .flex-bar {
+      padding-right: 0!important;
+    }
+
+  }
+  &:hover {
+    overflow-x: auto;
+
+    .grid-content {
+      overflow-y: scroll;
+      padding-bottom: 0;
+
+      .flex-bar {
+        padding-right: 0!important;
+      }
+    }
+  }
+}
+
+.zui-flex-grid {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	min-width: 100%;
+	color: black;
+	display: flex;
+	flex-direction: column;
+	font-size: $zui-p-font;
+
+	.grid-header {
+		font-weight: bold;
+
+		.header-bar {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			width: 100%;
+			cursor: default;
+			@include noselect();
+
+            &.zui-grid-header-with-background {
+                background: $grid-header-color;
+
+				&::-webkit-scrollbar-track {
+				  background: $grid-header-color;
+				}
+            }
+
+			&.zui-grid-header-backgroundless {
+                color: #33393b;
+
+				.flex-header-item {
+                	border-top: 1px solid #eee;
+				}
+            }
+
+
+			.flex-header-item {
+			    display: flex;
+			    justify-content: space-between;
+                border-bottom: 1px solid #eee;
+                white-space: nowrap;
+                height: 30px;
+
+                &:focus {
+                	border: none;
+                	outline: none;
+
+                	.zui-grid-sort-icon  {
+                		visibility: visible;
+                	}
+                }
+
+                >div {
+				    display: flex;
+				    justify-content: space-between;
+                	padding: 5px 0.5em;
+                	white-space: nowrap;
+                	text-overflow: ellipsis;
+                	overflow: hidden;
+                	width: calc(100% - 5px);
+                }
+
+                &.td-show {
+                	display: flex;
+                }
+
+                &.td-hide {
+                	display: none;
+                }
+
+			    .zui-grid-sort-icon {
+			    	visibility: hidden;
+			    	margin-right: 10px;
+			    	&.fa-sort-asc {
+			    		margin-top: 6px;
+			    	}
+			    }
+			    &:hover {
+			    	.zui-grid-sort-icon {
+				    	visibility: visible;
+				    }
+			    }
+			}
+		}
+	}
+
+	.grid-content {
+		position: relative;
+		//overflow-y: hidden;
+		font-size: $zui-p-font;
+    	height: calc(100% - 30px);
+
+		.flex-bar {
+			display: flex;
+			justify-content: flex-start;
+			align-items: stretch;
+			cursor: pointer;
+
+      &.italic {
+        font-style: italic;
+      }
+
+			&.selected-row {
+				background: $selected-row-color;
+			}
+
+			.flex-data-item {
+		        border-right: 1px solid #eee;
+		        border-bottom: 1px solid #eee;
+		        padding: 0px 0.5em;
+				    min-height: 30px;
+				    font-size: $zui-p-font;
+        		align-items: top;
+
+        		&.ellipsis {
+        			white-space: nowrap;
+			        > div ,> div > div {
+			        	white-space: nowrap;
+			        	text-overflow: ellipsis;
+			        	overflow: hidden;
+			        	vertical-align: middle;
+			        }
+        		}
+
+        		&.no-ellipsis {
+        			> div > div {
+        				max-height: none;
+                word-break: break-all;
+                word-break: break-word;
+    					-ms-word-break: break-word;
+        			}
+        		}
+
+		        > div {
+		        	padding: 5px 0;
+
+		        	> div {
+		        		max-height: 20px;
+
+		        		> span {
+		        			margin: 0;
+		        		}
+		        	}
+					.grid_action_icon {
+					    display: inline-block;
+					    padding :0px 10px;
+					}
+					a.grid_action_icon {
+					    padding: 0px;
+					    color: #0275d8;
+					}
+					.delete {
+						background: url(assets/images/delete.png) center no-repeat;
+						height: 12px;
+						width: 12px;
+						background-size: contain;
+						display: inline-block;
+					  }
+
+					.add-image {
+					    content:url(assets/images/add.png) center no-repeat;
+					  }
+					.clone {
+						background: url(assets/images/clone.png) center no-repeat;
+						height: 12px;
+						width: 12px;
+						background-size: contain;
+						display: inline-block;
+					  }
+					.zui-grid-row-value-hide {
+					    visibility: hidden;
+					}
+					.zui-grid-row-link-hide {
+					    visibility: hidden;
+					}
+		        }
+
+				&.td-show {
+					display: flex;
+				}
+
+				&.td-hide {
+					display: none;
+				}
+
+        zephyr-inline-edit {
+          width: 100%;
+
+          .zephyr-editable-field-view-mode {
+            min-height: 30px;
+
+            // .zephyr-inline-field-name {
+            //   line-height: 1.4;
+            // }
+          }
+        }
+			}
+		}
+	}
+	.grid-column-chooser {
+		height: 30px;
+
+		.inline-dialog-trigger {
+			color: black!important;
+		}
+	}
+
+    .zui-checkbox2 {
+        margin: 0;
+
+        input[type=checkbox] {
+            + label {
+                width: 15px;
+                height: 15px;
+
+                &:before {
+                    width: 15px;
+                    height: 15px;
+                    border: 1px solid #e0e0e0;
+                }
+            }
+
+            &:checked + label {
+
+                &:after {
+                    left: 2px;
+                    top: 2px;
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+}
+i.column-resizer {
+	height: 30px;
+	background: #d4d4d4;
+    width: 1px;
+	cursor: e-resize;
+}
+.resizer-line {
+	position: absolute;
+	height: 100%;
+	left: -1px;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	cursor: e-resize;
+	&:hover {
+		.line-resize-header {
+			visibility: visible;
+		}
+	}
+
+	.line-resize-header {
+		height: 30px;
+		border-right: 3px solid #30acf3;
+		border-left: 3px solid #30acf3;
+    	cursor: e-resize;
+		visibility: hidden;
+	}
+	.line-resize-content {
+		width: 3px;
+		height: 100%;
+		border-right: 1px solid #30acf3;
+		visibility: hidden;
+	}
+	&.all-visible {
+		.line-resize-header {
+			visibility: visible;
+		}
+		.line-resize-content {
+			visibility: visible;
+		}
+	}
+	&.head-vsible {
+		.line-resize-header {
+			visibility: visible;
+		}
+	}
+}
+/* ============== Pagination Bar ============= */
+.grid-pagination {
+    width: 100%;
+    padding: 10px 10px;
+    background: #fff;
+    border-top: 1px solid #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+    height: 30px;
+    position: relative;
+
+    .pagination-details {
+        display: flex;
+       .page-size-selector {
+            width: 60px;
+            height: 30px;
+
+            .zui-select {
+
+                &:before {
+                    border-top: 0.35rem solid;
+                    border-right: 0.35rem solid transparent;
+                    border-left: 0.35rem solid transparent;
+                    top: calc(50% - 5px);
+                }
+                select {
+                    border: none;
+                    background-color: #f6f6f6;
+                    height: 28px;
+                    line-height: 14px;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+        }
+        .page-track {
+            display: inline-block;
+            line-height: 30px;
+            padding: 0 8px;
+        }
+    }
+
+    button {
+        border: none;
+        background: none;
+        color: #FFF;
+    }
+}

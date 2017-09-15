@@ -1,0 +1,118 @@
+<form [formGroup]="cloneCycleForm" (ngSubmit)="cloneCycleFormSubmit(cloneCycleForm.value)">
+	<zui-modal [preLaunch]="'true'" [title]="'Clone Cycle'" [modalId]="'easCloneNodeModal'" [modalSize]="'medium'">
+	    <zui-modal-body>
+				<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix">
+								<label for=""><b>Name</b> <i class="ast-red">*</i></label>
+								<input type="text" class="form-control" formControlName="name">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Build</b></label>
+								<input type="text" class="form-control" formControlName="build">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Environment</b></label>
+								<input type="text" class="form-control" formControlName="environment">
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Hide</b></label>
+								<!-- <input type="checkbox" class="form-control" style="height:34px" formControlName="status"> -->
+								<div class="zui-checkbox2">
+									<input type="checkbox" class="form-control" formControlName="status">
+									<label></label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="subform">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="clearfix mb10">
+								<!-- <input type="checkbox" (change)="modifyAllDates($event)"> -->
+								<div class="zui-checkbox2">
+									<input type="checkbox" (change)="modifyAllDates($event)">
+									<label></label>
+								</div>
+								<span>Keep the duration fixed(Move the whole cycle)</span>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>Start Date</b> <i class="ast-red">*</i></label>
+								<div class="datepicker-wrap">
+									<calendar
+									  [formkey]= "cloneCycleForm.controls['startDate']"
+									  [model]= "startDate"
+									  [minDate]="startMinDate"
+									  [maxDate]="startMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+							<div class="clearfix">
+								<label for=""><b>End Date </b><i class="ast-red">*</i></label>
+								<div class="datepicker-wrap">
+									<calendar
+										[ngClass]="{'disable': fixPeriod}"
+									  [formkey]= "cloneCycleForm.controls['endDate']"
+									  [model]= "endDate"
+									  [minDate]="endMinDate"
+									  [maxDate]="endMaxDate"
+									  (validateDate)="resetDates($event)">
+									</calendar>
+								</div>
+							</div>
+							<div class="clearfix mt10 phase-table-wrap" *ngIf="cycleInfo.cyclePhases && cycleInfo.cyclePhases.length">
+								<table class="table phase-table">
+				        	<tr>
+				        		<th>Phase</th>
+				        		<th>Start Date</th>
+				        		<th>End Date</th>
+				        	</tr>
+				        	<tbody formArrayName="phases">
+				        		<tr *ngFor="let phase of cloneCycleForm.controls.phases.controls; let i=index">
+					        		<td><span title="{{cyclePhases[i].name}}">{{cyclePhases[i].name}}</span></td>
+					        		<td>
+					        			<calendar
+					        				[ngClass]="{'disable': fixPeriod, 'error': !cyclePhases[i].startDateValid}"
+				        					[formkey]= "cloneCycleForm.controls.phases.controls[i].controls.startDate"
+													[model]= "cyclePhases[i].startDate"
+													[minDate]="cyclePhases[i].startMinDate"
+									  			[maxDate]="cyclePhases[i].startMaxDate"
+									  			(validateDate)="resetPhaseDates($event, i)">
+												</calendar>
+											</td>
+					        		<td>
+					        			<calendar
+					        				[ngClass]="{'disable': fixPeriod, 'error': !cyclePhases[i].endDateValid}"
+				        					[formkey]= "cloneCycleForm.controls.phases.controls[i].controls.endDate"
+													[model]= "cyclePhases[i].endDate"
+													[minDate]="cyclePhases[i].endMinDate"
+									  			[maxDate]="cyclePhases[i].endMaxDate"
+									  			(validateDate)="resetPhaseDates($event, i)">
+												</calendar>
+					        		</td>
+					        	</tr>
+				        	</tbody>
+				        </table>
+							</div>
+							<div class="clearfix mb10">
+								<!-- <input type="checkbox" [formControl]="cloneCycleForm.controls['copyassignments']"> -->
+								<div class="zui-checkbox2">
+									<input type="checkbox" [formControl]="cloneCycleForm.controls['copyassignments']">
+									<label></label>
+								</div>
+								<span>Also copy testcase assignments over</span>
+							</div>
+						</div>
+					</div>
+				</div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+	    	<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="!(canUpdate && cloneCycleForm.valid)">Save</button>
+
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

@@ -1,0 +1,29 @@
+  .zui-tcr-list-detail-view {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    -webkit-user-select: none;
+    display: flex;
+
+    > div {
+
+      a {
+        border: 1px solid #ccc;
+        padding: 6px 15px;
+        margin-left: -2px;
+        cursor: pointer;
+        background: #fff;
+        &.active {
+          background: #289295;
+          border-color: #289295;
+          color: #fff;
+        }
+      }
+      a:hover, a:active, a:focus {
+        text-decoration: none;
+      }
+
+
+    }
+
+  }

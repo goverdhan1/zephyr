@@ -1,0 +1,77 @@
+<!--<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'defect-tracking'"
+></zui-project-left-nav>
+<div [ngClass]="{'defect-tracking-container': true}">
+    <div class="main-content">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <!-- <h3><b>Defect Tracking</b></h3> -->
+              <!--[breadCrumbsList]=breadCrumbsList-->
+                <bread-crumb ></bread-crumb>
+            </div>
+            <div class="right-navs dt-right-top-buttons">
+                <button (click)="resetDTUserButtonClick($event)" class="btn btn-secondary zui-dt-reset-user-button">
+                    <i aria-hidden="true" class="fa fa-refresh zui-dt-reset-user-icon"></i>
+                    <span>Reset User</span>
+                </button>
+                <button (click)="fileNewButtonButtonClick($event)" class="btn btn-secondary file-new-defect-button">
+                    <i aria-hidden="true" class="zui-dt-reset-user-icon"></i>
+                    <span>Create Defect</span>
+                </button>
+            </div>
+        </div>
+        <div [ngClass]="{'zui-content-layout': true}" *ngIf="isUserUpdateRequired === 'false' || isResetDTUser">
+            <div class="row">
+                <div class="col-md-12">
+                    <zee-defect-summary></zee-defect-summary>
+                </div>
+            </div>
+            <div class="row" [ngClass]="{'row-parent' : !selectedDefect}">
+                <div class="col-md-12">
+                    <defect-tracking-search
+                        (resetSelectedDefect)="resetSelectedDefect($event)"
+                        (onCreateSubtask)="onCreateSubtask($event)"
+                        (defectBulkUpdate)="defectBulkUpdate($event)"
+                        (onFetchIssueMetaData)="onFetchIssueMetaData($event)"
+                        (onDefectRowClick)="onDefectRowClick($event)">
+                    </defect-tracking-search>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <defect-basic-detail
+                        [defectSystemUrl]="defectSystemUrl"
+                        [totalRecords]="totalRowCount"
+                        [currentRecord]="currentRecord"
+                        (onRecordChange)="recordChanged($event)"
+                        [issueMetaData]="issueMetaData"
+                        (onFetchIssueMetaData)="onFetchIssueMetaData($event)"
+                        [defect]="selectedDefect"
+                        *ngIf="selectedDefect">
+                    </defect-basic-detail>
+                    <div class="defect-advanced-detail-container">
+                        <defect-advanced-detail
+                            [parentIssueKey]="parentIssueForAdvancedView"
+                            [issueMetaData]="issueMetaData"
+                            [selectedDefect]="selectedDefect"
+                            (onDismissModal)="onAdvModalClose($event)"
+                            *ngIf="issueMetaData"
+                        ></defect-advanced-detail>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="update-defect-user-container">
+            <zee-update-defect-user (onDeleteUser)="onDeleteUser($event)" (onCloseUpdateUserModal)="onCloseUpdateUserModal($event)" [isModal]=true [isResetDTUser]="isResetDTUser" (onShowUpdateUserModal)="onShowUpdateUserModal($event)">
+            </zee-update-defect-user>
+        </div>
+        <div class="file-new-defect-modal-container">
+            <file-new-defect-modal
+                (onDefectUpdate)="onDefectUpdate($event)"
+                [releaseId]="_releaseId"
+                [parentIssue]="parentIssue">
+            </file-new-defect-modal>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div *ngIf="!testcaseId && isDetailView && !isSearchView" class="operations-bar">
+  <div [class]="'zee-primary-buttons'">
+    <zee-create-dialog
+      [fieldOptions]="tcOpOptions['create']"
+      [isDisabled]="!selectedTreeNode"
+      [releaseId]="releaseId"
+      [tcrCatalogTreeId]="selectedTreeNode"
+    ></zee-create-dialog>
+    <button type="button" class="zui-btn zui-btn-tertiary" id="zui-modal-trigger-import-testcase-detail" data-toggle="modal" data-target="#zee-import-modal-testcase">Import</button>
+    <zee-create-dialog
+      [fieldOptions]="tcOpOptions['clone']"
+      [isDisabled]="!testcaseId || !selectedTreeNode"
+      [tcrCatalogTreeId]="selectedTreeNode"
+      [tctIds]="[tcTestcaseId]"
+    ></zee-create-dialog>
+    <zee-delete-dialog
+      [fieldOptions]="tcOpOptions['delete']"
+      [isDisabled]="!testcaseId || !selectedTreeNode"
+      [tctIds]="[tcTestcaseId]"
+      [testcaseIds]="[testcaseId]"
+    ></zee-delete-dialog>
+    <!--<zee-create-dialog [fieldOptions]="tcOpOptions['edit']"></zee-create-dialog>-->
+    <zee-export-dialog
+      [fieldOptions]="tcOpOptions['export']"
+      [tcrCatalogTreeId]="selectedTreeNode"
+      [isDisabled]="!testcaseId || !selectedTreeNode"
+      [testcaseIds]="[testcaseId]"
+    ></zee-export-dialog>
+  </div>
+</div>
+
+<div class="zui-content-layout layout4" *ngIf=" testcaseId">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="zee-testcase-stat">
+
+                <div class="resize-wrapper clearfix" *ngIf="!hideDocker">
+                    <div id="testcase-fullscreen-resizer" [class]="'testcase-default-view'" (click)="collapsePanel($event)">
+                        <span class="fa fa-chevron-up" [ngClass] = "{'fa-chevron-up': !isCollaped, 'fa-chevron-down': isCollaped}"></span>
+                    </div>
+                    <span class="fa fa-pencil edit-fields" *ngIf="isEditable" (click)="emitClickEvent($event)"></span>
+                </div>
+
+                <paginator *ngIf="currentRecord" [currentRecord]="currentRecord" [totalRecords]="totalRecords" (recordChange)="recordChanged($event)"></paginator>
+
+                <zee-panel-content1 [releaseId]="releaseId" [isSearchView]="isSearchView" [isDetailView]="isDetailView" [testcase]="testcaseModel" [editable]="editable" (updateTestCase)="updateTestCase()"></zee-panel-content1>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="isTce">
+        <div class="col-md-12">
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content12 [pageSize]="paginationOptions?.size" [currentRecord]="currentRecord" (emitAttachmentCount)="attachmentsCountRefreshed($event)" [editable]="areExecDetailsEnabled"
+                  [isSearchView]="isSearchView"></zee-panel-content12>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 bg-white">
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content2 [editable]="editable" (updateTestCase)="updateTestCase()"></zee-panel-content2>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content10 [editable]="editable" (updateTestCase)="updateTestCase()" (setMandatoryField)="setMandatoryField($event)"></zee-panel-content10>
+            </div>
+            <div [class]="'zee-sub-item'" *ngIf="!isTce">
+                <zee-panel-content3 [isExpanded]="false" [isTce]="isTce" [appId]="appId" [testcaseId]="testcaseId" [editable]="editable"></zee-panel-content3>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content4 [isExpanded]="false" [testcaseId]="testcaseId" [editable]="editable"></zee-panel-content4>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content5 [isExpanded]="false" [editable]="editable && !isSearchView" [allowRequirementMapping]="allowRequirementMapping" (updateTestCase)="updateTestCase(true)"></zee-panel-content5>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content6 [isExpanded]="false" [treeType]="treeType" [testcaseId]="testcaseId" [editable]="editable" *ngIf="treeType != 'import'"></zee-panel-content6>
+            </div>
+            <div [class]="'zee-sub-item'" *ngIf="isTce">
+                <zee-panel-content11 [isExpanded]="false" (onTestStepAttachmentClicked)="onTestStepAttachmentClick($event)" [hidden]="editable"
+                [editable]="editable" [isSearchView]="isSearchView" [areExecDetailsEnabled]="areExecDetailsEnabled" [cyclePhaseId]="cyclePhaseId" [rtsId]="rtsId"></zee-panel-content11>
+                <zee-panel-content3 [hidden]="!editable" [editable]="editable"></zee-panel-content3>
+            </div>
+        </div>
+        <div class="col-md-4 bg-white">
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content7 [editable]="editable"></zee-panel-content7>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content8 [editable]="editable" (updateTestCase)="updateTestCase()"></zee-panel-content8>
+            </div>
+            <div [class]="'zee-sub-item'">
+                <zee-panel-content9 [editable]="editable" (updateTestCase)="updateTestCase()"></zee-panel-content9>
+            </div>
+            <div [class]="'zee-sub-item'" *ngIf="isTce">
+                <zee-panel-content13 [editable]="editable"></zee-panel-content13>
+            </div>
+            <div [class]="'zee-sub-item'" *ngIf="isTce">
+                <zee-panel-content14 [editable]="areExecDetailsEnabled" (updateTestCase)="updateTestCase()"></zee-panel-content14>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="isTce">
+        <zee-panel-content11 [hidden]="editable" [editable]="editable"></zee-panel-content11>
+    </div> -->
+</div>

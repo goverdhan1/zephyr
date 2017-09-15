@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="zee-testcase-details-wrapper">
+            <div class="subform bulk-edit-form clearfix">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="clearfix">
+                            <label for="release-priority">Change multiple :</label>
+                            <div class="zui-ng-select">
+                                <zee-select
+                                    [allowClear]="true"
+                                    [items]="statuses"
+                                    [placeholder]="'Select Status...'"
+                                    (onSelect)="updateStatus($event)"
+                                ></zee-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="zee-module1-wrapper {{summary.class}} row" *ngIf="summary" [ngClass]="{'content-center' : headerCentered}">
+  <div class="col-md-2">
+    <div class="text-center">
+      <span class="zee-module1-title" [style.color]="summary.color" >{{summary.count}}</span>
+      <br>
+      <span class="zee-module1-summary-name" [style.border-bottom-color]="summary.color">{{summary.name}}</span>
+      <span *ngIf="summary && summary.hoverItems" class="group-hover-trigger">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+          </span>
+      <span *ngFor="let item of summary.hoverItems; let counter = index" class="group-hover-wrapper hide">
+            <div>
+              <span style="float: left;">{{item.name}}:</span>
+              <span style="float: right;">{{item.count}}</span>
+            </div>
+          </span>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div *ngFor="let group of summary.groups" class="row">
+      <!--<span class="zee-module1-group-name">{{group.name}}</span>-->
+      <div *ngFor="let item of group.items;" class="col-md-6 row item-center">
+        <span class="zee-module1-item-name col-md-6" style="text-align: right; padding: 0px; margin-right: 10px; word-wrap: break-word;">
+          {{item.name}}
+        </span>
+        <span style="margin-right: 5px;">:</span>
+        <span [class.aui-lozenge]="item.highlightCount" class="col-md-3;">{{item.count}}</span>
+      </div>
+    </div>
+  </div>
+</div>

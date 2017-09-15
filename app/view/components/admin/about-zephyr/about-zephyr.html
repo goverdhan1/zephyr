@@ -1,0 +1,146 @@
+<div class="main-content">
+    <div class="module-subheader no-breadcrumb">
+        <div class="left-navs">
+            <h3><b>About Zephyr</b></h3>
+        </div>
+        <div class="right-navs">
+            <button class="zui-icon-btn" (click)="getAppLicense()">Refresh</button>
+        </div>
+    </div>
+    <div class="zui-content-layout zui-zephyr-section">
+        <div class="subform">
+            <!-- <h2 class="zui-panel-heading">Zephyr Base</h2> -->
+            <div class="zee-module-header">
+                <span class="zee-module-header-left">This Software is licensed to</span>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for=""><b>Company:</b></label>
+                        <span class="field-value">{{licenseData.companyName}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>License ID:</b></label>
+                        <span class="field-value">{{licenseData.licenseId}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>License Edition:</b></label>
+                        <span class="field-value">{{licenseData.licenseEdition}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>License Type:</b></label>
+                        <span class="field-value"> {{licenseData.licenseType}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>Validity:</b></label>
+                        <div class="field-value">
+                            <span><b>From: - </b>{{licenseData.activationDate}}</span>
+                            <span><b>Till: - </b>{{licenseData.expirationDate}}</span>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for=""><b>Customer ID:</b></label>
+                        <span class="field-value">{{licenseData.custId}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>Contact:</b></label>
+                        <span class="field-value">{{licenseData.email}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>Licenses:</b></label>
+                        <span class="field-value">{{licenseData.totalUsers}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b># Used:</b></label>
+                        <span class="field-value">{{licenseData.usedLicenses}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b># Available:</b></label>
+                        <span class="field-value">{{licenseData.totalUsers - licenseData.usedLicenses}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="t-center">
+                <button class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#license-modal">View License Details</button>
+                <a class="anchor-links btn-alias" href="http://www.getzephyr.com/products#add" target="_blank">Buy More License</a>
+                <a class="anchor-links btn-alias" href="https://zephyrdocs.atlassian.net/wiki/display/ZEE50/End+User+License+Agreement" target="_blank">Read Zephyr License Agreement</a>
+            </div>
+        </div>
+        <div class="subform">
+            <div class="zee-module-header"><span class="zee-module-header-left">Zephyr Version</span></div>
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for=""><b>Installed Version:</b></label>
+                        <span class="field-value">{{licenseData?.appVersion}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>Build:</b></label>
+                        <span class="field-value">{{licenseData?.application?.currentVersion?.build}}</span>
+                    </div>
+                    <!-- <div class="clearfix">
+                        <label for="">Remind of updates:</label>
+                        <div class="zui-select">
+                            <select [formControl]="form.controls['selectedFrequency']" class="form-control">
+                                <option *ngFor="let frequency of licenseData.frequencies" value="{{frequency.id}}">{{frequency?.value}}</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="clearfix">
+                        <label for=""><b>Remind of updates:</b></label>
+                        <div class="field-value about-zephyr-inline-wrapper">
+                            <zephyr-inline-edit
+                                [placeholder]="'Select Frequency'"
+                                [field]="selectedReminderPref?.value"
+                                [title]="'frequency'"
+                                [selectedOption]="selectedReminderPref?.value"
+                                [fieldOptions]="licenseData.frequencies"
+                                [editType]="'singleselect'"
+                                (onSubmit)="updateFrequecy($event, 'frequency')">
+                            </zephyr-inline-edit>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for=""><b>Available Version:</b></label>
+                        <span class="field-value">{{licenseData?.appVersion}}</span>
+                    </div>
+                    <div class="clearfix">
+                        <label for=""><b>Build:</b></label>
+                        <span class="field-value">{{licenseData?.application?.latestVersion?.build}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div class="subform" *ngIf="zAutomationExpired">
+        <div class="zee-module-header"><span class="zee-module-header-left">ZAutomation license details</span></div>
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+        <div class="clearfix">
+          <label for=""><b>Validity:</b></label>
+          <div class="field-value">
+            <span><b>From: - </b>{{licenseData.zAutomationLicenseActivationDate}}</span>
+            <span><b>Till: - </b>{{licenseData.zAutomationLicenseExpiry}}</span>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- <div class="clearfix form-footer subform">
+            <button type="submit" class="zui-btn zui-btn-primary">Save</button>
+        </div> -->
+    </div>
+</div>
+<zui-modal [title]="'Zephyr License Details'" [modalId]="'license-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        <div id="root">
+        </div>
+    </zui-modal-body>
+</zui-modal>

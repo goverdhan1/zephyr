@@ -1,0 +1,357 @@
+.custom-field-dropdown {
+  padding-bottom: 0px !important;
+  padding-top: 1px !important;
+}
+
+.tcr-tree-container {
+    width: 25%;
+    position: relative;
+    border: 1px solid #F1F1F1;
+    border-radius: 2px;
+    right: 2px;
+    padding: 20px;
+}
+.tree-view-filter-wrapper {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+#zephyr-tcr-panel {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+#zephyr-tcr-resizable {
+    position: absolute;
+    right: -10px;
+    cursor: col-resize;
+}
+
+.warn-icon {
+  position: absolute;
+  top: calc(50% - 22px);
+}
+
+#bulk-confirm-modal {
+    z-index: 1051;
+}
+.bulk-edit-confirmation-text * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.bulk-edit-confirmation-text b {
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.bulk-edit-confirmation-text span:last-child {
+    width: calc(100% - 220px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#zephyr-tcr-panel-resizable {
+    cursor: row-resize;
+    background-color: #f5f5f5;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    height: 15px;
+}
+#zephyr-tcr-resizable i {
+    position: relative;
+    left: -3px;
+    top: 50%;
+}
+#testcase-grid-panel {
+    flex: 1 1;
+}
+#testcase-grid-panel table {
+    table-layout: fixed;
+}
+.zui-tcr-search-view {
+    position: absolute;
+    right: 0;
+    top: 0px;
+    a {
+        cursor: pointer;
+    }
+    a:hover, a:active, a:focus {
+        text-decoration: none;
+    }
+}
+.zui-tcr-folder-view {
+    position: absolute;
+    right: 0px;
+    top: 13px;
+    -webkit-user-select: none;
+    display: flex;
+
+    > div {
+
+        a {
+            border: 1px solid #ccc;
+            padding: 6px 15px;
+            margin-left: -1px;
+            cursor: pointer;
+            background: #fff;
+            border-left: none;
+            &.active {
+                background: #289295;
+                color: #fff;
+            }
+        }
+        &:first-child {
+            a {
+                border-left: 1px solid #ccc;
+            }
+        }
+        a:hover, a:active, a:focus {
+            text-decoration: none;
+        }
+
+
+    }
+
+}
+
+.bulk-edit-note {
+    margin-left: 15px;
+}
+
+.bulk-edit-error {
+    display: none;
+    margin-left: 15px;
+    color: #B22222;
+}
+
+.subform.bulk-edit-form {
+    label {
+        width: 30%;
+    }
+
+    .zee-column-wrap {
+        padding: 0;
+    }
+
+    .estTime-input-wrapper {
+        margin-left: 0;
+
+        input[type=number] {
+            width: 1.3rem
+        }
+    }
+
+    .zee-details-two-column-list {
+        .zee-column {
+            padding: 0 15px;
+        }
+    }
+
+    .custom-field-name {
+
+        padding-right: 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 45%;
+
+        & + span .form-control {
+            width: 80%;
+        }
+    }
+
+}
+.zui-tcr-view-disabled {
+    pointer-events: none;
+}
+
+.tcr-detail-view {
+    zui-tcr-bulk-operations {
+        display: none;
+    }
+    .row.upper-split > div.resizable-flex-wrapper {
+        flex-direction: row!important;
+        height: calc(100vh - 144px);
+        overflow: hidden;
+
+        > .zui-flex-h-resizable {
+            min-width: none!important;
+            width: 40px;
+        }
+        > .zui-s-handle, > .zui-w-handle {
+            display: none!important;
+        }
+        .zui-flex-v-resizable {
+            flex-basis: 301px;
+            min-width: 260px;
+            max-height: none!important;
+
+            .tcr-grid-table-main .grid-wrapper {
+                overflow-x: hidden;
+            }
+
+            > .zui-content-layout {
+                > .row.upper-split {
+                    .zui-flex-h-fixed {
+                        min-height: 400px;
+                        height: calc(100vh - 140px);
+
+                        .testcase-grid {
+                            height: 400px;
+                        }
+                    }
+                }
+            }
+        }
+        .zui-flex-v-fixed {
+            overflow-y: scroll;
+        }
+        #tcr-grid {
+            .grid-pagination {
+                .pagination-details {
+                    .page-size-selector, .zee-pagination-count-show {
+                        display: none;
+                    }
+                }
+                .zui-pagination {
+                    .prev-page + span {
+                        display: none;
+                    }
+                }
+            }
+        }
+        zui-tcr-tree > div {
+            width: 0;
+            z-index: 2;
+            position: absolute;
+            height: 100% !important;
+            transition: width 0.2s;
+            .fa-filter {
+                display: none;
+            }
+        }
+        bread-crumb {
+            display: none;
+        }
+        .zui-flex-v-fixed, #tcr-grid {
+            margin-top: 47px;
+            margin-left: 0;
+            padding: 0;
+        }
+        #tcr-grid {
+            .column-resizer, .grid-column-chooser, .resizer-line {
+                display: none !important;
+            }
+            .line-resize-header, .line-resize-content {
+                visibility: hidden !important;
+            }
+            .grid-content .zee-column-chooser-row-placeholder{
+                display: none;
+            }
+        }
+        .zui-tcr-list-detail-view {
+            top: 20px;
+        }
+        .primary-buttons-folder-view.primary-buttons-view {
+            width: calc(100% - 40px);
+            position: absolute;
+            height: 50px;
+            margin-left: 40px;
+            margin-top: -5px;
+            background: #FFF;
+            padding-left: 5px;
+            > zui-tcr-bulk-operations {
+                display: block;
+                button[data-toggle="modal"] {
+                    pointer-events: none;
+                    cursor: not-allowed;
+                    opacity: .65;
+                }
+            }
+        }
+        #testcase-fullscreen-resizer {
+            display: none;
+        }
+        #zephyr-testcase-panel {
+            .zee-primary-buttons {
+                margin-top: -5px;
+            }
+        }
+    }
+}
+.tcr-search-view.tcr-detail-view {
+    .zui-flex-v-fixed, #tcr-grid {
+        margin-top: 2px !important;
+    }
+}
+.zephyr-search-detail-view > zee-list-detail-view {
+    width: 100%;
+    height: 0;
+}
+.zephyr-search-detail-view .zui-tcr-list-detail-view {
+    position: relative;
+}
+.tcr-detail-view.tcr-tree-expanded {
+    zui-tcr-tree > div {
+        width: 260px !important;
+        z-index: 2;
+        height: 100%;
+        position: absolute;
+        transition: width 0.2s;
+        .tree-view {
+            height: 100%;
+        }
+    }
+}
+// double selector to over ride tree css
+.tree-tcr .jstree-default ul li.blur-overlay-partial, .blur-overlay {
+    position: relative;
+}
+.tree-tcr .jstree-default ul li.blur-overlay-partial:before, .blur-overlay:before {
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    position: absolute;
+    background: #000;
+    z-index: 99;
+    content: "";
+}
+.tree-tcr .jstree-default ul li.blur-overlay-partial:before {
+    z-index: 0;
+}
+// .tcr-detail-view {
+//     overflow-y: hidden !important;
+// }
+
+
+.hide-buttons {
+  height: 0px;
+  width: 0px;
+}
+
+.hide-buttons .zui-btn-tertiary {
+  display: none;
+}
+
+.create-testcase-form {
+    .zee-testcase-steps-wrapper {
+        .save-wrapper {
+            display: none;
+        }
+    }
+}
+.tcr-detail-view{
+.zee-module-content{
+    .zee-details-two-column-list
+       {
+           .custom-field-name{
+               span{
+       max-width: 85px !important;
+        display: inline-block;
+               }
+             }
+       }
+}
+}

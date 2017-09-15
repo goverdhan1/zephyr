@@ -1,0 +1,27 @@
+
+.zee-column-name {
+	margin-right: 10px;
+	.custom-field-name > span:first-child {
+		max-width: 100px;
+		position: relative;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+    }
+	.custom-field-name * {
+		display: inline-block;
+		float: left;
+    }
+}
+
+.custom-field-value .zui-inline-edit .zephyr-editable-field-view-mode .zephyr-inline-field-name {
+	padding: 5px;
+}
+
+// .zui-tcr-list-detail-view .custom-field-name{
+// 		max-width: 88px !important;	
+// }
+
+// .tcr-list-view .custom-field-name{
+// 	max-width: 200px;
+// }

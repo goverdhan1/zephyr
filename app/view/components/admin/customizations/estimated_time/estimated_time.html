@@ -1,0 +1,26 @@
+<zui-modal (onBeforeClose)="cancelEstTimeConfirmation($event)" [title]="'Default Estimated Time Editor'" [modalId]="'estimated-time-modal'" [modalSize]="'medium'">
+	<zui-modal-body>
+	    <p> Provide default value for estimated time </p>
+	    <div title="valid values are from 00.00.01 to 99.23.59(DD:HH:MM)">
+				<label for="estTime"><b>Default Estimated Time</b> </label>
+				<!-- <span class="estTime-input-wrapper">
+					<input type="number"  [(ngModel)]="estTimeDay" min="00" max="99" value="00"/>
+					<span>:</span>
+					<input type="number"  [(ngModel)]="estTimeHour" min="00" max="23" value="00"/>
+					<span>:</span>
+					<input type="number"  [(ngModel)]="estTimeMin" min="00" max="59" value="00">
+				</span> -->
+				<zui-estimated-time
+		            [value]= "estTime"
+		            [editMode]=true
+		            (onDurationUpdate)="onDurationUpdate($event)"
+		            (onValidate)="onDurationUpdate($event)">
+		        </zui-estimated-time>
+			</div>
+			<p>For this change to be effective, users must login again</p>
+	</zui-modal-body>
+	<zui-modal-footer>
+	    <button type="button" class="zui-btn zui-btn-sec" (click) = "cancelEstTimeConfirmation($event)">Cancel</button>
+	    <button type="button" class="zui-btn zui-btn-primary" [disabled]="!isFormDirty" (click) = "saveEstTimeConfirmation()"  >Save</button>
+	</zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,86 @@
+<form #zbot="ngForm">
+	<div class="grouped-content">
+	    <label class="f600">Execute :</label>
+	    <div class="mul-exec"
+	    	[ngClass]="{'zbot-disable': isZbotEnabled}" (click)="executeMultiple()">
+	        <span class="defect_link grid_link_select_click">E </span>
+	    </div>
+	</div>
+
+	<zui-modal [title]="'Execute Automation Scripts'" [modalId]="'execute-multiple-modal'" [modalSize]="'medium'"  (onClose)="dismissModal()">
+	    <zui-modal-body>
+		    <div class="row">
+		        <div class="col-md-12">
+		        	<grid
+		                [rows]=tceZbotGridRows
+		                [gridType]="_tceZbotGridType">
+		            </grid>
+
+		            <div class="subform zbot-form clearfix">
+		                    <div class="row">
+		                        <div class="col-md-12 col-xs-12">
+		                            <div class="clearfix">
+		                                <label for="zbot-parameter">ZBot Parameter :</label>
+		                                <input id="zbot-parameter" class="form-control" name="parameter" [(ngModel)]="zbot['parameter']" type="text" />
+		                            </div>
+		                            <div class="clearfix" >
+		                                <label for="zbot-agent">Select ZBot :</label>
+		                                <div class="zui-select select-">
+		                                    <select class="form-control" id="zbot-agent" name="zbot-agent"
+		                                    	#agen (change)="setCurrentAgentToken(agen.value)">
+		                                        <option *ngFor="let item of hostsAndIps" value="{{item}}" selected>{{item}}</option>
+		                                    </select>
+		                                </div>
+		                            </div>
+		                            <div class="clearfix flexbox-row">
+		                                <div class="zui-checkbox2">
+		                                    <input id="zbot-execution" class="form-control" name="execution" [(ngModel)]="zbot['execution']" type="checkbox"
+		                                    />
+                                      <label></label>
+		                                </div>
+		                                <label for="zbot-execution">On starting execution, change status to :</label>
+		                                 <div class="clearfix">
+			                                <div class="zui-select">
+			                                    <select class="form-control select-zbot" name="status"
+			                                    	#stat (change)="setStatus(stat.value)">
+			                                        <option *ngFor="let status of statuses" value="{{status.id}}"
+			                                        [selected]="status.text == 'WIP'">{{status.text}}</option>
+			                                    </select>
+			                                </div>
+			                            </div>
+		                            </div>
+		                            <div class="clearfix flexbox-row">
+		                                <div class="zui-checkbox2">
+		                                    <input id="zbot-parallelscripts" class="form-control" name="parallelScripts" [(ngModel)]="zbot['parallelScripts']" type="checkbox" />
+		                                    <label></label>
+		                                </div>
+		                                <label for="zbot-parallelscripts">Execute test script(s) in parallel</label>
+		                            </div>
+		                        </div>
+		                    </div><br>
+		                    <div class="clearfix form-footer">
+		                    </div>
+		                <div class="clearfix">
+		                    <label for="zbot-rt-status">ZBot Real-time status :</label>
+		                    <div class="rt-status clearfix" id="zbotRealTimeStatus"></div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+		    <button type="button" class="zui-btn zui-btn-sec" (click)="cancelZbotForm()">Cancel</button>
+		    <button type="submit" class="zui-btn zui-btn-primary" [disabled]="!zbot.form.valid" (click)="onZbotFormSubmit(zbot.form.value)">Run</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>
+
+<zui-modal [hideCloseIcon]="true" [title]="'Validation Error'" [modalId]="'zbot-confirm-modal'"
+	[modalSize]="'extrasmall'" >
+    <zui-modal-body>
+        <div>Please select a Zbot</div><br/>
+    </zui-modal-body>
+    <zui-modal-footer>
+	    <button type="button" class="zui-btn zui-btn-primary" (click)="closeZbotValidationModal()">OK</button>
+    </zui-modal-footer>
+</zui-modal>

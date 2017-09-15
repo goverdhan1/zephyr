@@ -1,0 +1,108 @@
+<header>
+  <div class="header-wrap">
+
+        <a href="" class="">
+            <img id="responsive-menu-button" src="html5/assets/images/menuIcon.png" alt="">
+            <!-- <img src="html5/assets/images/logo.png" alt=""> -->
+        </a>
+        <div class="company-system-name">
+            <p title="{{companyName}}"> {{companyName}}   </p>
+            <p title="{{systemName}}"> {{systemName}} </p>
+        </div>
+        <ul class="misc-settings-wrapper">
+            <li *ngIf="username" [class]="'zui-user-name'">hi <span [title]="username" class="bold">{{username}}</span></li>
+             <li class="dropdown">
+                <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                </button> -->
+                <span class="dropdown-toggle" id="dropdownMenu5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="misc-image user-image"></i>
+                    <i class="fa fa-sort-desc"></i>
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu5">
+                    <!--<a class="dropdown-item" href="#">Profile</a>-->
+                    <a class="dropdown-item" (click)="changePassword($event)">Change Password</a>
+                    <a class="dropdown-item" (click)="onLogout($event)">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <!-- &lt;!&ndash; <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button> &ndash;&gt; -->
+                <span class="dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="misc-image question-image"></i>
+                    <i class="fa fa-sort-desc"></i>
+                </span>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" target="_blank" href="https://zephyrdocs.atlassian.net/wiki/display/ZEE50/Welcome+to+Zephyr">Online Help</a>
+                    <a class="dropdown-item" target="_blank" href="https://support.getzephyr.com/hc/en-us">Zephyr Support</a>
+                    <a class="dropdown-item" [routerLink]="['/admin/aboutZephyr']">About Zephyr</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="top-select-wrapper">
+             <li *ngIf="!isLogin && !isDashboardUser" class="dropdown">
+                <span class="dropdown-toggle" type="" id="projectDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Projects</span>
+                    <i class="fa fa-sort-desc"></i>
+                </span>
+                <div class="dropdown-menu" aria-labelledby="projectDropDown">
+                    <a class="dropdown-item"
+                        *ngFor="let project of lastFiveVisitedProjects"
+                        [routerLink]="['./project', project.id]"
+                        (click)="onProjectChange(project)"
+                        title="{{project.name}}">
+                            <span *ngIf="project.name.length > 50" [innerHTML]="addHTMLSpace(project.name.substring(0, 50)) + '...'"></span>
+                            <span *ngIf="project.name.length < 50" [innerHTML]="addHTMLSpace(project.name)"></span>
+                    </a>
+                    <div class="zui-ng-select project-release-select dropdown-item zui-indrop" *ngIf="remainingProjects && remainingProjects.length">
+                        <zee-select
+                            [selectClass]="'rem-proj-list'"
+                            [allowClear]="true"
+                            [items]="remainingProjects"
+                            [placeholder]="'Go to Project'"
+                            (onSelect)="goToProject($event)"
+                            (onToggle)="onToggle($event)"
+                        ></zee-select>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+
+                <span class="dropdown-toggle" type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboards
+                    <i class="fa fa-sort-desc"></i>
+                </span>
+                <!-- removing the data-toggle attribute for now - add it to enable this - right now it is a coming soon feature -->
+                <!--<span class="dropdown-toggle coming-soon" type="" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
+                Dashboards
+                </span>-->
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" [routerLink]="['./dashboards']">Manage Dashboards</a>
+
+                </div>
+            </li>
+             <li class="link" *ngIf="departmentIds.length && !invalidDTS && adminAccessible" style="cursor:pointer" id="adminlink" (click)="navigateToAdmin()">
+                    Administration
+            </li>
+        </ul>
+
+  </div>
+<change-password [changePasswordObject]="changePasswordObject" (changePasswordUpdate)="changePasswordUpdateClicked($event)"> </change-password>
+</header>
+<zui-modal [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal-topnav'" [modalSize]="'extrasmall'">
+    <zui-modal-body>
+        <p> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">{{confirmationObject.cancelButtonText}}</button>
+        <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+</zui-modal>
+<zui-modal [title]="'zephyr.admin.defect.noaccess' | i18nSelect: i18nMessages" [modalId]="'zee-admin-defect-noaccess'" [modalSize]="'small'">
+    <zui-modal-body>
+        <label>{{'zephyr.admin.defect.noaccess.msg' | i18nSelect: i18nMessages}}</label>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">{{'zephyr.button.ok' | i18nSelect: i18nMessages}}</button>
+    </zui-modal-footer>
+</zui-modal>

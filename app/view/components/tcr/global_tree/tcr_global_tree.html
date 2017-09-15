@@ -1,0 +1,96 @@
+<zui-modal [title]="'Copy from Project Releases'" [modalId]="'zee-global-tcr-tree-modal'" [modalSize]="'extralarge'">
+    <zui-modal-body>
+        <div class="row" *ngIf="isModalShown">
+            <div class="local-tc">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="pull-left">{{currProject}}</h3>
+                        <i (click)="toggleDock($event)" class="pull-right fa fa-chevron-right cursor-pointer dock"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <tree-view
+                            [treeData]="localTreeData"
+                            [treeContext]="'-localTree'"
+                            [showContextMenu]="false"
+                            [removeFromDefault]="['search', 'contextmenu']"
+                            [showFilter]="false"
+                            [treeClass]="' local-tcr'"
+                            [dragCb]="localDragCb"
+                            [checkCb]="localCheck"
+                            [openID]="openId"
+                            [selectID]="selectId"
+                            [dropExternal]="dropExternal"
+                            [selectOnRedraw]="true"
+                            [showDocker]="true"
+                            (onTreeNodeClick)="onLocalTreeClick($event)"
+                            (onCopyNode)="onCopyNode($event)"
+                            (onTreeNodeDrag)="onDrag($event)"
+                            (onTreeNodeDrop)="onDrop($event)"
+                            (onDragEnd)="onTreeDrop($event)"
+                            (treeInstance)="localTreeInstance($event)"
+                        ></tree-view>
+                    </div>
+                    <!-- <div class="zui-w-handle">
+                        <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                    </div> -->
+                    <div class="zui-flex-h-fixed">
+                        <grid #local class="tcr-grid-table js-local-grid close"
+                            [rows]=localGridRows
+                            [gridType]="_localGridType"
+                            [paginationOptions]="localPaginationOptions"
+                            (onGridPrevClick)="localGridPrevClick($event)"
+                            (onGridNextClick)="localGridNextClick($event)"
+                            (onGridPageSizeChange)="localGridPageSizeChange($event)"
+                            (onGridPaginateByIndex)="localGridPaginateByIndex($event)"
+                            (onDrop)="onLocalGridDrop($event)"
+                        ></grid>
+                    </div>
+                </div>
+            </div>
+            <div class="global-tc">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="pull-left"></h3>
+                        <i (click)="toggleGlobalDock($event)" class="pull-right fa fa-chevron-left cursor-pointer dock"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <tree-view
+                            [treeData]="globalTreeData"
+                            [treeContext]="'-globalTree'"
+                            [showContextMenu]="false"
+                            [removeFromDefault]="['search', 'contextmenu']"
+                            [showFilter]="false"
+                            [treeClass]="' global-tcr no-child js-global-wrapper'"
+                            [checkCb]="globalCheck"
+                            [dragCb]="globalDragCb"
+                            [alwaysCopy]="true"
+                            [showDocker]="true"
+                            (treeInstance)="globalTreeInstance($event)"
+                            (onTreeNodeClick)="onGlobalTreeClick($event)"
+                        ></tree-view>
+                    </div>
+                    <!-- <div class="zui-w-handle">
+                        <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                    </div> -->
+                    <div class="zui-flex-h-fixed">
+                        <grid #global class="tcr-grid-table js-global-wrapper js-global-grid"
+                            [rows]=globalGridRows
+                            [gridType]="_globalGridType"
+                            [paginationOptions]="globalPaginationOptions"
+                            (onGridPrevClick)="globalGridPrevClick($event)"
+                            (onGridNextClick)="globalGridNextClick($event)"
+                            (onGridPageSizeChange)="globalGridPageSizeChange($event)"
+                            (onGridPaginateByIndex)="globalGridPaginateByIndex($event)"
+                            (onDragStart)="onDrag($event)"
+                            (onDragEnd)="onDrop($event)"
+                        ></grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </zui-modal-body>
+</zui-modal>

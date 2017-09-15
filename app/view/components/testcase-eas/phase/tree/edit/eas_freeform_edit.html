@@ -1,0 +1,22 @@
+<form [formGroup]="editNodeForm" (ngSubmit)="editFreeformNode(editNodeForm.value)" >
+	<zui-modal [modalId]="'easEditNodeModal'" [modalSize]="'small'">
+	    <zui-modal-body>
+	    	<div class="row">
+	    		<div class="col-md-6 col-xs-12">
+	 	        	<div class="clearfix" >
+	 	        		<label for="node-name">Name</label>
+	 	        		<input id="node-name" class="form-control" type="text" [formControl]="editNodeForm.controls['name']" />
+	 	        	</div >
+	 	        	<div class="clearfix">
+	 	        		<label for="node-description">Description</label>
+	 	        		<input id="node-description"class="form-control"  [formControl]="editNodeForm.controls['description']" type="text" />
+	 	        	</div>
+	 	        </div>
+	        </div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormInValid(editNodeForm)">Save</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

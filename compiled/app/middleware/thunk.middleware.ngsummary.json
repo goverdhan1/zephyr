@@ -1,0 +1,1 @@
+{"summaries":[{"symbol":{"__symbol":0},"metadata":{"__symbolic":"function","parameters":["dispatch","getState"],"value":{"__symbolic":"error","message":"Function call not supported","line":1,"character":9}}}],"symbols":[{"__symbol":0,"name":"thunkMiddleware","filePath":"/Users/goverdhan.koyalkar/Goverdhan/fayre/app/middleware/thunk.middleware.d.ts"}]}

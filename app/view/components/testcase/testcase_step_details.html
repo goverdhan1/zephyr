@@ -1,0 +1,20 @@
+<div [class]="'zee-testcase-steps-wrapper'">
+    <zee-expander (onPanelToggle)="onPanelToggle($event)" id="zee-testcase-step-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Step Details</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+            <zephyr-inline-rows-edit
+                [fieldOptions]="stepOptions"
+                [fields]="teststep.steps"
+                [editable]="editable"
+                (onEditSubmit)="saveUpdatedSteps($event)"
+                (onBulkSubmit)="saveBulkData($event)"
+                (onCreateSubmit)="createSteps($event)"
+                (onDeleteSubmit)="deleteStep($event)"
+                (onDirtyCheck)="onDirtyCheck($event)"
+                (onSendFieldsData)="sendFieldsData($event)"
+            ></zephyr-inline-rows-edit>
+        </div>
+    </zee-expander>
+</div>

@@ -1,0 +1,18 @@
+<ul class="pager">
+  <li class="showing">{{currentRecord}} of {{totalRecords}}</li>
+
+  <li class="previous" [ngClass]="{'disable-icon': currentRecord === 1}">
+    <a>
+      <span>
+        <span (click)="goToPrevRecord()"><span class="fa fa-caret-up"></span></span>
+      </span>
+    </a>
+  </li>
+  <li class="next"  [ngClass]="{'disable-icon': currentRecord === totalRecords}">
+    <a>
+      <span>
+        <span (click)="goToNextRecord()"><span class="fa fa-caret-down"></span></span>
+      </span>
+    </a>
+  </li>
+</ul>

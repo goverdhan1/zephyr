@@ -1,0 +1,107 @@
+.zui-release-summary-wrapper {
+    border-right: 1px solid #eee;
+    flex: 1;
+}
+
+bar-chart.zee-release-report {
+    top: 0px;
+    position: absolute;
+}
+
+.zee-release-report-rate-label {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+
+.release-daily-execution > .zee-release-report {
+    position: relative;
+}
+.margin-dfl {
+    margin-bottom: 15px;
+}
+.zee-content-title {
+    color: #51B2B6;
+    font-size: 23px;
+    font-weight: 600;
+}
+.zee-content-subtitle {
+    margin-bottom: 15px;
+}
+.zui-release-group {
+    flex: 1;
+    margin-bottom: 10px;
+    line-height: 20px;
+    display: flex;
+    flex:1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.zee-release-tile {
+    font-size: 22px;
+}
+
+.zui-ng-select {
+    width: 200px;
+    .form-control {
+        float: none;
+        width: 100%!important;
+        padding: 0.375rem 0.75rem;
+        height: 34px;
+        .text-muted {
+            line-height: 22px;
+        }
+    }
+    .ui-select-bootstrap > .ui-select-choices {
+        margin-top: -6px;
+    }
+}
+
+testcase-eas-cycle {
+  &.isEmbedded {
+    height: 100%;
+    display: block;
+
+    .testcase-eas-wrapper {
+      height: 100%;
+      .zui-content-layout {
+        overflow: hidden;
+      }
+        .absolute-eas-top {
+            top: 0;
+            height: 100%;
+        }
+        .unified-scroll.planning-wrap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+
+            .test-eas-cycle {
+                .cycle {
+                    strong {
+                        cursor: default;
+                    }
+                }
+                
+            }
+            .cycle-phase-wrapper {
+                .cycle-phases > div {
+                    cursor: default;
+                    
+                    strong {
+                        cursor: default;
+                    }
+                }
+            }
+            > div {
+                overflow-y: scroll!important;
+            }
+            .gantt-chart-wrapper {
+                overflow: visible;
+            }
+        }
+    }
+  }
+}

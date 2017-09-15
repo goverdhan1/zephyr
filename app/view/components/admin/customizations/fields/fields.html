@@ -1,0 +1,154 @@
+
+<zui-modal (onBeforeClose)="closeFieldsModalConfirmation($event)" [title]="'Customize Fields'" [modalId]="'fields-modal'" [modalSize]="'medium'">
+	<zui-modal-body>
+		<div class="enable-lock-zephyr-access clearfix">
+			<p class="pull-left">To add/delete/modify custom fields, ask all users to logout. Then lock access to Zephyr and continue</p>
+			<button type="button" [attr.id]="lockStatusId" (click)="confirmationForLockAccess($event)" class="btn btn-tertiary pull-right enable-lock-zephyr-access-button" >{{lockStatusText}}</button>
+		</div>
+		<div class=" clearfix">
+		<span class="pull-right add-white-image cursor-pointer" *ngIf="isZephyrAccessLocked" title="Add New Field" (click)="addFieldConfirmation()"></span>
+		</div>
+		<div class="fields-grid clearfix">
+		<grid
+		    [rows]="fieldsGrid.rows"
+		    [paginationOptions]="fieldsGrid.paginationOptions"
+			[gridType]="fieldsGridType"
+		    (onGridActionIconClick)="fieldsGridActionClick($event)"
+		    (onGridRowClick) = "fieldsGridRowClicked($event)">
+		</grid>
+		</div>
+		<div class="details-field subform" [hidden]="!isViewFieldDetails">
+			<form [formGroup]="fieldsForm" (ngSubmit)="onFieldFormSubmit(fieldsForm.value)" class="field-add-edit-form" [ngClass]="{'disabled' : !isZephyrAccessLocked }">
+		    	<div class="row">
+		        	<div class="col-md-6 col-xs-12">
+		        		<div class="clearfix" [hidden]="!isFieldEdit">
+		        			<label>Field id</label>
+		        			<input id="fieldName" class="form-control disabled" type="text" formControlName="fieldName" name="fieldName" />
+			        	</div>
+
+		        		<div class="clearfix">
+		        			<label for="displayName">Field Name <span class="input-required">*</span> </label>
+		        			<input (keyup)="onKeyupFieldName()" class="form-control" id="displayName" type="text"  formControlName="displayName"  name="displayName" />
+		        		</div>
+
+		        		<div class="clearfix">
+		        			<label for="fieldDescription">Description</label>
+		        			<input  class="form-control" id = "description" type="text" name="description" formControlName="description">
+		        		</div>
+
+		    		 	<div class="clearfix">
+		    		 		<label for="dataType">DataType</label>
+							<div class="zui-select">
+								<select class="form-control" id="dataType" (change)="onChangeMetaDataType($event.target.value)" formControlName="fieldTypeMetadata" [ngClass]="{'disabled' : isFieldEdit }">
+									<option *ngFor="let metadata of filedsMetadata;" [hidden]="!metadata.visible" [attr.value]="metadata.id">{{metadata.dataType}}</option>
+								</select>
+		  					</div>
+		    		 	</div>
+						<div class="clearfix project-list-custom" [ngClass]="{'disabled': isUpdateField()}">
+							<div class="col-xs-12 pull-left">
+								<strong for="projects">Project Association</strong><span class="input-required">*</span>
+							</div>
+							<div class="col-md-7 col-xs-12 pull-left">
+								<zee-select
+									[selectId]="selectId"
+									[items]="userProjects"
+									[active]="selectedProjects"
+									[placeholder]="'Select Project'"
+								></zee-select>
+							</div>
+							<div class="col-md-5 col-xs-12 pull-left">
+								<div class="zui-checkbox2">
+									<input #proj (change)="allProjChanged(proj.checked)" id="projectCheck" type="checkbox" name="projectCheck" formControlName="projectCheck">
+                  <label disabled="disabled" *ngIf="!isZephyrAccessLocked" for="projectCheck">All Projects</label>
+                  <label *ngIf="isZephyrAccessLocked" for="projectCheck">All Projects</label>
+								</div>
+							</div>
+						</div>
+		    		 	<div [ngClass]="{'disabled' : isDateSelected }">
+		        		 	<div class="clearfix">
+		        		 		<div class="zui-checkbox2">
+			        		 		<input  #cb (change)="searchablCheckboxChange(cb.checked)" id="searchableCheckbox" type="checkbox" name="searchable" formControlName="searchable">
+                      <label disabled="disabled" *ngIf="!isZephyrAccessLocked || isDateSelected" for="searchableCheckbox">Searchable?</label>
+                      <label *ngIf="isZephyrAccessLocked && !isDateSelected" for="searchableCheckbox">Searchable?</label>
+			        		 	</div>
+		        		 	</div>
+
+		        		 	<div class="clearfix">
+		        		 		<label for="searchFieldName" class="text-center">Search Field Name</label>
+		        		 		<input (keyup)="onKeySearchFieldName($event)" [ngClass]="{'input-error' :isSearchableChecked && !isSearchFieldValueAccepted ,'disabled' : !isSearchableChecked, 'error': !asyncValidation  }" class="form-control" id="searchFieldName" type="text" name="searchFieldName" formControlName="searchFieldName"/>
+		        		 	</div>
+
+		        		</div>
+
+		    		 	<div class="clearfix fields-checkboxes-layout">
+		    		 		<div class="zui-checkbox2">
+		    		 			<input id = "mandotryCheckbox" type="checkbox" formControlName="mandatory" name="mandatory">
+                  <label disabled="disabled" *ngIf="!isZephyrAccessLocked" for="mandotryCheckbox">Mandatory?</label>
+                  <label *ngIf="isZephyrAccessLocked" for="mandotryCheckbox">Mandatory?</label>
+		    		 		</div>
+		    		 		<div class="zui-checkbox2">
+		    		 			<input id = "importableCheckbox" type="checkbox" formControlName="importable" name="importable">
+                  <label disabled="disabled" *ngIf="!isZephyrAccessLocked" for="importableCheckbox">Importable?</label>
+                  <label *ngIf="isZephyrAccessLocked" for="importableCheckbox">Importable?</label>
+		    		 		</div>
+		    		 		<div class="zui-checkbox2">
+		    		 			<input id = "exportableCheckbox" type="checkbox" formControlName="exportable" name="exportable">
+                  <label disabled="disabled" *ngIf="!isZephyrAccessLocked" for="exportableCheckbox">Exportable?</label>
+                  <label *ngIf="isZephyrAccessLocked" for="exportableCheckbox">Exportable?</label>
+		    		 		</div>
+                <div class="zui-checkbox2" *ngIf="isUniqueAvailable()" [ngClass]="{'disabled': isUniqueDisabled()}">
+		    		 			<input [disabled]="isUniqueDisabled()" id = "uniqueCheckbox" type="checkbox" formControlName="unique" name="unique">
+                  <label disabled="disabled" *ngIf="!isZephyrAccessLocked" for="uniqueCheckbox">Unique?</label>
+                  <label *ngIf="isZephyrAccessLocked" for="uniqueCheckbox">Unique?</label>
+		    		 		</div>
+
+		    		 	</div>
+
+		    		 	<div>
+		    		 		<span class="input-required">*</span>
+		    		 		<span> Search field name cannot have space or any special character</span>
+		    		 	</div>
+
+		        	</div>
+		        	<div class="col-md-6 col-xs-12">
+		        		<div class="picklistValues clearfix" [ngClass]="{'disabled' : !isPicklistSelected}">
+		        			<input  type="hidden" formControlName="hiddenPicklistValues" name="hiddenPicklistValues"/>
+		        			<p>Picklist Values</p>
+		        			<div class="picklist-wrapper clearfix" [ngClass]="{'input-error' :isPicklistSelected && pickListValues.length === 0}">
+			        			<p class="picklist-wrapper-heading clearfix">
+			 	        			<span>#</span>
+			 	        			<span>&nbsp;Values</span>
+			 	        			<span class="cursor-pointer" title="sort" (click)="pickListSort()">
+			 	        				<i class="fa fa-sort-asc" aria-hidden="true"></i>
+			 	        			</span>
+			        			</p>
+			        			<div class="picklist-values-wrapper clearfix " (click)="pickListValueClicked($event)">
+		    			    		<p class="clearfix" *ngFor="let pickListValue of pickListValues; let i = index">
+		    			            	<span>{{i + 1}}</span>
+		    			            	<zephyr-inline-edit
+		    			            	    [placeholder]="'None'"
+		    			            	    [field]="pickListValue.value"
+		    			            	    [editType]="'text'"
+		    			            	    (onSubmit)="onPickListEdit($event , i)"
+		    			            	></zephyr-inline-edit>
+		    			            	<span class="delete-picklist delete-image cursor-pointer" title="delete" [attr.value]="i"></span>
+		    			            </p>
+
+			        			</div>
+
+		        			    <div class="picklist-input clearfix">
+                                    <input type="text" [(ngModel)]="pickListValue" [ngModelOptions]="{standalone: true}" (keypress)="addPickListOnEnter($event)" />
+		        			    	<span class="cursor-pointer" (click)="addPicklist()">Add </span>
+		        			    </div>
+		        			</div>
+		        		</div>
+		        	</div>
+		        </div>
+		    </form>
+		</div>
+	</zui-modal-body>
+	<zui-modal-footer [hidden]="!(isViewFieldDetails && isZephyrAccessLocked)">
+		<button type="button" class="zui-btn zui-btn-sec" (click)="cancelFieldsFormConfirmstion()">Cancel</button>
+		<button type="button" class="zui-btn zui-btn-primary" [disabled]="isDisabled(fieldsForm)" (click)="onFieldFormSubmit(fieldsForm.value)">Save</button>
+	</zui-modal-footer>
+</zui-modal>

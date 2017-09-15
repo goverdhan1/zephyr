@@ -1,0 +1,45 @@
+<div [class]="'zee-testcase-history-wrapper'">
+    <zee-expander (onPanelToggle)="onPanelToggle($event)" id="zee-testcase-history-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Step Details History</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+            <div [class]="'changehistory action-body'">
+                <grid
+                    [rows]="histories"
+                    [noData]="noData"
+                    [gridType]="historyGridType"
+                ></grid>
+                <!--<grid
+                    [noData]="noData"
+                    [rows]="histories"
+                    [gridType]="historyGridType"
+                ></grid>-->
+                <!--<table width="100%" [class]="'zui-table'" cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                        <tr align="left">
+                            <th [style.width.%]="'30'">Author</th>
+                            <th [style.width.%]="'30'">Created On</th>
+                            <th [style.width.%]="'30'">Version Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let history of histories">
+                            <td>
+                                <user-detail [userId]="history.author"></user-detail>
+                            </td>
+                            <td [style.width.%]="'30'">
+                                <!--<span [class]="'aui-lozenge aui-lozenge-subtle status-right'" [style.border-color]="item.oldStatus.color">{{item.oldStatus.name}}</span>-->
+                                <!--{{history.creationTime | date}}
+                            </td>
+                            <td [style.width.%]="'30'">
+                                <!--<span [class]="'aui-lozenge aui-lozenge-subtle status-right'" [style.border-color]="item.newStatus.color">{{item.newStatus.name}}</span>-->
+                                <!--{{history.versionName}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>-->
+            </div>
+        </div>
+    </zee-expander>
+</div>

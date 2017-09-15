@@ -1,0 +1,134 @@
+<!--left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-administration-left-nav
+    [activeItemKey]="activeItemKey"
+    [activeGroupKey]="'defects-admin'"
+></zui-administration-left-nav>
+<defects-admin-wrapper [ngClass]="{'disabled': !defectsAccess}">
+    <div class="main-content">
+        <section class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3><b>Defects Admin</b></h3>
+            </div>
+        </section>
+        <div class="zui-content-layout defects-admin-wrapper">
+            <ul class="zui-tabs nav nav-tabs" role="tablist">
+                <li class="nav-item"><a (click)="onTabClick($event)" class="active" href="#preference" role="tab" data-toggle="tab"><span>Preference</span></a></li>
+                <li class="nav-item"><a (click)="onTabClick($event)" href="#customs" role="tab" data-toggle="tab"><span>JIRA Custom Fields Management</span></a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="preference">
+                    <div class="flex">
+                        <h4>Categories</h4>
+                        <button class="zui-btn zui-btn-plus cursor-pointer" (click)="addPreference()" title="{{!selectedIndex ? 'Select a Category to be able to add preference': 'Add preference'}}" [disabled]="!selectedIndex">+</button>
+                    </div>
+                    <div class="row defects-admin-grid-wrapper">
+                        <div class="col-md-3 categories-wrapper">
+                            <ul class="categories">
+                                <li [ngClass]="{'active': selectedIndex == category.id}" *ngFor="let category of categories" (click)="filterGridCategories(category)">{{category.name}}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 defects-preference-grid" [ngClass] = "{'pref-selected': selectedIndex}">
+                            <grid
+                                [rows]="defectsAdminGridRows"
+                                [gridType]="_defectsGridType"
+                                [paginationOptions]="paginationOptions"
+                                (onGridRowClick) = "defectsAdminGridRowClicked($event)"
+                                (onGridActionIconClick)="deletePreference($event)">
+                            </grid>
+                        </div>
+                    </div>
+                    <div class="preference-form-wrapper clearfix" [hidden]="!isShowForm">
+                        <preference-form
+                            [allPreferences] = "defectsAdminGridRows"
+                            [preferenceObject] = "preferenceObjectSelected"
+                            (onFormSubmit) = "onPreferenceFormSubmit($event)"
+                            (onFormCancel) = "resetPreferenceForm()">
+                        </preference-form>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="customs">
+                    <h4>Clear cache of online JIRA custom fields</h4>
+                    <em>Please select one of the choices below</em>
+                    <form [formGroup]="defectsCacheForm" (ngSubmit)="defectsCacheFormSubmit(defectsCacheForm.value)">
+                        <div class="clear-block">
+                            <div class="zui-radio">
+                                <input type="radio" name="clearCache" id="clear-cache-jira" [checked]="isClearAll === 'jira'" (click)="toggleClearCache('jira')"/>
+                                <label for="clear-cache-jira">
+                                    <div class="check"></div>
+                                    <span><b>Clear Selected</b></span>
+                                </label>
+                            </div>
+                            <div>
+                                <p>To clear custom field cache of selected projects or issue types, provide a comma-separated list of JIRA project keys or project key-issuetype ids. For example, the following entries - 'ABC,XYZ.1' - will clear the cache of all issue types for project ABC and issue type id 1 (Bug) for project XYZ. Project key must be provided in uppercase.</p>
+                                <input type="text" class="form-control" [formControl]="defectsCacheForm.controls['selected']">
+                            </div>
+                        </div>
+                        <div class="clear-block">
+                            <div class="zui-radio">
+                                <input type="radio" name="clearCache" id="clear-cache-all" [checked]="isClearAll === 'all'" (click)="toggleClearCache('all')"/>
+                                <label for="clear-cache-all">
+                                    <div class="check"></div>
+                                    <span><b>Clear All</b></span>
+                                </label>
+                            </div>
+                            <div>
+                               <p>Selecting this option will clear cache for all JIRA projects and their issue types.</p>
+                                <div class="flex">
+                                    <em>Note: Cache for offline projects (jira.customfield.createmeta.projectKey.issueTypeId.online=false) is not cleared.</em>
+                                    <button class="btn btn-md pull-right" [disabled]="!isClearAll || !defectsCacheForm.valid">Clear Cache</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <div class="clear-block">
+                        <h4>Update custom field metadata for projects</h4>
+                        <p>Download the create metadata for your target project or project and issue type. For example, for issue type Bug in project ZEE, the URL would be - http://jira.example.com/rest/api/latest/issue/createmeta?projectKeys=ZEE&issuetypeNames=Bug&expand=projects.issuetypes.fields. Provide the path below using any of the supported protocols: http, ftp, file. For example, http://example.com/mydata.txt, ftp://example.com/mydata.txt, file:///C:/mydir/mydata.txt, file:///opt/mydir/mydata.txt (Unix)</p>
+                        <div class="input-group">
+                            <!-- <input type="text" class="form-control" placeholder="Please enter path to your json file" [(ngModel)]="filePath" > -->
+                            <input type="text" class="form-control" [formControl]="fileURL" placeholder="Please enter path to your json or text file" [(ngModel)]="filePath" title="{{fileURL.invalid ? 'Please provide a valid URL' : ''}}">
+                            <button class="btn input-group-addon" [disabled]="!filePath || fileURL.invalid" (click)="uploadMetaData()">Upload</button>
+                        </div>
+                        <div class="zui-checkbox2">
+                            <input type="checkbox" id="mark-projects" [(ngModel)]="offline">
+                            <label for="mark-projects">Also mark these projects as offline</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</defects-admin-wrapper>
+<zui-modal [title]="'Confirmation'" [modalId]="'clearCache-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        <p> You are attempting to clear complete cache of JIRA Custom fields. Further requests would fetch latest configuration from JIRA. This process may take long time depending on the count of JIRA projects, issue types and  responsiveness of JIRA.</p>
+        <p>You can selectively clear few items from cache as well.</p>
+        <p>Projects with online=false configuration won't be removed from cache.</p>
+        <p>Do you wish to Continue ?</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+     <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">No</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click) ="clearCacheCall()">Yes</button>
+    </zui-modal-footer>
+</zui-modal>
+
+
+<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal'" [modalSize]="'small'" *ngIf="confirmationObject" >
+    <zui-modal-body>
+        <p> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+     <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+
+    </zui-modal-footer>
+</zui-modal>
+
+
+<div class="update-defect-user-container">
+    <zee-update-defect-user [isModal]=true (onCloseUpdateUserModal)="onCloseUpdateUserModal()" (onShowUpdateUserModal)="onShowUpdateUserModal($event)">
+    </zee-update-defect-user>
+</div>

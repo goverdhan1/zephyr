@@ -1,0 +1,17 @@
+<div class="aui-group zephyr-team-details" *ngFor="let teamMember of _team">
+    <div class="zephyr-teamMember-image" *ngIf="teamMember">
+        <span class="zui-avatar avatar-large icon-avatar">
+            <i class="fa fa-user" *ngIf="!teamMember.image"></i>
+            <img [src]="teamMember.image" *ngIf="teamMember.image" />
+        </span>
+    </div>
+    <div class="zephyr-teamMember-info" *ngIf="teamMember">
+        <div class="zephyr-teamMember-name">
+            <span>{{teamMember.firstName + ' ' + teamMember.lastName}}</span>
+            <!-- <span><a [routerLink]="['/User', {id: teamMember.id}]">{{teamMember.firstName + ' ' + teamMember.lastName}}</a></span> -->
+        </div>
+        <div class="zephyr-teamMember-title">
+            <span>{{teamMember.title}}</span>
+        </div>
+    </div>
+</div>

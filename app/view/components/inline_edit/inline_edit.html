@@ -1,0 +1,128 @@
+<div [class]="'zui-inline-edit zephyr-editable-field'">
+    <div *ngIf="!editMode" (click)="showEdit()" [class]="'zephyr-editable-field-view-mode'" [ngClass]="{'forced-hover': forcedHover}">
+        <span *ngIf="editType == 'date'" [class]="'zephyr-inline-field-name first'" [attr.placeholder]="placeholder">
+          {{getDateField(field)}}
+        </span>
+        <span *ngIf="editType == 'duration' && editType != 'date'" [class]="'zephyr-inline-field-name second'" [attr.placeholder]="placeholder">
+            <zui-estimated-time
+                [value]= "field"
+                [editMode]=false
+                (onDurationUpdate)="onDurationUpdate($event)"
+            ></zui-estimated-time>
+        </span>
+
+        <span *ngIf="editType == 'multiselect-checkbox'" [class]="'zephyr-inline-field-name third'" [attr.placeholder]="placeholder">
+          {{selectedOption.length}} Selected.
+        </span>
+
+        <span *ngIf="editType != 'date' && editType != 'duration' && editType != 'multiselect-checkbox'"
+              title="{{title ? title : (field ? field : placeholder)}}"
+              [class]="'zephyr-inline-field-name fourth'"
+              [ngClass]="{'textarea': editType === 'textarea', 'scrollable': scrollViewMode}"
+              [innerHTML]="field ? ((editOptions?.unescapeHTML ? field : (field | escapeHTMLPipe)) | shorten: maxLength: '...') : ''"
+              [attr.placeholder]="placeholder">
+        </span>
+
+        <span [class]="'zephyr-overlay-icon fa fa-pencil zui-fa-pencil'"></span>
+    </div>
+    <div *ngIf="editMode" (click)="stopPropagation($event)">
+            <div [class]="'zephyr-editable-field-edit-mode'">
+                <form [formGroup]="validationForm" class="form" novalidate>
+                    <div>
+                        <div *ngIf="validateEditType(['textarea'])">
+                            <textarea autosize class="form-control textarea js-zephyr-inline-edit-{{editType}}"
+                                (blur)="onTextFocusout($event, validationForm.invalid)"
+                                formControlName="field"
+                                [(ngModel)]="field"
+                            ></textarea>
+                        </div>
+                        <div *ngIf="validateEditType(['text', 'date', 'number'])">
+                            <input *ngIf="validateEditType(['text'])" (blur)="onTextFocusout($event, validationForm.invalid)"
+                               (keypress)="inputKeyPress($event, validationForm.invalid)"
+                                formControlName="field"
+                                [(ngModel)]="field"
+                                [type]="editType" class="form-control text js-zephyr-inline-edit-{{editType}}" />
+
+                            <datepicker zui-position-calendar [ngModel]="_date" (ngModelChange)="saveDate($event)"
+                                        *ngIf="validateEditType(['date'])"
+                                        [ngModelOptions]="{standalone: true}">
+                            </datepicker>
+
+                            <input *ngIf="validateEditType(['number'])" min=0 (blur)="onTextFocusout($event, validationForm.invalid)"
+                                (keypress)="inputKeyPress($event, validationForm.invalid)"
+                                formControlName="field"
+                                [(ngModel)]="field"
+                                [type]="editType" class="form-control text js-zephyr-inline-edit-{{editType}}" />
+                        </div>
+                        <div *ngIf="validateEditType(['select', 'singleselect', 'multiselect'])">
+                            <div class="zui-ng-select inline-edit-select">
+                                <zee-select
+                                    [allowClear]="true"
+                                    [items]="fieldOptions"
+                                    [multiple]="setMultipleAttr()"
+                                    [placeholder]="'Select'"
+                                    [editOptions]="editOptions"
+                                    [active]="selectedOption"
+                                    [tags]="tags"
+                                    [saveOnEnter]="saveOnEnter"
+                                    (onUnselect)="onUnselect($event, validationForm.invalid)"
+                                    (onSelect)="onSelect($event, validationForm.invalid)"
+                                    (onToggle)="onToggleSelect($event, validationForm.invalid)"
+                                    (onSubmit)="onSelectSubmit(validationForm.invalid)"
+                                ></zee-select>
+                            </div>
+                        </div>
+                          <div *ngIf="validateEditType(['singleselect-ajax', 'multiselect-ajax'])">
+                            <div class="zui-ng-select inline-edit-select">
+                                <zee-select
+                                    [allowClear]="true"
+                                    [items]="fieldOptions"
+                                    [multiple]="setMultipleAttr()"
+                                    [placeholder]="'Type'"
+                                    [editOptions]="editOptions"
+                                    [active]="selectedOption"
+                                    [tags]="tags"
+                                    [saveOnEnter]="saveOnEnter"
+                                    (onUnselect)="onUnselect($event, validationForm.invalid)"
+                                    (onSelect)="onSelect($event, validationForm.invalid)"
+                                    (onToggle)="onToggleSelect($event, validationForm.invalid)"
+                                    (onSubmit)="onSelectSubmit(validationForm.invalid)"
+                                ></zee-select>
+                            </div>
+                        </div>
+
+                        <div *ngIf="validateEditType(['multiselect-checkbox'])">
+                          <div class="zui-ng-multi-select inline-edit-select">
+                            <zee-multi-select
+                              [selectId]="identifier"
+                              [items]="fieldOptions"
+                              [active]="selectedOption"
+                              (onChange)="onChangeMultiSelect($event, validationForm.invalid)"
+                            ></zee-multi-select>
+                          </div>
+                        </div>
+
+                        <div *ngIf="validateEditType(['duration'])">
+                            <zui-estimated-time
+                                [value]= "field"
+                                [editMode]=true
+                                (onDurationUpdate)="onDurationUpdate($event)"
+                            ></zui-estimated-time>
+                        </div>
+                    </div>
+                    <div class="save-options" tabindex="1" [ngClass] = "{'date-cancel-button': validateEditType(['date'])}">
+                        <button (click)="onClickCancel($event)" type="cancel">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                        <button *ngIf="!validateEditType(['date'])" (click)="onClickSave($event, validationForm.invalid)" type="submit" [disabled]="validationForm.invalid" [ngClass]="{'inline-btn-disable': validationForm.invalid}">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                        <!--<button (click)="onClickSave($event)" [ngClass]="{'inline-btn-disable': !inlineEditForm.valid}" type="submit">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>-->
+                    </div>
+                </form>
+            </div>
+        <!--</form>-->
+    </div>
+</div>

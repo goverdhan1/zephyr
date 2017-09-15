@@ -1,0 +1,139 @@
+<div class="main-content">
+    <h4>Add Resource </h4>
+    <bread-crumb [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb>
+    <div class="subform resource-form">
+        <form [formGroup]="resourceForm" (ngSubmit)="onResourceFormSubmit(resourceForm.value)">
+            <div class="clearfix">
+                <div class="zui-checkbox2">
+                    <input #cbEnabled type="checkbox" id="resource-accountEnabled" [formControl]="resourceForm.controls['accountEnabled']" (change)="accountEnabledCheckboxClicked(cbEnabled.checked)">
+                    <label for="resource-accountEnabled">Account Enabled</label>
+                </div>
+            </div>
+            <div [ngClass]="{'disabled' : !isAccountEnabled}">
+                <div class="row resource-subform">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="clearfix" >
+                            <label for="resource-firstname">First Name</label>
+                            <input (keyup)="onKeyupUserName($event)" id="resource-firstname" class="form-control" type="text" [formControl]="resourceForm.controls['firstName']" />
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-lastname">Last Name</label>
+                            <input (keyup)="onKeyupUserName($event)" id="resource-lastname" class="form-control"  [formControl]="resourceForm.controls['lastName']" type="text" />
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-type">Type</label>
+                            <select id="resource-type" class="form-control" [formControl]="resourceForm.controls['type']">
+                            <option value=""> Select A Type </option>
+                                <option  *ngFor="let userType of adminPrefuserTypes;" value="{{userType.id}}">{{userType.value}}</option>
+                            </select>
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-roles">Roles</label>
+                            <select id="resource-roles" class="form-control"  [formControl]="resourceForm.controls['roles']">
+                                <option value=""> Select A Role </option>
+                                <option  *ngFor="let role of roles;" value="{{role.id}}">{{role.name}}</option>
+                            </select>
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-email">Email</label>
+                            <input id="resource-email" class="form-control" type="email" [formControl]="resourceForm.controls['email']" />
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-title">Title</label>
+                            <input id="resource-title" class="form-control"  [formControl]="resourceForm.controls['title']" type="text" />
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-location">Location</label>
+                            <input id="resource-location" class="form-control" type="text" [formControl]="resourceForm.controls['location']" />
+                        </div >
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <form id="uploadResourceProfilePic" enctype="multipart/form-data" method="post">
+                           <!--  if changing name of default image, same is to be changed in function onResourceFormSubmit
+                                in this syntax "profileImageSrc.includes('default')"  && in function resetResourceForm in this syntax "let imageSrc= 'view/assets/images/default.png';"-->
+                            <img class="cursor-pointer" src="html5/assets/images/default-image.png" title="Click to upload picture" id="output" width="120" height="120" (click)="triggerLoadFile()" />
+                            <input id ="userImg" name="userImg" src="" (change)="loadFile($event)" type="file" accept="image/*">
+                        </form>
+                        <div class="clearfix">
+                            <div class="zui-checkbox2">
+                                <input #cb type="checkbox" id="resource-customizausername" (change)="customizeUsernameCheckboxClicked(cb.checked)">
+                                <label for="resource-customizausername">Customize Username</label>
+                            </div>
+                        </div>
+                        <div class="clearfix" [ngClass]="{'disabled' : !isCustomizeUsername}">
+                            <label for="resource-username">Username</label>
+                            <input id="resource-username" class="form-control"  [formControl]="resourceForm.controls['username']" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-subform row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="clearfix" >
+                            <label for="resource-workPhoneNumber">Work Phone</label>
+                            <input id="resource-workPhoneNumber" class="form-control" type="text" [formControl]="resourceForm.controls['workPhoneNumber']" />
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-mobilePhoneNumber">Mobile Phone</label>
+                            <input id="resource-mobilePhoneNumber" class="form-control"  [formControl]="resourceForm.controls['mobilePhoneNumber']" type="text" />
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-homePhoneNumber">Home Phone</label>
+                            <input id="resource-homePhoneNumber" class="form-control" type="text" [formControl]="resourceForm.controls['homePhoneNumber']" />
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-address1">Address1</label>
+                            <input id="resource-address1" class="form-control"  [formControl]="resourceForm.controls['address1']" type="text" />
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-address2">Address1</label>
+                            <input id="resource-address2" class="form-control" type="text" [formControl]="resourceForm.controls['address2']" />
+                        </div >
+                        <div class="clearfix">
+                            <span class="link-color cursor-pointer" (click)="resetUsersPassword()">Reset this User's password </span>
+                        </div>
+                        <div class="clearfix">
+                            <div class="zui-checkbox2">
+                                <input type="checkbox" id="resource-credentialsExpired" [formControl]="resourceForm.controls['credentialsExpired']">
+                                <label for="resource-credentialsExpired">Expire Credentials</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="clearfix">
+                            <label for="resource-city">City</label>
+                            <input id="resource-city" class="form-control"  [formControl]="resourceForm.controls['city']" type="text" />
+                        </div>
+                        <div class="clearfix" >
+                            <label for="resource-country">Country</label>
+                            <input id="resource-country" class="form-control" type="text" [formControl]="resourceForm.controls['country']" />
+                        </div >
+                        <div class="clearfix">
+                            <label for="resource-state">State</label>
+                            <input id="resource-state" class="form-control"  [formControl]="resourceForm.controls['state']" type="text" />
+                        </div>
+                        <div class="clearfix">
+                            <label for="resource-postalCode">Postal Code</label>
+                            <input id="resource-postalCode" class="form-control"  [formControl]="resourceForm.controls['postalCode']" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix form-footer">
+            <button type="button" class="zui-btn zui-btn-sec" (click)="resetResourceForm()">Cancel</button>
+                <button type="submit" class="zui-btn zui-btn-primary" [disabled]="!resourceForm.valid">Save</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<zui-modal [title]="'confirmationObject.heading'" [modalId]="'confirmation-modal'" [modalSize]="'medium'">
+    <zui-modal-body>
+        <p> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+     <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+
+    </zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,95 @@
+<form [formGroup]="addPhaseForm" (ngSubmit)="addPhaseFormSubmit(addPhaseForm.value)">
+	<zui-modal [title]="'Add New Phase'" [modalId]="'easAddPhaseModal'" [modalSize]="'large'">
+	    <zui-modal-body>
+			<div class="subform">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="clearfix">
+							<label for=""><b>Cycle</b></label>
+							<span class="field-value">{{cycleInfo.name}}</span>
+						</div>
+						<div class="clearfix">
+							<label for=""><b>Start Date</b></label>
+							<span class="field-value">{{cycleInfo.startDate | date:"MM/dd/yyyy"}}</span>
+						</div>
+						<div class="clearfix">
+							<label for=""><b>End Date</b></label>
+							<span class="field-value">{{cycleInfo.endDate | date:"MM/dd/yyyy"}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="subform">
+				<h4>Phase (<i class="ast-red">*</i>)</h4>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="clearfix" *ngIf="cyclePhases.length">
+							<label for="existing-phase-option">
+								<input type="radio" name= "choose-phase" id="existing-phase-option" [checked]="!isNewPhase" (click)="togglePhaseSelection(false)">
+								<span>Choose Existing Phase</span>
+							</label>
+						<!-- <select name="" id="" class="form-control"></select> -->
+            <div [ngClass]="{disabled: isNewPhase}">
+              <select id="defect-system-select2" class="form-control" [formControl]="addPhaseForm.controls['phaseListing']">
+                  <option *ngFor="let phase of cyclePhases" value="{{phase.id}}" title="{{phase.name}}">
+                    <span *ngIf="phase.name.length > 50">{{phase.name.substring(0, 50)}}...</span>
+                    <span *ngIf="phase.name.length <= 50">{{phase.name}}</span>
+                  </option>
+              </select>
+            </div>
+						</div>
+						<div class="clearfix">
+							<label for="new-phase-option">
+								<input type="radio" name= "choose-phase" id="new-phase-option" [checked]="isNewPhase" (click)="togglePhaseSelection(true)">
+								<span>Create New</span>
+							</label>
+							<input type="text" class="form-control" [formControl]="addPhaseForm.controls['name']" [ngClass]="{disabled: !isNewPhase}" title="{{addPhaseForm.controls['name'].invalid ? 'Name should contain 2-128 characters.' : ''}}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="subform">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="clearfix">
+							<label for=""><b>Start Date</b> <i class="ast-red">*</i></label>
+							<!-- <div class="input-group">
+								<input type="date" class="form-control" [formControl]="addPhaseForm.controls['startDate']">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div> -->
+							<div class="datepicker-wrap">
+								<calendar
+								  [formkey]= "addPhaseForm.controls['startDate']"
+								  [model]= "startDate"
+								  [minDate]="startMinDate"
+								  [maxDate]="startMaxDate"
+								  (validateDate)="resetDates($event)">
+								</calendar>
+							</div>
+						</div>
+						<div class="clearfix">
+							<label for=""><b>End Date</b> <i class="ast-red">*</i></label>
+							<!-- <div class="input-group">
+								<input type="text" class="form-control" [formControl]="addPhaseForm.controls['endDate']">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div> -->
+							<div class="datepicker-wrap">
+								<calendar
+								  [formkey]= "addPhaseForm.controls['endDate']"
+								  [model]= "endDate"
+								  [minDate]="endMinDate"
+								  [maxDate]="endMaxDate"
+								  (validateDate)="resetDates($event)">
+								</calendar>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+			    	<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+					<button type="submit" class="zui-btn zui-btn-primary" [disabled]="!addPhaseForm.valid">Save</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

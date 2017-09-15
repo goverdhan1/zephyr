@@ -1,0 +1,77 @@
+.notification-wrapper {
+    position: relative;
+    background: url(assets/images/notification.png) center no-repeat;
+    border-radius: 4px;
+    text-align: center;
+    color: #ffffff;
+    padding: 6px 15px;
+    cursor: pointer;
+    margin-left: 8px;
+    overflow: visible;
+
+    .notification-count {
+      position: absolute;
+      background-color: #88c256;
+      border-radius: 100%;
+      left: -10px;
+      top: -10px;
+      height: 20px;
+      width: 20px;
+      text-align: center;
+      line-height: 20px;
+    }
+}
+
+.zephyr-notifications {
+  margin-right: 10px;
+}
+
+.notification-detail {
+    display: none;
+    padding: 10px 0;
+    width: 0;
+    transition: width 2s ease 0s;
+    -webkit-transition: width 2s ease 0s;
+}
+.notification-detail {
+    display: block;
+    width: 270px;
+}
+.notification-detail > div {
+    float: left;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.notification_title {
+    background-color: #289295;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 30px;
+    color: white;
+    padding-left: 10px;
+}
+
+.notification-message {
+    padding-left: 10px;
+    padding-top: 6px;
+    padding-right: 5px;
+}
+
+.notification-time {
+  padding-left: 10px;
+  padding-top: 6px;
+  font-size: 11px;
+  color: #5b5f60;
+}
+
+.notification-disable-pointer {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
+
+  .notification-count {
+    display: none;
+  }
+}
+

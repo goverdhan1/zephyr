@@ -1,0 +1,192 @@
+<zui-modal [title]="fieldOptions.title" [modalId]="'zee-create-edit-modal-' + fieldOptions.id" (onBeforeOpen)="onBeforeOpen()" (onOpen)="onOpen()">
+    <zui-modal-body>
+        <div class="subform create-testcase-form clearfix">
+            <form [formGroup]="createTestcaseForm" (ngSubmit)="onCreateTestcaseFormSubmit(createTestcaseForm.value)">
+        	   <!-- Name, Description -->
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <label for="tc-name"><span><b>Name :</b>( </span><i class="ast-red">*</i><span> )</span></label>
+                        <input required id="tc-name" class="form-control" type="text" formControlName="name" maxlength="255" />
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <label for="tc-description"><b>Description :</b></label>
+                        <textarea id="tc-description" class="form-control" type="text" formControlName="description" maxlength="1024"></textarea>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                    	<div class="zee-testcase-details-wrapper">
+        				    <zee-expander id="zee-testcase-details-module" class="zee-module zee-module-toggle-wrapper zee-collapse" [action]="action">
+        				        <div id="zee-testcase-details-module-heading" class="zee-module-header">
+        				            <h5 class="zee-module-title">Details</h5>
+        				        </div>
+        				        <div class="zee-module-content zee-module-content-inline">
+        					       	<div class="col-md-6 col-xs-12">
+        					       		<div class="clearfix" >
+        	                                <label for="tc-priority"><b>Priority :</b></label>
+        	                                <div class="zui-select">
+        	                                    <select class="form-control" formControlName="priority">
+        	                                        <option *ngFor="let priority of priorities" value="{{priority.id}}">{{priority.value}}</option>
+        	                                    </select>
+        	                                </div>
+        	                            </div>
+        				                <div class="clearfix">
+        				                    <label for="tc-externalid"><b>Alt Id :</b></label>
+        				                    <input id="tc-externalid" class="form-control" type="text" formControlName="externalId" maxlength="255" />
+        				                </div>
+        					      		<div class="clearfix">
+        				                    <label for="tc-tags"><b>Tags :</b></label>
+        				                    <input id="tc-tags" class="form-control" type="text" formControlName="tags"/>
+        				                </div>
+        				                <div class="clearfix">
+        				                    <label for="tc-comment"><b>Comment :</b></label>
+        				                    <textarea id="tc-comment" class="form-control" type="text" formControlName="comments"></textarea>
+        				                </div>
+        					       	</div>
+        					    </div>
+        				    </zee-expander>
+        				</div>
+                    </div>
+                </div>
+
+                <!-- Automation -->
+                <div class="row">
+                	<div class="col-md-12 col-xs-12">
+                		<div class="zee-testcase-automation-wrapper">
+        				    <zee-expander id="zee-testcase-details-module" class="zee-module zee-module-toggle-wrapper zee-collapse" [action]="action">
+        				        <div id="zee-testcase-details-module-heading" class="zee-module-header">
+        				            <h5 class="zee-module-title zee-module-content-inline">Automation</h5>
+        				        </div>
+        				        <div class="zee-module-content">
+        				        	<div class="clearfix">
+                                        <label for="tc-automated"><b>Automated Script :</b></label>
+                                        <div class="zui-checkbox2">
+                                            <input id="tc-automated" class="form-control" type="checkbox" formControlName="automated"/>
+                                            <label></label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="tc-scriptname"><b>Name :</b></label>
+                                        <input id="tc-scriptname" class="form-control" type="text" formControlName="scriptName"/>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="tc-scriptid"><b>ID :</b></label>
+                                        <input id="tc-scriptid" class="form-control" type="text" formControlName="scriptId" />
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="tc-scriptpath"><b>Path :</b></label>
+                                        <input id="tc-scriptpath" class="form-control" type="text" formControlName="scriptPath" />
+                                    </div>
+        				        </div>
+        				    </zee-expander>
+        				</div>
+                	</div>
+                </div>
+
+                <!-- Step Details and Attachments -->
+                <div class="row">
+            		<div class="col-md-12 col-xs-12">
+            			<div class="zee-sub-item">
+        	                <zee-panel-content3 [appId]="appId" [testcaseId]="testcaseId" [editable]="true"
+        	                	(onSendFieldsData)="getTeststepFields($event)"></zee-panel-content3>
+        	            </div>
+            		</div>
+                </div>
+
+                <!-- Estimated Time Field -->
+                <div class="row">
+            		<div class="col-md-12 col-xs-12">
+            			<div class="zee-testcase-time-wrapper">
+        				    <zee-expander id="zee-testcase-details-module" class="zee-module zee-module-toggle-wrapper zee-collapse" [action]="action">
+        				        <div id="zee-testcase-details-module-heading" class="zee-module-header">
+        				            <h5 class="zee-module-title zee-module-content-inline">Time</h5>
+        				        </div>
+        				        <div class="zee-module-content">
+        				        	<div class="clearfix" title="valid values are from 00:00:01 to 99:23:59(DD:HH:MM)">
+                                        <label for="estTime"><b>Estimated time :</b></label>
+                                        <zui-estimated-time style="line-height:33px;"
+                                            [value]= "estimatedTime"
+                                            [editMode]=true
+                                            (onDurationUpdate)="onDurationUpdate($event)"
+                                        ></zui-estimated-time>
+                                    </div>
+        				        </div>
+        				    </zee-expander>
+        				</div>
+            		</div>
+            	</div>
+
+                <!-- Custom Fields -->
+                <div class="row">
+                    <div class="col-md-12 col-xs-12" *ngIf="areCustomFieldsAvailable">
+                    	<div class="zee-testcase-customField-wrapper">
+        				    <zee-expander id="zee-testcase-details-module" class="zee-module zee-module-toggle-wrapper zee-collapse" [action]="action">
+        				        <div id="zee-testcase-details-module-heading" class="zee-module-header">
+        				            <h5 class="zee-module-title zee-module-content-inline">Custom Fields</h5>
+        				        </div>
+        				        <div class="zee-module-content">
+        				        	<ul class="zee-details-two-column-list clearfix">
+        			                    <li class="zee-column" *ngFor="let customfield of entityCustomFields">
+        			                        <div class="zee-column-wrap">
+        			                            <label>{{customfield.displayName}} :</label>
+        			                            <span *ngIf="customfield?.typeMetaData?.dataType" id="{{customfield.id}}" class="zee-column-value"
+        			                                    [ngSwitch]="customfield.typeMetaData.dataType">
+
+                                                    <input *ngSwitchCase="CUSTOM_FIELD_TYPES.CHECKBOX"
+        			                                	class="form-control" type="checkbox" name="{{customfield.fieldName}}">
+
+                                                    <input *ngSwitchCase="CUSTOM_FIELD_TYPES.NUMBER"
+        			                                	class="form-control" type="number" name="{{customfield.fieldName}}" step="any">
+
+                                                    <input type="text" name="{{customfield.fieldName}}"
+                                                        class="form-control"
+                                                        [ngClass]="{'disabled-noop': isDateicker(customfield.fieldName)}"
+                                                        *ngSwitchCase="CUSTOM_FIELD_TYPES.DATE"
+                                                        [formControl]="createTestcaseForm.controls[customfield.fieldName]"
+                                                        value="{{getDateField(customfield.fieldName)}}"
+                                                        (click)="enableDate(customfield.fieldName)">
+
+                                                    <datepicker zui-position-calendar
+                                                        *ngIf="isDateicker(customfield.fieldName)"
+                                                        [ngModel]="date[customfield.fieldName]"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        (ngModelChange)="saveDate($event, customfield.fieldName)"
+                                                    ></datepicker>
+                                                    <div *ngIf="isDateicker(customfield.fieldName)" class="pull-left date-cancel-button">
+                                                        <button (click)="onClickCancel(customfield.fieldName)" type="cancel">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <input *ngSwitchCase="CUSTOM_FIELD_TYPES.TEXT"
+        			                                	class="form-control" type="text" name="{{customfield.fieldName}}">
+
+                                                    <select *ngSwitchCase="CUSTOM_FIELD_TYPES.PICKLIST"
+        			                                	class="form-control" name="{{customfield.fieldName}}">
+        			                                    <option *ngFor="let fval of customfield.fieldValues" value="{{fval.id}}">{{fval.text}}</option>
+        			                                </select>
+
+                                                    <textarea *ngSwitchCase="CUSTOM_FIELD_TYPES.LONG_TEXT"
+        			                                	class="form-control" name="{{customfield.fieldName}}">
+        			                                </textarea>
+
+                                                </span>
+        			                        </div>
+        			                    </li>
+        			                </ul>
+        				        </div>
+        				    </zee-expander>
+        				</div>
+                    </div>
+                </div>
+
+                <div class="clearfix form-footer">
+                	<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="zui-btn zui-btn-primary" [disabled]="createTestcaseForm.invalid">Create</button>
+                </div>
+            </form>
+        </div>
+    </zui-modal-body>
+</zui-modal>

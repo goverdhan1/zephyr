@@ -1,0 +1,23 @@
+.mobile-view {
+	.tcr-tree-container {
+		width: 100%;
+	}
+	.prev-btn-wrapper {
+		position: fixed;
+	    z-index: 1;
+	    top: 110px;
+	}
+	.prev-history-button.zui-btn {
+		font-size: 30px;
+		padding: 1px 8px;
+		min-width: 48px;
+		height: 40px;
+		background: #f1f1f1;
+		border: none;
+	}
+	@media screen and (max-width: 370px) {
+		.prev-btn-wrapper {
+			top: 145px;
+		}
+	}
+}

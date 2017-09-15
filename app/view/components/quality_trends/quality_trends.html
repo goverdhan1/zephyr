@@ -1,0 +1,20 @@
+<zui-project-left-nav [activeItemKey]="'quality-trends'"></zui-project-left-nav>
+
+<div class="quality-trends-wrapper">
+    <div class="page-header">
+        <h1 class="page-title">Quality Trends Project</h1>
+        <span class="subtext">Release 1.0</span>
+    </div>
+    <div class="page-nav-row">
+        <div class="select-box ze-float-left">
+            <div>
+                <label><b> Select A Trend: </b></label>
+                <select2 [data]="qualityTrendsList" (valueChanged)="changeRoute($event)"></select2>
+            </div>
+        </div>
+        <div class="user-controls ze-float-right">
+            <span><a href="javascript:void(0)"> Export to PDF </a></span> | <span><a href="javascript:void(0)"> Print </a></span>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

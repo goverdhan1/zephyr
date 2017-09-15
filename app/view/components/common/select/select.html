@@ -1,0 +1,4 @@
+<select id="{{selectId}}" class="{{selectClass}}" multiple="{{multiple ? 'multiple' : null}}" [hidden]="true">
+    <option></option>
+    <option *ngFor="let item of optItems" [attr.data-color]="item.color" [attr.value]="getId(item.id)" [innerHTML]="escapeHTML(item.text)"></option>
+</select>

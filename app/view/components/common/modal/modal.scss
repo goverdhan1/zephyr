@@ -1,0 +1,72 @@
+.modal-header {
+  .close {
+    font-size: 20px;
+    position: absolute !important;
+    right: 20px !important;
+    top: 10px !important;
+    margin: 0px !important;
+  }
+}
+zui-modal-header-buttons {
+  margin-right: 30px;
+}
+
+zui-modal {
+	.modal {
+		height: 100vh;
+		overflow: auto;
+		&::-webkit-scrollbar {
+		  width: 14px;
+		  height: 14px;
+		}
+		&::-webkit-scrollbar-button {
+		  width: 14px;
+		  height: 14px;
+		}
+		.modal-header {
+			display: flex;
+			justify-content: space-between;
+
+			&:after {
+				display: none;
+			}
+			.modal-header-buttons-container {
+				display: flex;
+			}
+		}
+	}
+	.modal-dialog {
+		.modal-content {
+			width: 100%;
+		}
+	}
+	@media (min-width: 544px) {
+		.modal-dialog {
+		    max-width: none;
+		    margin: 50px auto;
+		}
+	}
+	.modal-dialog.medium {
+		width: 900px;
+	}
+	.modal-dialog.small {
+		width: 600px;
+	}
+	.modal-dialog.extrasmall {
+		width: 400px;
+	}
+	.modal-dialog.large {
+		width: calc(100% - 220px);
+	}
+	.modal-dialog.extralarge {
+		width: calc(100% - 50px);
+	}
+	.modal-header {
+		.close {
+      font-size: 20px;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+		}
+	}
+}

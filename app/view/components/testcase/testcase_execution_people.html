@@ -1,0 +1,27 @@
+<div [class]="'zee-testcase-people-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">People</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <ul class="zee-details-column-list clearfix">
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Executed By</b></strong>
+                        <span id="zee-cf-1" [class]="'zee-column-value'" *ngIf="people.executedBy">
+                            <user-detail [userId]="people.executedBy"></user-detail>
+                        </span>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Executed On</b></strong>
+                        <span id="zee-cf-1" [class]="'zee-column-value'" *ngIf="people.executedOn">
+                            {{people.executedOn}}
+                        </span>
+                    </div>
+                </li>
+             </ul>
+        </div>
+    </zee-expander>
+</div>

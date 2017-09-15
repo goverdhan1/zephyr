@@ -1,0 +1,97 @@
+<zui-modal [ngClass]="{'hide': createdDefect, 'create-issue-form': (showFileNewDefect && !isProjectSelectionModal)}" [title]="(!showFileNewDefect && isUserUpdateRequired==='false') ? 'Link defect' : (isUserUpdateRequired==='true') ? 'External DTS Login' : (showFileNewDefect && isUserUpdateRequired==='false') ? 'File New Defect' : ''" [modalId]="'defect-link-modal'" [modalSize]="isProjectSelectionModal ? 'small' : (showFileNewDefect) ? 'medium': (isUserUpdateRequired==='false' && !isProjectSelectionModal) ? 'large' : (isUserUpdateRequired==='true') ? 'small' : 'large'">
+    <zui-modal-body [ngClass]="{'defect-link-modal-body': true, 'hide': isResetDTUser}" *ngIf="isUserUpdateRequired==='false' || isResetDTUser">
+        <div *ngIf="!showFileNewDefect" class="zui-content-layout defect-link-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <zee-currently-linked-defects
+                        (onMapDefectsSchedule)="refreshMappedDefects($event)"
+                        [testcaseId]="testcaseId"
+                        [scheduleId]="scheduleId">
+                    </zee-currently-linked-defects>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <defects-advanced-search
+                        [isFileNewDefect]="true"
+                        (showFileNewDefectDialog)="openFileNewDefectDialog($event)"
+                        (onCreateSubtask)="onCreateSubtask($event)"
+                        [testcaseId]="testcaseId"
+                        [scheduleId]="scheduleId"
+                        [searchGridType]="'DEFECTS_LINK_SEARCH'">
+                    </defects-advanced-search>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="showFileNewDefect">
+            <file-new-defect
+                [parentIssue]="parentIssue"
+                [isProjectIssueSelected]="isProjectIssueSelected"
+                [issueMetaData]="issueMetaData"
+                [projects]="projects"
+                [issueTypes]="issueTypes"
+                (onSetProject)="onSetProject($event)"
+                (onSetIssueType)="onSetIssueType($event)"
+                (emitChangeDetection)="emitChangeDetection($event)"
+            ></file-new-defect>
+        </div>
+    </zui-modal-body>
+    <zui-modal-header-buttons *ngIf="isUserUpdateRequired==='false' && !isProjectSelectionModal && !showFileNewDefect">
+        <div class="defect-modal-header-buttons">
+            <button (click)="resetDTUserButtonClick($event)" class="btn btn-secondary zui-dt-reset-user-button">
+                <i aria-hidden="true" class="fa fa-refresh zui-dt-reset-user-icon"></i>
+                    Reset User
+            </button>
+        </div>
+    </zui-modal-header-buttons>
+    <zui-modal-body [ngClass]="{'show': isUserUpdateRequired === 'true', 'defect-link-modal-body': true, 'hide': !isResetDTUser}">
+        <zee-update-defect-user (onDeleteUser)="onDeleteUser()" [isResetDTUser]="isResetDTUser" (onShowUpdateUserModal)="onShowUpdateUserModal($event)" [isModal]=false>
+        </zee-update-defect-user>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <div *ngIf="!showFileNewDefect && isUserUpdateRequired === 'false'" class="defect-link-modal-buttons">
+            <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+        </div>
+        <div *ngIf="showFileNewDefect && isUserUpdateRequired === 'false'">
+            <div class="project-issuetype-selection-buttons" *ngIf="!isProjectIssueSelected">
+                <div class="defect-link-back-buttons floatLeft">
+                    <button type="button" class="zui-btn zui-btn-sec backToDefectLink" (click)="backToDefectLink($event)" data-dismiss="modal">Back</button>
+                </div>
+                <div>
+                    <button type="button" class="zui-btn zui-btn-sec" (click)="backToDefectLink($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                    <button [ngClass]="{'disabled': !selectedProjectName || !selectedIssueTypeName}" type="button" class="zui-btn zui-btn-primary" (click)="onProjectIssueTypeSelection($event)">{{'zephyr.button.next' | i18nSelect: i18nMessages}}</button>
+                </div>
+            </div>
+            <div class="create-defect-action-buttons" *ngIf="isProjectIssueSelected">
+                <div class="project-selection-back-buttons floatLeft">
+                    <button type="button" class="zui-btn zui-btn-sec backToProjectSelection" (click)="backToProjectSelection($event)" data-dismiss="modal">Back</button>
+                </div>
+                <div>
+                    <button type="button" class="zui-btn zui-btn-sec" (click)="backToDefectLink($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                    <button [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: fndFormCmp && fndFormCmp.cdFormCmp && fndFormCmp.cdFormCmp.createDefectForm && fndFormCmp.cdFormCmp.createDefectForm.invalid}" type="button" (click)="onDefectCreation($event)">{{'zephyr.button.create' | i18nSelect: i18nMessages}}</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isUserUpdateRequired === 'true'">
+            <div *ngIf="!isResetDTUser">
+                <button type="button" class="zui-btn zui-btn-sec" (click)="dismissModal($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: inlineTableComponent && inlineTableComponent.updateDefectUserForm && inlineTableComponent.updateDefectUserForm.invalid}" (click)="onUserUpdate($event)">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+            </div>
+            <div *ngIf="isResetDTUser">
+                <button type="button" class="zui-btn zui-btn-sec" (click)="onResetUserCompletion($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button type="button" class="zui-btn zui-btn-sec" (click)="showDeleteUserPopup($event)">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+                <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: inlineTableComponent && inlineTableComponent.updateDefectUserForm && inlineTableComponent.updateDefectUserForm.invalid}" (click)="onResetUser($event)">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+            </div>
+        </div>
+    </zui-modal-footer>
+</zui-modal>
+
+<defect-advanced-detail
+    [parentIssueKey]="parentIssueKey"
+    [manageModalClose]="true"
+    [issueMetaData]="issueMetaData"
+    [updateIssueTypeName]="selectedIssueTypeName"
+    [selectedDefect]="createdDefect"
+    (onDismissModal)="onDefAdvModalDismiss($event)"
+    *ngIf="createdDefect"
+></defect-advanced-detail>

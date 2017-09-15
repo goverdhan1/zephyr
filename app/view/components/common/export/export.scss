@@ -1,0 +1,153 @@
+zee-export-dialog {
+    .zui-export-modal {
+        &.modal {
+            overflow-y: hidden;
+        }
+    }
+}
+
+zui-export  .select2-search__field {
+  width: 220px !important;
+}
+
+.zui-export-modal {
+    p.modal-description {
+        margin-bottom: 0px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+    .zee-module-header-left {
+        padding-right: 6px;
+    }
+    .grey-background {
+        background: #f9f9f9;
+        padding: 10px 0;
+    }
+    span.zui-export-label {
+        display: inline;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .zui-select-all-row {
+        margin-bottom: 5px;
+    }
+    .zui-fade {
+        opacity: 0.7;
+    }
+    .zui-blue {
+        color: #0275d8 !important;
+    }
+    .zui-checkbox2 {
+        margin: 3px 0 !important;
+    }
+    input[type="radio"] {
+        position: relative;
+        top: 2px;
+    }
+    select {
+        margin-left: 5px !important;
+        overflow-y: auto;
+    }
+    .zui-export-report-to-error,
+    .zui-export-title-error,
+    .zui-export-filter-date-error,
+    .zui-export-fields-error {
+        .form-control-label {
+            padding: 0px;
+        }
+    }
+
+    /**
+    * <fieldset class="zui-panel zui-panel-default">
+            <div class="zui-panel-heading"><h3>Panel heading without title</h3></div>
+            <div class="zui-panel-body">
+                Panel content
+            </div>
+        </fieldset>
+    */
+    .zui-panel-title {
+        color: #289295;
+        font-size: 16px;
+    }
+    .zui-panel {
+        background-color: #fff;
+        border-radius: 4px;
+          .zui-panel-body {
+            padding: 4px;
+            padding-top: 0;
+        }
+        .zui-panel-tab-bar-body {
+            padding: 5px 15px !important;
+            height: 100px;
+            overflow-y: hidden;
+            .row {
+                padding: 15px 0;
+            }
+
+            .select2-container.select2-container--default .select2-selection--multiple {
+                height: auto;
+                position: relative;
+
+                ul {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+
+                    li:last-child {
+                        flex-grow: 1;
+                        display: flex;
+                        input {
+                            width: auto !important;
+                            flex-grow: 1;
+                        }
+                    }
+                }
+                // li {
+                //     display: inline-block;
+                // }
+
+                &:after {
+                    content: '\f0dd';
+                    font-family: 'FontAwesome';
+                    position: absolute;
+                    right: 0;
+                    top: 2px;
+                }
+            }
+        }
+
+        .zui-panel-heading {
+            padding: 10px 15px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            &.zui-panel-tab-heading {
+                padding: 0 15px !important;
+            }
+            .zui-panel-tab-bar-heading-label {
+                display: inline-block;
+                padding: 10px;
+                cursor: pointer;
+                font-weight: 300;
+                font-size: 14px;
+                &.selected {
+                    font-weight: bold;
+                    border-bottom: 2px solid #289295;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+    .zui-panel-default {
+        border-color: #ddd;
+        .zui-panel-heading {
+            color: #333;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+    }
+}
+
+.select2-drop {
+    z-index: 1100;
+}

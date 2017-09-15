@@ -1,0 +1,20 @@
+<zui-modal>
+	<zui-modal-body>
+		<form [formGroup]="editNodeForm">
+			<span>
+				<div>
+					<span><label for="testcaseNodeName">Name:</label></span>
+					<span><input type="text" name="testcaseNodeName" (keypress)="inputKeyPress($event)" value="" id="testcaseNodeName" class="form-control" maxlength="128" formControlName="name"></span>
+				</div>
+				<div>
+					<span><label for="nodeDescription">Description:</label></span>
+					<span><textarea type="text" name="nodeDescription" value="" id="nodeDescription" class="form-control"  formControlName="description"></textarea></span>
+				</div>
+			</span>
+		</form>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+		<button type="button" class="zui-btn zui-btn-primary" id="tcrRenameNodeModalSave" (click)="renameTcrNode()" [disabled]="isFormValid(editNodeForm)">Rename</button>
+	</zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,211 @@
+<!--<left-nav [columns]="navColumns" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'repository-setup'"
+></zui-project-left-nav>
+<test-repository-component>
+  <div class="prev-btn-wrapper">
+        <span>
+            <button (click)="navigateToPreviousOnMobile()" *ngIf="mobileNavigation.showGrid || mobileNavigation.showTestcase" class="prev-history-button zui-btn zui-btn-tertiary"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+        </span>
+  </div>
+  <div class="main-content" role="main">
+    <div class="module-subheader clearfix">
+      <div class="left-navs">
+        <!-- <h3><b>Test Repository</b></h3> -->
+        <bread-crumb [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb>
+      </div>
+      <div *ngIf="!isPanelCollapsed" class="zui-tcr-folder-view">
+        <div [class]="">
+            <a (click)="toggleSearchFolderView(true)" [ngClass]="{'active': isSearchView, 'zui-tcr-view-disabled': isSearchView}">
+                <span>
+                    <i [class]="'fa fa-search zui-search-icon'" aria-hidden="true"></i>
+                    {{'zephyr.tcr.view.search' | i18nSelect: i18nMessages}}
+                </span>
+            </a>
+        </div>
+        <div [class]="">
+            <a (click)="toggleSearchFolderView(false)" [ngClass]="{'active': !isSearchView, 'zui-tcr-view-disabled': !isSearchView}">
+                <span>
+                    <i class="fa fa-folder-open" aria-hidden="true"></i>
+                    {{'zephyr.tcr.view.folder' | i18nSelect: i18nMessages}}
+                </span>
+            </a>
+        </div>
+        <notifications *ngIf="!isSearchView"
+          [appId]="appId"
+          (onNotificationApply)="applyNotifications($event)"
+        ></notifications>
+      </div>
+
+    </div>
+    <div [ngClass]="{'tcr-detail-view': isDetailView, 'tcr-search-view': isSearchView, 'zui-content-layout layout6': true, 'tcr-tree-expanded': expandTree}">
+      <div class="row zephyr-search-detail-view" *ngIf="isSearchView && !_isMobile">
+        <zee-list-detail-view
+          [isDetailView]="isDetailView"
+          (toggleListDetailView)="toggleListDetailView($event)">
+        </zee-list-detail-view>
+        <section  *ngIf="isSearchView && !_isMobile && !isPanelCollapsed" [class]="'zui-search-details-container'">
+          <div [class]="'zee-layout'" style="padding: 10px;">
+            <zui-zephyr-search
+              [isAdvancedSearch]="isAdvancedSearch"
+              [releaseId]="_releaseId"
+              [searchFieldSrcId]="'tcr-search'"
+              [zqlEntityName]="'testcase'"
+              [showFilters]= "'true'"
+              [searchText]= "tcrGridCmp?.searchText"
+              (onSearchGo)="onSearchGo($event)"
+            ></zui-zephyr-search>
+            <div class="clearfix in-release">
+              <label for="in-release"><b>In this release :</b></label>
+              <div class="zui-checkbox2">
+                  <input id="in-release" class="form-control" name="inRelease" type="checkbox" [(ngModel)]="inRelease" />
+                  <label for="in-release"></label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="row upper-split">
+        <div [ngClass]="{'col-md-12': true, 'resizable-flex-wrapper': true}">
+          <div [ngClass]="{'primary-buttons-view': true, 'primary-buttons-folder-view': !isSearchView}" *ngIf="isDetailView && !isSearchView">
+            <zui-tcr-bulk-operations
+              [isMenuShown]="isMenuShown"
+              [ngClass]="{'hide-buttons': isDetailView}"
+              [isSearchView]="isSearchView"
+              [tcrCatalogTreeId]="selectedTreeNode"
+              [tctIds]="selectedTctIds"
+              [testcaseIds]="selectedTestcaseIds"
+              [releaseId]="_releaseId"
+              [fieldOptions]="fieldOptions"
+              *ngIf="!_isMobile && isDetailView && !testcaseId"
+            ></zui-tcr-bulk-operations>
+            <zee-list-detail-view
+              [isDetailView]="isDetailView"
+              (toggleListDetailView)="toggleListDetailView($event)">
+            </zee-list-detail-view>
+          </div>
+          <div class="zui-flex-v-resizable ui-resizable" [hidden]="isPanelCollapsed">
+            <div class="zui-content-layout layout5">
+              <div class="row upper-split">
+                <div class="col-md-12 resizable-flex-wrapper">
+                  <div class="collapsible-tree-container" [hidden]="_isMobile && !mobileNavigation.showTree" *ngIf="!isSearchView">  <!-- class="zui-flex-h-resizable" id="tcr-h-resizer" -->
+                    <section [ngClass]="{'tree-tcr': true}">
+                      <!-- <div [class]="'tree-tcr-collapse'" (mouseover)="onTreeExpand($event)">
+                          <span>
+                            <i class="fa fa-tree" aria-hidden="true"></i>
+                        </span>
+                      </div> -->
+                      <zui-tcr-tree
+                        [releaseIdObs]="_releaseIdObs"
+                        [showContextMenu]="true"
+                        [appId]="appId"
+                        (onTreeClick)="onTcrTreeClick($event)"
+                        (onToggleNode)="onToggleNode($event)"
+                        (OnContextMenuClick)="OnContextMenuClick($event)"
+                        (treeDrop)="onTreeDrop($event)"
+                        [isDetailView]="isDetailView"
+                      ></zui-tcr-tree>
+                      <zee-tcr-global-tree
+                          [selectedTreeNode]="selectedTreeNode"
+                          [openNode]="openNode"
+                          (onCopy)="onGlobalCopy($event)"
+                      ></zee-tcr-global-tree>
+                    </section>
+                  </div>
+                  <!-- <div class="zui-w-handle" id="tcr-h-resizer-handle">
+                    <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                  </div> -->
+                  <div class="zui-flex-h-fixed" id="tcr-grid">
+                    <div [hidden]="_isMobile && !mobileNavigation.showGrid" [class]="'testcase-grid grid-10-row-fix'">
+                      <zui-tcr-bulk-operations
+                        [isMenuShown]="isMenuShown"
+                        [treeType]="treeType"
+                        [isSearchView]="isSearchView"
+                        [tcrCatalogTreeId]="selectedTreeNode"
+                        [tctIds]="selectedTctIds"
+                        [testcaseIds]="selectedTestcaseIds"
+                        [releaseId]="_releaseId"
+                        [fieldOptions]="fieldOptions"
+                        [isAdvancedSearch]="isAdvancedSearch"
+                        [searchText]="tcrGridCmp?.searchText"
+                        [inRelease]="inRelease"
+                        *ngIf="!_isMobile && !isDetailView"
+                      ></zui-tcr-bulk-operations>
+                      <zee-list-detail-view
+                        *ngIf="!isPanelCollapsed && !isDetailView && !isSearchView"
+                        [isDetailView]="isDetailView"
+                        (toggleListDetailView)="toggleListDetailView($event)">
+                      </zee-list-detail-view>
+                      <!--<bread-crumb *ngIf="!isSearchView" [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb>-->
+                      <zui-tcr-grid
+                        [isDetailView]="isDetailView"
+                        [releaseId]="_releaseId"
+                        [selectedTreeNodeObs]="selectedTreeNodeObs"
+                        [selectedTctIds]="selectedTctIds"
+                        [secIds]="selectedTestcaseIds"
+                        [isSearchView]="isSearchView"
+                        [isAdvancedSearch]="isAdvancedSearch"
+                        [appId]="appId"
+                        [inRelease]="inRelease"
+                        [testcaseId]="testcaseId"
+                        (onTcrGridRowClick)="tcrGridRowClick($event)"
+                        (onClearSelectedTctIds)="clearSelectedTctIds()"
+                        (onTcrGridRowSelection)="tcrGridRowSelection($event)"
+                      ></zui-tcr-grid>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="zui-s-handle" [hidden]="!testcaseId">
+            <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+            <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+          </div>
+          <div class="zui-flex-v-fixed">
+              <zee-testcase
+                id="zephyr-testcase-panel"
+                [hidden]="_isMobile && !mobileNavigation.showTestcase"
+                [editable]="details_editable"
+                [allowRequirementMapping]="true"
+                [fetchFromServer]=false
+                [testcaseId]="testcaseId"
+                [tcTestcaseId]="tcTestcaseId"
+                [treeType]="treeType"
+                [totalRecords]="totalRowCount"
+                [currentRecord]="currentRecord"
+                [isDetailView]="isDetailView"
+                [isSearchView]="isSearchView"
+                [releaseId]="_releaseId"
+                [appId]="appId"
+                [selectedTreeNode]="selectedTreeNode"
+                (onRecordChange)="recordChanged($event)"
+                (onPanelCollapsed)="onPanelCollapsed($event)"
+              ></zee-testcase>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <find-and-add
+    [searchFieldSrcId]="'tcr-find-add'"
+    [treeId]="selectedTreeNode"
+  ></find-and-add>
+  <div [class]="'zephyr-testcase-import'">
+    <zee-import-dialog
+      [fieldOptions]="tcrImportTestOptions['import']">
+    </zee-import-dialog>
+  </div>
+
+  <!--<zui-modal [title]="'Switch view'" [modalId]="'switch-to-search-modal'" [modalSize]="'small'">-->
+    <!--<zui-modal-body>-->
+      <!--<p *ngIf="!isSearchView">Do you want to switch to search view?</p>-->
+      <!--<p *ngIf="isSearchView">Do you want to switch to folder view?</p>-->
+    <!--</zui-modal-body>-->
+    <!--<zui-modal-footer>-->
+      <!--<button type="button" class="zui-btn zui-btn-primary" (click)="dismissSwitchViewModal(!isSearchView,true)" data-dismiss="modal">Yes</button>-->
+      <!--<button type="button" class="zui-btn zui-btn-sec" (click)="dismissSwitchViewModal(!isSearchView,false)" data-dismiss="modal">No</button>-->
+    <!--</zui-modal-footer>-->
+  <!--</zui-modal>-->
+
+</test-repository-component>

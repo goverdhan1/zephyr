@@ -1,0 +1,225 @@
+<section id="content" role="main" *ngIf="reqDetails" class="zui-content-layout">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="zee-testcase-stat">
+				<div class="resize-wrapper clearfix" *ngIf="!hideDocker">
+					<div id="requirement-fullscreen-resizer" (click)="panelCollapsible({event: $event})" [class]="'requirement-default-view'">
+						<span class="fa fa-chevron-up"></span>
+					</div>
+				</div>
+				<paginator [currentRecord]="currentRecord" [totalRecords]="totalRecords" (recordChange)="recordChanged($event)"></paginator>
+				<div class="zee-testcase-description">
+					<div class="testcase-name-wrap">
+						<span class="testcase-id">{{reqObj.id}}&nbsp;</span>
+          				<p class="zephyr-testcase-name non-editable" *ngIf="!editable || isJira">
+          					<span class="zephyr-inline-field-name" title="{{reqObj.name}}">{{reqObj.name}}</span>
+          				</p>
+						<zephyr-inline-edit class="zephyr-testcase-name"
+	              			*ngIf="editable && !isJira"
+	              			[validationPattern]="nameValidation"
+	              			[isRequired]=true
+	              			[maxLength]="120"
+	              			[placeholder]="'Enter name'"
+	              			[field]="reqObj.name"
+	              			[editType]="'text'"
+	              			(onSubmit)="saveReqName($event)"
+	          			></zephyr-inline-edit>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8 bg-white">
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="expanded">
+					<div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+						<h5 [class]="'zee-module-title'">Details</h5>
+					 </div>
+					 <div [class]="'zee-module-content zee-module-content-inline'">
+						 <ul class="zee-details-two-column-list">
+							<li [class]="'zee-column'">
+								<div [class]="'zee-column-wrap'">
+									<strong [class]="'zee-column-name'"><b>ID</b></strong>
+									<span [class]="'zee-column-value'">
+										<span>{{reqObj.id}}</span>
+									</span>
+								</div>
+							</li>
+							<li [class]="'zee-column'">
+								<div [class]="'zee-column-wrap'">
+									<strong [class]="'zee-column-name'"><b>Priority</b></strong>
+									<span [class]="'zee-column-value'">
+										<span *ngIf="!editable || isJira">{{getSelectedPriorityName()}}</span>
+										<zephyr-inline-edit
+											*ngIf="editable && !isJira"
+											[placeholder]="'Enter priority'"
+											[field]="getSelectedPriorityName()"
+											[selectedOption]="reqObj.priority"
+											[fieldOptions]="priorities"
+											[editType]="'singleselect'"
+											(onSubmit)="savePriority($event)"
+										></zephyr-inline-edit>
+									</span>
+								</div>
+							</li>
+							<li [class]="'zee-column'">
+								<div [class]="'zee-column-wrap'">
+									<strong [class]="'zee-column-name'"><b>Alt ID</b></strong>
+									<span [class]="'zee-column-value'">
+										<span *ngIf="!editable || isJira">{{reqObj.externalId}}</span>
+										<zephyr-inline-edit
+											*ngIf="editable && !isJira"
+											[placeholder]="'Enter alt ID'"
+											[maxCount]="255"
+											[validationPattern]="altIdValidation"
+											[field]="reqObj.externalId"
+											[editType]="'text'"
+											(onSubmit)="saveReqExternalId($event)"
+										 ></zephyr-inline-edit>
+									</span>
+								 </div>
+							</li>
+							<li [class]="'zee-column'">
+								<div [class]="'zee-column-wrap'">
+									<strong [class]="'zee-column-name'"><b>Link</b></strong>
+									<span [class]="'zee-column-value'">
+										<span *ngIf="!editable || isJira">{{reqObj.url}}</span>
+										<zephyr-inline-edit
+											*ngIf="editable && !isJira"
+											[placeholder]="'Enter Link'"
+											[validationPattern]="linkVaidation"
+											[field]="reqObj.url"
+											[editType]="'text'"
+											(onSubmit)="saveReqLink($event)"
+										></zephyr-inline-edit>
+									</span>
+									<span>
+										<button class="zui-btn zui-btn-primary navigate-link" [disabled]="!reqObj.url.length" (click)="navigateToLink($event)">Go</button>
+									</span>
+								 </div>
+							</li>
+						</ul>
+					</div>
+				</zee-expander>
+			</div>
+
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-customfields-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="collapsed">
+					<div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+						<h5 [class]="'zee-module-title'">Custom Fields</h5>
+					 </div>
+					 <div [class]="'zee-module-content'">
+						 <zee-custom-fields
+							[editable]="editable && !isJira"
+							[customFields]="customField.customFields"
+							[customFieldTypes]="customField.customFieldTypes"
+							[customProperties]="customField.customProperties"
+							(onCustomPropertiesUpdate)="saveCFFieldValue($event)"
+						 ></zee-custom-fields>
+					</div>
+				</zee-expander>
+			</div>
+
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-attachment-module" [class]="'zee-module zee-module-toggle-wrapper js-panel-collapse'" [action]="collapsed" (onPanelToggle)="attachmentPaneltoggle($event)">
+					<div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+						<h5 [class]="'zee-module-title'">Attachments</h5>
+					 </div>
+					 <div [class]="'zee-module-content'">
+						 <attachments
+						 	*ngIf="!isJira"
+							[isEditAvaiable]="editable"
+							[entityType]="'requirement'"
+							[id]="reqObj.id"
+							[isEditAvaiable]="true"
+						></attachments>
+					</div>
+				</zee-expander>
+			</div>
+
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-map-module" [class]="'zee-module zee-module-toggle-wrapper js-panel-collapse'" [action]="collapsed">
+					<div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+						<h5 [class]="'zee-module-title'">Mapped TestCases</h5>
+					 </div>
+					 <div [class]="'zee-module-content'">
+						 <div class="row">
+							 <div class="col-md-12">
+								 <map-req-test
+								 	*ngIf="allowMapping"
+								 	[editable]="isMapEnabled()"
+									[buttonText]="'Map TestCase'"
+									[title]="'Map TestCases To Requirements'"
+									[type]="'test'"
+									[gridId]="reqObj.id"
+									(onSaveMap)="saveMap($event)"
+								 ></map-req-test>
+								 <span class="map-text">{{coverage}}</span>
+							 </div>
+						 </div>
+					</div>
+				</zee-expander>
+			</div>
+		</div>
+
+		<div class="col-md-4 bg-white">
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-people-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="expanded">
+			        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+			            <h5 [class]="'zee-module-title'">People</h5>
+			         </div>
+			         <div [class]="'zee-module-content'">
+			             <ul class="zee-details-column-list clearfix">
+			                <li [class]="'zee-column'">
+			                    <div [class]="'zee-column-wrap'">
+			                        <strong [class]="'zee-column-name'"><b>Created By</b></strong>
+			                        <span [class]="'zee-column-value'">
+			                            <user-detail [userId]="reqObj.createdBy"></user-detail>
+			                        </span>
+			                    </div>
+			                </li>
+			                <li [class]="'zee-column'">
+			                    <div [class]="'zee-column-wrap'">
+			                        <strong [class]="'zee-column-name'"><b>Created On</b></strong>
+			                        <span [class]="'zee-column-value'" *ngIf="reqObj.createdOn">
+			                            {{reqObj.reqCreationDate}}
+			                        </span>
+			                    </div>
+			                </li>
+			             </ul>
+			        </div>
+			    </zee-expander>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="zee-sub-item">
+				<zee-expander id="zee-requirement-description-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="expanded">
+					<div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+						<h5 [class]="'zee-module-title'">Description</h5>
+					 </div>
+					 <div [class]="'zee-module-content'">
+						 <div>
+							 <zee-rich-text-editor
+                				[height]="300"
+                				[editable]="editable && !isJira"
+				 				[editorId]="'editor'"
+				 				[editorContent]="reqObj.details"
+								[maxLength]="10000"
+								(onKeyUp)="onKeyUp($event)"
+				 			></zee-rich-text-editor>
+						</div>
+						<div class="save-wrapper">
+							<span><button class="zui-btn zui-btn-sec" [disabled]="isEditDisabled()" (click)="resetDescription($event)">Cancel</button></span>
+              				<span><button class="zui-btn zui-btn-primary" [disabled]="isEditDisabled()" (click)="saveRichText($event)">Save</button></span>
+						</div>
+					</div>
+				</zee-expander>
+			</div>
+		</div>
+	</div>
+
+</section>

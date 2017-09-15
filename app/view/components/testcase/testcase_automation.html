@@ -1,0 +1,74 @@
+<div [class]="'zee-testcase-automation-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Automation</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <ul class="zee-details-column-list clearfix">
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <div class="zui-checkbox2">
+                            <input id="zui-automated-script-checkbox" class="form-control" name="automated" type="checkbox"
+                                value="automation.automated"
+                                (change)="saveAutomationPreference(!automation.automated)"
+                                [disabled]="!editable" />
+                            <label></label>
+                        </div>
+                        <label for="zui-automated-script-checkbox"><b>Automated Script</b></label>
+                    </div>
+                </li>
+
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Name</b></strong>
+                        <div [style.width.px]="'100'" [class]="'zee-column-value'">
+                            <zephyr-inline-edit
+                                *ngIf="automation.automated && editable"
+                                [placeholder]="'Enter name'"
+                                [validationPattern]="nameValidation"
+                                [isRequired]="true"
+                                [field]="automation.scriptName"
+                                [editType]="'text'"
+                                (onSubmit)="saveScriptName($event)"
+                            ></zephyr-inline-edit>
+                            <span *ngIf="!editable">{{automation.scriptName}}</span>
+                        </div>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>ID</b></strong>
+                        <div [style.width.px]="'100'" [class]="'zee-column-value'">
+                            <zephyr-inline-edit
+                                *ngIf="automation.automated && editable"
+                                [placeholder]="'Enter ID'"
+                                [field]="automation.scriptId"
+                                [validationPattern]="idValidation"
+                                [editType]="'text'"
+                                (onSubmit)="saveScriptId($event)"
+                            ></zephyr-inline-edit>
+                            <span *ngIf="!editable">{{automation.scriptId}}</span>
+                        </div>
+                    </div>
+                </li>
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'"><b>Path</b></strong>
+                        <div [style.width.px]="'100'" [class]="'zee-column-value'">
+                            <zephyr-inline-edit
+                                *ngIf="automation.automated && editable"
+                                [placeholder]="'Enter path'"
+                                [validationPattern]="pathValidation"
+                                [field]="automation.scriptPath"
+                                [editType]="'text'"
+                                (onSubmit)="saveScriptPath($event)"
+                            ></zephyr-inline-edit>
+                            <span *ngIf="!editable">{{automation.scriptPath}}</span>
+                        </div>
+                    </div>
+                </li>
+                <li *ngIf="automation.automated && !_testcase.testcase['scriptName']" class="zee-error">Please enter the script name before you can save.</li>
+             </ul>
+        </div>
+    </zee-expander>
+</div>

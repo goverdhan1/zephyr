@@ -1,0 +1,38 @@
+<zui-modal [ngClass]="{'create-issue-form': isProjectIssueSelected}" [title]="parentIssue ? 'Create Sub Task' : 'File New Defect'" [modalId]="'file-new-defect-modal'" [modalSize]="isProjectIssueSelected ? 'medium' : 'small'">
+    <zui-modal-body>
+        <file-new-defect
+            [disableCopyTestStep]="true"
+            [parentIssue]="parentIssue"
+            [isProjectIssueSelected]="isProjectIssueSelected"
+            [issueMetaData]="issueMetaData"
+            [projects]="projects"
+            [issueTypes]="issueTypes"
+            (onSetProject)="onSetProject($event)"
+            (onSetIssueType)="onSetIssueType($event)"
+        ></file-new-defect>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <div class="project-issuetype-selection-buttons" *ngIf="!isProjectIssueSelected">
+            <div>
+                <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button [ngClass]="{'disabled': !selectedProjectName || !selectedIssueTypeName}" type="button" class="zui-btn zui-btn-primary" (click)="onProjectIssueTypeSelection($event)">{{'zephyr.button.next' | i18nSelect: i18nMessages}}</button>
+            </div>
+        </div>
+        <div class="create-defect-action-buttons" *ngIf="isProjectIssueSelected">
+            <div class="project-selection-back-buttons floatLeft">
+                <button type="button" class="zui-btn zui-btn-sec backToProjectSelection" (click)="backToProjectSelection($event)" data-dismiss="modal">Back</button>
+            </div>
+            <div>
+                <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: fndFormCmp && fndFormCmp.cdFormCmp && fndFormCmp.cdFormCmp.createDefectForm && fndFormCmp.cdFormCmp.createDefectForm.invalid}" type="button" (click)="onDefectCreation($event)">{{'zephyr.button.create' | i18nSelect: i18nMessages}}</button>
+            </div>
+        </div>
+    </zui-modal-footer>
+</zui-modal>
+<defect-advanced-detail
+    [parentIssueKey]="parentIssueKey"
+    [issueMetaData]="issueMetaData"
+    [updateIssueTypeName]="selectedIssueTypeName"
+    [selectedDefect]="selectedDefect"
+    *ngIf="selectedDefect"
+></defect-advanced-detail>

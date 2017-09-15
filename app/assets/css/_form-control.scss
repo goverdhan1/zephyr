@@ -1,0 +1,280 @@
+
+.subform {
+  padding: 20px 15px;
+  border-bottom: 2px solid #F3F3F3;
+
+  .zui-select {
+  	display: inline-block;
+  	min-width: 40%;
+  	select {
+  		width: 100%;
+  	}
+  }
+  .zui-select2 {
+      width: 60%;
+
+      .select2-container {
+          .select2-selection--multiple, .select2-selection--single {
+              border-radius: 0;
+              border: 1px solid #CCC;
+          }
+      }
+  }
+
+  .zui-checkbox2 {
+    margin: 5px 0;
+    label {
+      float: none;
+      &:after {
+        content: '';
+      }
+    }
+  }
+
+  .zui-radio label {
+    width:auto;
+  }
+
+  &:empty {
+    display: none;
+  }
+
+  select {
+    height: 35px;
+  }
+
+  h4 {
+    &.inline-heading {
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+  }
+
+  p {
+    /*font-size: 14px;*/
+    margin-bottom: 5px;
+  }
+
+  label,
+  .form-control {
+    font-size: $zui-strong-font;
+  }
+
+  label {
+    display: inline !important;
+    line-height: 1.5 !important;
+    width: 29%;
+    display: inline-block;
+    float: left;
+    vertical-align: middle;
+    line-height: 33px;
+    margin-bottom: 0;
+    position: relative;
+
+    .input-required {
+      color: $color-froly;
+    }
+
+    &.full-width {
+      width: calc(20% - 0.46875rem);
+    }
+
+  }
+  .field-add-edit-form {
+      &.disabled {
+        pointer-events : none;
+      }
+    }
+  .form-control,
+  .field-value {
+    display: inline-block;
+    width: 60%;
+    margin-bottom: 2px;
+    float: left;
+    vertical-align: middle;
+    outline: none;
+
+    &[type='color'] {
+        height: 2.5rem;
+        width: 20%;
+    }
+    &[type='checkbox'] {
+        width: auto;
+    }
+  }
+  .select-control {
+    width: 100%;
+    float: left;
+
+    .select2-container {
+        width: 100% !important;
+    }
+  }
+
+  .input-group {
+
+    &.url-group {
+      .zee-inline-edit {
+        .zephyr-editable-field-view-mode {
+          display: inline-block;
+        }
+
+        &:before,
+        &:after {
+          content: 'https://';
+          display: inline-block;
+          color: #AAA;
+        }
+
+        &:after {
+          content: '/zephyr/desktop';
+        }
+      }
+    }
+
+    &.dashboard-group {
+      .zee-inline-edit {
+
+        &:after {
+          content: '/zephyr/dashboard';
+        }
+      }
+    }
+
+    &.full-width {
+      width: calc(80% + 0.46875rem);
+    }
+  }
+
+
+  .field-value {
+    font-size: $zui-strong-font;
+    line-height: 2.5;
+    margin: 0;
+
+    span {
+      display: block;
+    }
+  }
+
+  .enable-lock-zephyr-access {
+    margin: 10px 0;
+  }
+
+  .pickList-buttons {
+    width: 60%;
+    float: left;
+
+    .form-control {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+
+  .input-group-addon {
+    font-size: 14px;
+    height: 30px;
+  }
+
+  button {
+    outline: none;
+  }
+  .button-info {
+      clear: both;
+      float: left;
+      line-height: 30px;
+      margin: 0 0 0 15px;
+  }
+
+  .truncated {
+    .form-control {
+      width: 45%;
+    }
+
+    button {
+      float: left;
+      padding: 6px 0px;
+      width: 15%;
+      margin-left: -1px;
+    }
+
+    &.long {
+      .form-control {
+        width: 37%;
+      }
+
+      button {
+        width: 23%;
+      }
+    }
+  }
+  .checkbox-radio-wrap {
+    label {
+      width:25%;
+      float: none;
+    }
+  }
+  .checkbox-wrap {
+
+    .margin-helper {
+      margin-left: 40%;
+    }
+
+    label {
+      float: none;
+
+      &:after {
+        content: '';
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .skin-wrapper {
+    border:1px solid #CCC;
+    text-align:center;
+    padding: 0 0 15px 0;
+    max-width: 150px;
+    border-radius: 5px;
+
+    p {
+      padding: 5px;
+      border-bottom: 1px solid transparent;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .skin {
+      width: 85px;
+      height: 105px;
+      margin: 0 auto;
+      background-size: cover;
+
+      &.carbon {
+        background: url('assets/images/theme-carbon.png') center no-repeat;
+      }
+
+      &.steel {
+        background: url('assets/images/theme-steel.png') center no-repeat;
+      }
+
+      &.classic {
+        background: url('assets/images/theme-classic.png') center no-repeat;
+      }
+
+    }
+
+    &.active {
+      border:1px solid #8DC65E;
+
+      p {
+        background: #8DC65E;
+        border-bottom: 1px solid #8DC65E;
+        color: #FFF;
+      }
+    }
+  }
+}

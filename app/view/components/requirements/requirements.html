@@ -1,0 +1,189 @@
+<!--<left-nav [columns]="navColumns" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'requirements'"
+></zui-project-left-nav>
+<test-requirements-component>
+    <div class="main-content" role="main">
+        <div class="module-subheader clearfix">
+            <div class="left-navs">
+                <!-- <h3><b>Requirements</b></h3> -->
+                <bread-crumb [breadCrumbsList]=breadCrumbsList (click)="onBreadCrumbClick($event)"></bread-crumb>
+            </div>
+            <div *ngIf="!isPanelCollapsed" class="zui-tcr-folder-view">
+                <div [class]="">
+                    <a (click)="toggleSearchFolderView(true)" [ngClass]="{'active': isSearchView, 'zui-tcr-view-disabled': isSearchView}">
+                        <span>
+                            <i [class]="'fa fa-search zui-search-icon'" aria-hidden="true"></i>
+                            {{'zephyr.tcr.view.search' | i18nSelect: i18nMessages}}
+                        </span>
+                    </a>
+                </div>
+                <div>
+                    <a (click)="toggleSearchFolderView(false)" [ngClass]="{'active': !isSearchView, 'zui-tcr-view-disabled': !isSearchView}">
+                        <span>
+                            <i class="fa fa-folder-open" aria-hidden="true"></i>
+                            {{'zephyr.tcr.view.folder' | i18nSelect: i18nMessages}}
+                        </span>
+                    </a>
+                </div>
+                <notifications *ngIf="!isSearchView"
+                  [appId]="appId"
+                  (onNotificationApply)="applyNotifications($event)"
+                ></notifications>
+            </div>
+        </div>
+        <div [ngClass]="{'req-detail-view': isDetailView, 'req-search-view': isSearchView, 'zui-content-layout layout6': true, 'req-tree-expanded': expandTree}">
+            <div class="row">
+                <section *ngIf="isSearchView && !_isMobile && !isPanelCollapsed" [class]="'zui-search-details-container'">
+                    <section *ngIf="isSearchView && !_isMobile && !isPanelCollapsed" class="zui-search-details-container">
+                        <div class="zee-layout" style="padding: 10px;">
+                            <zui-zephyr-search
+                                [isAdvancedSearch]="isAdvancedSearch"
+                                [releaseId]="releaseId"
+                                [searchText]= "searchText"
+                                [searchFieldSrcId]="'req-search'"
+                                [zqlEntityName]="'requirement'"
+                                [showFilters]="'true'"
+                                (onSearchGo)="onSearchGo($event)"
+                            ></zui-zephyr-search>
+                            <div class="clearfix in-release">
+                                <label for="in-release">In this release :</label>
+                                <div class="zui-checkbox2">
+                                    <input id="in-release" class="form-control" name="inRelease" type="checkbox" [(ngModel)]="inRelease" />
+                                    <label for="in-release"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+            <div class="row upper-split">
+                <div [ngClass]="{'col-md-12': true, 'resizable-flex-wrapper': true}">
+                    <div class="zui-flex-v-resizable" [hidden]="isPanelCollapsed">
+                        <div class="zui-content-layout layout5">
+                            <div class="row upper-split">
+                                <div class="col-md-12 resizable-flex-wrapper">
+                                    <div #target [ngClass]="{'hide': isSearchView}" [hidden]="_isMobile && !mobileNavigation.showTree">
+                                        <tree-view
+                                            [dragCb]="dragCb"
+                                            [checkCb]="checkCb"
+                                            [treeClass]="' tree-tcr'"
+                                            [treeData]=treeData
+                                            [showContextMenu]="true"
+                                            [contextMenuItems]="reqContextMenuItems"
+                                            [createNode]="createNode"
+                                            [deleteNode]="deleteNode"
+                                            [selectID]="selectedTreeId"
+                                            [openSelect]="selectedTreeId"
+                                            [renameNode]="renameNode"
+                                            [treeContext]="'-requirement'"
+                                            [selectOnRedraw]="true"
+                                            [forceSelect]="forceSelect"
+                                            [selectFilter]="selectFilter"
+                                            [showCount]="true"
+                                            [dropExternal]="dropExternal"
+                                            [doAllocate]="doAllocate"
+                                            [showDocker]="true"
+                                            [sectionTitle]="['Requirements']"
+                                            (onTreeNodeDragAndDrop)="onReqNodeDragAndDrop($event)"
+                                            (onTreeNodeDrag)="onTreeNodeDrag($event)"
+                                            (onTreeNodeDrop)="onTreeNodeDrop()"
+                                            (onTreeNodeClick)="onreqTreeClick($event)"
+                                            (onDragEnd)="onTreeDrop($event)"
+                                            (clearTreeUpdate)="clearTreeUpdate()"
+                                            (treeInstance)="treeInstance($event)"
+                                        ></tree-view>
+                                    </div>
+                                    <!-- <div class="zui-w-handle">
+                                        <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                                        <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                                    </div> -->
+                                    <div class="zui-flex-h-fixed" id="tcr-grid">
+                                        <div [hidden]="_isMobile && !mobileNavigation.showGrid" [class]="'req-grid'">
+                                            <zui-req-operations
+                                              [inRelease]="inRelease"
+                                              [isMenuShown]="isMenuShown"
+                                              [treeType]="treeType"
+                                              [reqCatalogTreeId]="selectedTreeId"
+                                              [reqIDs]="selectedReqIds"
+                                              [reqOpeartionConstants]="reqConstants"
+                                              [releaseId]="releaseId"
+                                              [isSearchView]="isSearchView"
+                                              [isDeAllocate]="!isImported && !isGlobal"
+                                              [isGlobal]="isGlobal"
+                                              [isImported]="isImported"
+                                              [projectId]="projectId"
+                                              [searchText]="searchText"
+                                              [isAdvancedSearch]="isAdvancedSearch"
+                                            ></zui-req-operations>
+
+
+                                            <grid class="req-grid-table grid-10-row-fix"
+                                                [rowIds]="selectedReqIds"
+                                                [rows]="viewReqGridRows"
+                                                [emitSort]="true"
+                                                [gridType]="_reqGridType"
+                                                [treeType]="parenttype"
+                                                [paginationOptions]="paginationOptions"
+                                                (onGridRowClick)="reqGridRowClick($event)"
+                                                (onGridRowSelection)="reqGridRowSelection($event)"
+                                                (onGridPrevClick)="reqGridPrevClick($event)"
+                                                (onGridNextClick)="reqGridNextClick($event)"
+                                                (onGridPaginateByIndex)="reqGridPaginateByIndex($event)"
+                                                (onDialogTrigger)="showReqCoverage($event)"
+                                                (onGridPageSizeChange)="reqGridPageSizeChange($event)"
+                                                (onSort)="onSort($event)"
+                                                (onGridLinkClick)="reqGridLinkClick($event)">
+                                            </grid>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zui-s-handle" [hidden]="!reqId">
+                        <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+                        <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+                    </div>
+                    <div class="zui-flex-v-fixed">
+                        <div id="zephyr-req-detail-panel" [hidden]="_isMobile && !mobileNavigation.showTestcase">
+                            <zee-requirement-details
+                                *ngIf="toggleForDetails"
+                                [editable]="details_editable"
+                                [isGlobal]="isGlobal"
+                                [isSearchView]="isSearchView"
+                                [releaseId]="releaseId"
+                                [selectedTreeId]="selectedTreeId"
+                                [allowMapping]="true"
+                                [currentRecord]="currentRecord"
+                                [totalRecords]="totalRecords"
+                                (onRecordChange)="onRecordChange($event)"
+                                (onSaveMap)="saveMap($event)"
+                            ></zee-requirement-details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div [class]="'zephyr-req-import'">
+        <zee-import-dialog-requirement [syncClicked]="syncClicked" [fieldOptions]="reqImportTestOptions['import']"></zee-import-dialog-requirement>
+    </div>
+</test-requirements-component>
+
+<job-status [modalHeading]="'Requirement Sync Progress'" [messages]="syncMessages" [jobStatusId]="'-requirement'" (jobCompleted)="jobCompleted()"></job-status>
+<zee-update-defect-user *ngIf="syncClicked" (onCloseUpdateUserModal)="onCloseDTUpdateUserModal(event)" (onShowUpdateUserModal)="onShowDTUpdateUserModal($event)" [isModal]="true"></zee-update-defect-user>
+<zui-coverage-grid [useRelease]="true" [gridType]="_tcrGridType" [ids]="coverageTestcaseIds" [releaseId]="releaseId" *ngIf="coverageTestcaseIds.length"></zui-coverage-grid>
+
+<!--<zui-modal [title]="'Switch view'" [modalId]="'switch-to-search-modal'" [modalSize]="'small'">-->
+  <!--<zui-modal-body>-->
+    <!--<p *ngIf="!isSearchView">Do you want to switch to search view?</p>-->
+    <!--<p *ngIf="isSearchView">Do you want to switch to folder view?</p>-->
+  <!--</zui-modal-body>-->
+
+  <!--<zui-modal-footer>-->
+    <!--<button type="button" class="zui-btn zui-btn-primary" (click)="dismissSwitchViewModal(!isSearchView,true)" data-dismiss="modal">Yes</button>-->
+    <!--<button type="button" class="zui-btn zui-btn-sec" (click)="dismissSwitchViewModal(!isSearchView,false)" data-dismiss="modal">No</button>-->
+  <!--</zui-modal-footer>-->
+<!--</zui-modal>-->

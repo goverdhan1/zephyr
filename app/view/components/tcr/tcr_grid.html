@@ -1,0 +1,20 @@
+<grid class="tcr-grid-table tcr-grid-table-main"
+    [rows]=tcrGridRows
+    [rowIds]="selectedTctIds"
+    [secondaryIds]="secIds"
+    [gridType]="_tcrGridType"
+    [hideReset]="hideReset"
+    [emitSort]="true"
+    [paginationOptions]="paginationOptions"
+    [doDirtyCheck]="true"
+    (onGridRowClick)="tcrGridRowClick($event)"
+    (onGridPrevClick)="tcrGridPrevClick($event)"
+    (onGridNextClick)="tcrGridNextClick($event)"
+    (onDialogTrigger)="showTestcaseCoverage($event)"
+    (onGridPageSizeChange)="tcrGridPageSizeChange($event)"
+    (onGridPaginateByIndex)="tcrGridPaginateByIndex($event)"
+    (onSort)="onSort($event)"
+    (onGridRowSelection)="tcrGridRowSelection($event)">
+</grid>
+
+<zui-coverage-grid [useRelease]="!isSearchView" [gridType]="_reqGridType" [ids]="coverageRequirementIds" [releaseId]="releaseId" *ngIf="coverageRequirementIds.length"></zui-coverage-grid>

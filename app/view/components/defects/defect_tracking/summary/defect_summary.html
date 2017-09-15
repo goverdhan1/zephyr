@@ -1,0 +1,10 @@
+<div class="zui-defect-summary-container">
+    <div class="defect-summary-header defects-header">
+        <h5 class="zee-content-subtitle">Defects Linked to Execution</h5>
+    </div>
+    <div class="zui-defect-summary-wrapper">
+        <div class="zui-defect-summary-list" *ngFor="let summary of summaries">
+            <zui-summary-box [summary]="summary"></zui-summary-box>
+        </div>
+    </div>
+</div>

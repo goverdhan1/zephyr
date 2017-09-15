@@ -1,0 +1,25 @@
+<div [class]="'zee-testcase-time-wrapper'">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Time</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <ul class="zee-details-column-list">
+                <li [class]="'zee-column'">
+                    <div [class]="'zee-column-wrap'">
+                        <strong [class]="'zee-column-name'" style="line-height: 1.6"><b>Actual time</b></strong>
+                        <span *ngIf="!editable">{{time.actualTime | timeParserPipe : _pipeArgs}}</span>
+                        <span *ngIf="editable" id="testcase-actual-time" [class]="'zee-column-value'">
+                            <zephyr-inline-edit
+                                [placeholder]="'Enter actual time'"
+                                [field]="time.actualTime"
+                                [editType]="'duration'"
+                                (onSubmit)="saveActualTime($event, 'time')"
+                            ></zephyr-inline-edit>
+                        </span>
+                    </div>
+                </li>
+             </ul>
+        </div>
+    </zee-expander>
+</div>

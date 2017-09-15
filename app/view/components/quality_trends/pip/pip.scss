@@ -1,0 +1,8 @@
+pip {
+    overflow-x: hidden; 
+    overflow-y: auto;
+    
+    .nvd3 .nv-x .nv-axis .tick.zero > line {
+        display: none;
+    }
+}

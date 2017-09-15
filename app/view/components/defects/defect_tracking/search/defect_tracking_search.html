@@ -1,0 +1,78 @@
+<div class="defect-details-container" [ngClass]="{'full-height': !rowClicked}">
+    <div class="defect-details-container-child">
+      <div class="defect-details-header defects-header">
+        <h5 class="zee-content-subtitle"></h5>
+      </div>
+      <div class="defects-search-chooser">
+        <span class="search-title"><label>Search</label></span>
+        <span [title]="searchLinkTooltip" (click)="toggleSearch()" class="search-link-title"><a class="zui-link">{{searchLinkTitle}}</a></span>
+      </div>
+      <div class="defects-search-chooser-container">
+        <div [hidden]="!isBasicView" class="defects-basic-search-container">
+            <defects-basic-search
+                [basicSearchURLParams]="basicSearchURLParams"
+                (onDefectBasicSearch)="onDefectBasicSearch($event)"
+                (selectFilter)="basicSearchSelect($event)"
+            ></defects-basic-search>
+        </div>
+        <div [hidden]="isBasicView" class="defects-advanced-search-container">
+          <defects-advanced-search-finder
+            [hiddenOptions]="['id']"
+            [jqlQuery]="query"
+            [selectedSearchCriteria]="selectedSearchCriteria"
+            [filters]="filters"
+            [selectedFilter]="selectedFilter"
+            (searchFromButton)="searchFromButton($event)"
+            (onSelectedSearchCriteriaChange)="selectedSearchCriteriaChange($event)"
+            (onSearchDefectsByJQL)="updateURLJQL($event)"
+            (onSearchDefectsByFilters)="updateURLFilters($event)">
+          </defects-advanced-search-finder>
+        </div>
+      </div>
+      <div class="defect-search-grid-bar">
+        <div class="defect-id-search-grid">
+          <form>
+            <div class="zui-input-group resource-search">
+              <input name="gridBarDefectId" [(ngModel)]="gridBarDefectId" class="form-control" placeholder="Search by Defect ID" type="text">
+              <span class="input-group-btn">
+		        <button class="zui-btn zui-btn-primary" type="submit" (click)="updateURLID()">
+		        	<span class="fa fa-search"></span>
+		        </button>
+		      </span>
+            </div>
+          </form>
+        </div>
+        <div class="defect-details-buttons">
+          <button [disabled]="isCreateSubTaskButtonDisabled()" [class]="'btn btn-secondary'" style="margin-right:4px;" (click)="createSubTask($event)">Create Sub-task</button>
+          <button [disabled]="isBulkEditButtonDisabled()" [class]="'btn btn-secondary'" style="margin-right:4px;" (click)="showBulkEditModal()">Change Multiple</button>
+
+          <zee-defect-export
+            [fieldOptions]="defectOperationConstants"
+            [defectIds]="selectedDefectIds"
+            [disabled]="selectedDefectIds.length > maxDefectsForExport"
+            [maxAllowed] ="maxDefectsForExport"
+          ></zee-defect-export>
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="{'defect-details-grid defect-details-grid-full': !rowClicked, 'defect-details-grid' : rowClicked}">
+        <grid [rows]=gridRows
+            [gridType]="_defectDetailsGridType"
+            [paginationOptions]="paginationOptions"
+            (onGridPrevClick)="gridPrevClick($event)"
+            (onGridLinkClick)="onGridLinkClick($event)"
+            (onGridNextClick)="gridNextClick($event)"
+            (onGridPaginateByIndex)="gridPaginateByIndex($event)"
+            (onGridPageSizeChange)="gridPageSizeChange($event)"
+            (onGridRowSelection)="gridRowSelection($event)"
+            [rowIds]="selectedDefectIds"
+            (onGridRowClick)="gridRowClick($event)">
+        </grid>
+    </div>
+    <div class="defect-bulk-edit-container" *ngIf="selectedDefects">
+        <zee-defect-bulk-edit
+            [selectedDefects]="selectedDefects"
+            (onDefectBulkUpdate)="onDefectBulkUpdate($event)"
+        ></zee-defect-bulk-edit>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+.defects-admin-wrapper {
+	.tab-content {
+		padding: 15px 0;
+	}
+
+	.defects-admin-grid-wrapper, .preference-form-wrapper {
+		margin-top: 10px;
+	}
+
+	.categories {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		background: #eee;
+		height: 100%;
+
+		li {
+			padding: 5px 10px;
+			border: 1px solid transparent;
+			border-left: 3px solid transparent;
+			cursor: pointer;
+
+			&.active {
+				border: 1px solid #eee;
+				border-left: 3px solid #88C256;
+				background: #FFF;
+			}
+		}
+	}
+
+	.clear-block {
+		padding:20px 0 0;
+
+		.zui-radio + div {
+			padding-left: 20px;
+		}
+		p {
+			margin-bottom: 15px;
+		}
+	}
+
+  .defects-preference-grid .grid-action-icon {
+    display: none !important;
+  }
+
+  .pref-selected .grid-action-icon {
+    display: inline-block !important;
+  }
+
+}

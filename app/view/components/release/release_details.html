@@ -1,0 +1,26 @@
+<!-- project name, description -->
+<div class="zui-content-layout flex-column-stretch">
+    <div [class]="'row'">
+        <div [class]="'col-md-12'">
+            <div *ngIf="releaseModel">
+                <p [class]="'zee-content-subtitle'">{{releaseModel.description}}</p>
+            </div>
+        </div>
+    </div>
+    <form class="margin-dfl">
+        <div class="zui-ng-select select--border">
+            <zee-select
+                [allowClear]="true"
+                [items]="releases"
+                [placeholder]="'Jump to Release'"
+                [hideSearch]="false"
+                (onSelect)="goToRelease($event)"
+            ></zee-select>
+        </div>
+    </form>
+    <div [class]="'zui-release-group'">
+        <div [class]="'zui-release-summary-wrapper'" *ngFor="let summary of summaries">
+            <zui-summary-box [summary]="summary"></zui-summary-box>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="unselected-selected-list-container">
+	<div class="unselected-list">
+		<p>{{unSelectedListHeading}}</p>
+		<div class="box-container">
+			<div class="header-unselected-selected-list">
+				<div class="zui-checkbox2">
+				    <input #cb (change)="allCheckboxUnselectedList(cb.checked)" type="checkbox" id="globalListSubHeading">
+				    <label for="globalListSubHeading">{{unSelectedListSubHeading}}</label>
+				</div>
+				<span class="forward-image" (click)="transferToSelected()"></span>
+			</div>
+			<div class="container-all">
+				<div *ngFor="let name of unselectedList;">
+					<div class="zui-checkbox2">
+					    <input type="checkbox" [attr.id]="name.id">
+					    <label [attr.for]="name.id">{{name.name}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="selected-list">
+		<p>{{selectedListHeading}}</p>
+		<div class="box-container">
+			<div class="header-unselected-selected-list">
+				<div class="zui-checkbox2">
+				    <input  #cbox (change)="allCheckboxSelectedList(cbox.checked)" type="checkbox" id="globalListSubHeading">
+				    <label for="globalListSubHeading">{{selectedListSubHeading}}</label>
+				</div>
+				<span class="backward-image" (click)="transferToUnSelected()"></span>
+			</div>
+			<div class="container-all">
+				<div *ngFor="let name of selectedList;">
+					<div class="zui-checkbox2">
+					    <input type="checkbox" [attr.id]="name.id">
+					    <label [attr.for]="name.id">{{name.name}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

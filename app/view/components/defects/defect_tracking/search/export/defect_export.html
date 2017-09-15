@@ -1,0 +1,15 @@
+<button disabled="disabled"
+            title="{{disabled ? 'Cannot export more than ' + maxAllowed + ' records' : ''}}"
+            (click)="exportDefects()" [class]="'btn btn-secondary'" type="button" data-toggle="modal"
+            id="zui-export-modal-trigger-{{fieldOptions.id}}">{{fieldOptions.header}}</button>
+<zui-modal [title]="'zephyr.export.download.file.title' | i18nSelect: i18nMessages" [modalId]="'zui-export-modal-' + fieldOptions.id + '-download'" [modalSize]="'small'">
+    <zui-modal-body>
+        <p>{{'zephyr.export.download.description' | i18nSelect: i18nMessages}}</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+     <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="onClickDownloadFile()">{{'zephyr.button.download' | i18nSelect: i18nMessages}}</button>
+       
+    </zui-modal-footer>
+</zui-modal>
+<iframe id="export-file-download-iframe" [style.display]="'none'"></iframe>

@@ -1,0 +1,43 @@
+  <div class="zui-inline-dialog" zui-inline-dialog id="inline-options-{{parentId}}">
+  <a class="inline-dialog-trigger" (click)="openDialog(true)">
+    <span [class]="'zui-inline-options-trigger'">Manage</span>
+  </a>
+  <div class="inline-dialog-body" [hidden]="hideDialogBox" id="inline-options-{{parentId}}-container">
+    <div class="zui-inline-options inline-dialog-content inline-dialog-content-without-padding">
+      <div [class]="'zui-panel-body'">
+        <div [class]="'zui-inline-options-header'">
+          <div [class]="'row col-md-4 col-xs-12'">
+            <div [class]="'clearfix'">
+              <div class="zui-checkbox2" [hidden]="selectOnlyOne">
+                <input #selectAllChxBox id="select-all-options-{{parentId}}" (change)="onSelectAll($event)" class="zui-gadget-checkbox-select-all" name="zui-gadget-checkbox-select-all"
+                       type="checkbox" title="{{'zephyr.common.select.all' | i18nSelect: i18nMessages}}">
+                <label></label>
+              </div>
+              <span [class]="'zui-gadget-label control-label'" [hidden]="selectOnlyOne" [attr.for]="'zui-gadget-checkbox-select-all'">{{'zephyr.common.select.unselect.all' | i18nSelect: i18nMessages}}</span>
+              <!--<b [hidden]="selectOnlyOne">&nbsp;&#124;&nbsp;</b>-->
+              <!--<a [style.cursor]="'pointer'" class="zui-blue" (click)="onUnSelectAll()">{{'zephyr.common.unselect.all' | i18nSelect: i18nMessages}}</a>-->
+            </div>
+          </div>
+          <div class="form-group input-group search-table col-xs-8">
+            <input type="text" class="form-control" (keypress)="inputKeyPress($event)" [(ngModel)]="filter" aria-describedby="emailHelp" placeholder="{{searchPlaceholder}} ">
+            <div class="input-group-addon" (click)="searchOptions()"><span class="fa fa-search zui-search-icon" aria-hidden="true"></span></div>
+          </div>
+          <div [class]="'pull-right'">
+            <button type="button" class="close" (click)="hideDialog()">&times;</button>
+          </div>
+        </div>
+        <div [class]="'row grey-background'">
+          <div *ngFor="let option of options" class="col-md-4 row" style="margin: 0px;" [hidden]="!option.show">
+            <div class="zui-checkbox2">
+              <input id="zui-gadget-checkbox-{{parentId}}-{{option.id}}" name="zui-gadget-checkbox" value="{{option.id}}" type="checkbox" (change)="_toggleCheckbox($event)">
+              <label></label>
+            </div>
+            <div style="width: 60%;">
+              <span [attr.for]="'zui-gadget-checkbox'" id="option" class="zui-checkbox2 zui-checkbox-value">{{option.text}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

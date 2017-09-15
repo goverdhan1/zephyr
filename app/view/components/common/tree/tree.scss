@@ -1,0 +1,109 @@
+.jstree-default .jstree-checked.show-tree-checked>.jstree-checkbox {
+    background-position: -164px -4px;
+}
+
+tree-view{
+    min-width: 50px;
+    display: block;
+    height: 100%;
+    position: relative;
+    .tree-view{
+        width: 50px;
+        box-shadow: 0px 0px 1px 1px #d8d5d5;
+        transition: width 0.2s linear;
+        position: absolute;
+        z-index: 1;
+        max-height: initial;
+
+        &.expanded-on-hover, &.tree-docked{
+            width: 300px;
+            z-index: 1;
+            background-color: white;
+
+            .tree-collapse{
+                display: none;
+            }
+            .tree-collapsible-body{
+                width: 100%;
+                height: calc( 100% - 36px );
+                z-index: 1;
+                opacity: 1;
+            }
+        }
+
+        &.tree-docked{
+            position: relative;
+        }
+
+        .tree-collapse {
+            height: 100%;
+            position: absolute;
+            cursor: pointer;
+            width: 100%;
+            overflow: hidden;
+
+            .tree-collapse-icon{
+                display: block;
+                text-align: center;
+                width: 20px;
+                height: 20px;
+                margin: 12px auto;
+                background: url(assets/images/treepane.png) center center no-repeat;
+                background-size: 100%;
+            }
+            .section-title{
+                float: left;
+                color: rgba(0, 0, 0, 0.6);
+            }
+            .rotated-text-inner {
+                display: inline-block;
+                white-space: nowrap;
+                /* for non IE" browsers
+                   that dosn't support writing-mode */
+                transform: translate(1.1em, 0) rotate(-90deg);
+                transform-origin: center center;
+
+               /* IE9+ */
+               -ms-transform: none;
+               -ms-transform-origin: none;
+               /* IE8+ */
+               -ms-writing-mode: tb-rl;
+               /* IE7 and below */
+               *writing-mode: tb-rl;
+
+              &:before {
+                  content: "";
+                  float: left;
+                  margin-top: 100%;
+              }
+            }
+        }
+        .tree-collapsible-body{
+            width: 0;
+            overflow-x: hidden;
+            position: absolute;
+            opacity: 0;
+            transition: all 0.2s linear;
+        }
+        .collapse-tree-menu {
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+            padding:  0 15px 12px 15px;
+            width: 100%;
+            text-align: right;
+            color: #777;
+            i {
+              transition: all 0.2s linear;
+            }
+            span {
+                cursor: pointer;
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+            }
+        }
+    }
+}

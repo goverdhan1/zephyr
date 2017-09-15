@@ -1,0 +1,26 @@
+<zui-modal [title]="'Delete Node'" [modalId]="'reqDeleteNodeModal'" [modalSize]="'medium'" (onOpen)="onOpen()">
+  <zui-modal-body>
+    <div>
+      <span *ngIf="isDeAllocate">
+        <label>
+            Deleting the node <b>{{nodeName}}</b>, will delete all the nodes underneath it including any data you may have created. Click on “Delete” if you want to do that.
+            <br />
+            You can also deallocate this node, where it will get deallocated from the current release, but will not be deleted and can be found in the Global tree. Click on “Deallocate” if you want to do that.
+            <br />
+        </label>
+      </span>
+      <span *ngIf="!isDeAllocate">
+          Deleting this node <b>{{nodeName}}</b> will permanently remove all nodes underneath it including requirements and their mapping to all Releases and testcases.
+          <br />
+          Are you sure you want to continue?
+          <br />
+      </span>
+    </div>
+  </zui-modal-body>
+  <zui-modal-footer>
+  <button class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+    <button *ngIf="isDeAllocate" class="zui-btn zui-btn-primary" (click)="deallocateReqNode($event)">Deallocate</button>
+    <button class="zui-btn zui-btn-primary" (click)="deleteReqNode($event)">Delete</button>
+
+  </zui-modal-footer>
+</zui-modal>

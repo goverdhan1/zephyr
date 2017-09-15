@@ -1,0 +1,158 @@
+<div *ngIf="isConfigureMode">
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <h5 class="zee-content-subtitle">Configure Gadget</h5>
+      </div>
+    </div>
+  </div>
+
+  <form [class]="'form-margin-helper'">
+
+    <div class="form-group row">
+      <label for="projects"> Project </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="projects"
+          [active]="selectedProject"
+          [placeholder]="'Select Project'"
+          (onSelect)="setProject($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="releases"> Release </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="releases"
+          [active]="selectedRelease"
+          [placeholder]="'Select Release'"
+          (onSelect)="setReleaseValue($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="'form-group flexbox-row'">
+      <label for="filterByPhase"> Filter By</label>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="flexbox-row" id="filterByTag">
+            <div class="zui-radio row margin-top-10">
+              <input name="filterGadget" id= "tag_{{_gadgetId}}" type="radio" [(ngModel)]="config.showBy" value="filter-by-tag" [checked]="config.showBy==='filter-by-tag'"/>
+              <label attr.for="tag_{{_gadgetId}}" class="label-radio">
+                <div class="check"></div>
+                <span>Tag</span>
+              </label>
+            </div>
+            <zui-inline-options
+              id="select-by-tags-{{_gadgetId}}"
+              class="margin-top-10"
+              [parentId]="_gadgetId + '_tag'"
+              [options]="tags"
+              [selectedOptions]="selectedTags"
+              [hidden]="config.showBy !=='filter-by-tag'"
+              [searchPlaceholder]="'Search by Tag name'"
+            >
+            </zui-inline-options>
+          </div>
+          <div class="flexbox-row" id="filterByPhase">
+            <div class="zui-radio margin-top-10">
+              <input name="filterGadget" id= "user_{{_gadgetId}}" type="radio" [(ngModel)]="config.showBy" value="filter-by-user" [checked]="config.showBy==='filter-by-user'"/>
+              <label attr.for="user_{{_gadgetId}}" class="label-radio">
+                <div class="check"></div>
+                <span>Users</span>
+              </label>
+            </div>
+            <zui-inline-options
+              id="select-by-users-{{_gadgetId}}"
+              class="margin-top-10"
+              [parentId]="_gadgetId + '_user'"
+              [options]="users"
+              [selectedOptions]="selectedUsers"
+              [hidden]="config.showBy !=='filter-by-user'"
+              [searchPlaceholder]="'Search by User name'"
+            >
+            </zui-inline-options>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="refreshrate"> Refresh Rate </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="refreshRates"
+          [active]="selectedRefreshRate"
+          [placeholder]="'Select Refresh Rate'"
+          (onSelect)="setRefreshRate($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+
+    <!--<div class="'form-group'">-->
+      <!--<label for="filter"> Filter </label>-->
+      <!--<div class="clearfix">-->
+        <!--<div class="zui-radio row margin-bottom-10">-->
+          <!--&lt;!&ndash;<input (change)="config.showBy = 'filter-by-tag'" name="filterGadget" id= "filter-by-tag" type="radio" value="tag"/>&ndash;&gt;-->
+          <!--<input name="filterGadget" id= "filter-by-tag" type="radio" [(ngModel)]="config.showBy" value="filter-by-tag" [checked]="config.showBy==='filter-by-tag'"/>-->
+          <!--<label for="filter-by-tag" class="label-radio">-->
+            <!--<div class="check"></div>-->
+            <!--<span>Select testcase by </span>-->
+          <!--</label>-->
+          <!--<zee-select-->
+            <!--[items]="tags"-->
+            <!--[multiple]="true"-->
+            <!--[placeholder]="'Tags'"-->
+            <!--[active]="selectedTags"-->
+            <!--[tags]="tagOptions"-->
+            <!--(onSelect)="setTags($event)"-->
+            <!--(onUnselect)="removeTag($event)"-->
+            <!--(onToggle)="selectRadio($event)"-->
+          <!--&gt;</zee-select>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="clearfix">-->
+        <!--<div class="zui-radio row margin-bottom-10">-->
+          <!--&lt;!&ndash;<input (change)="config.showBy = 'filter-by-user'" name="filterGadget" id="filter-by-user" type="radio"  value="user"/>&ndash;&gt;-->
+          <!--<input name="filterGadget" id= "filter-by-user" type="radio" [(ngModel)]="config.showBy" value="filter-by-user" [checked]="config.showBy==='filter-by-user'"/>-->
+          <!--<label for="filter-by-user" class="label-radio">-->
+            <!--<div class="check"></div>-->
+            <!--<span>Select testcase by </span>-->
+          <!--</label>-->
+          <!--<zee-select-->
+            <!--[items]="users"-->
+            <!--[active]="selectedUsers"-->
+            <!--[placeholder]="'Users'"-->
+            <!--[multiple] = "true"-->
+            <!--[tags]="tagOptions"-->
+            <!--(onSelect)="setUsers($event)"-->
+            <!--(onUnselect)="removeUser($event)"-->
+            <!--(onToggle)="selectRadio($event)"-->
+          <!--&gt;</zee-select>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div class="clearfix subform text-right">
+      <button type="button" class="zui-btn zui-btn-sec" (click)="toggleConfigurationMode(false)" *ngIf="_gadget?.projectId && _gadget?.releaseId &&  _gadget?.refreshInterval">Cancel</button>
+      <button type="submit" class="zui-btn zui-btn-primary" (click)="saveConfig()" [disabled]="!enableSave()" >Save</button>
+    </div>
+
+  </form>
+</div>
+
+<div *ngIf="!isConfigureMode">
+  <zui-gadget-metadata
+    [projectName]="projectName"
+    [releaseName]="releaseName"
+    [lastRefresh]="lastRefreshTimeLabel"
+    [refreshRate]="config.refreshRate">
+  </zui-gadget-metadata>
+
+  <zee-content-module-gadget-1 [summary]="summaries"></zee-content-module-gadget-1>
+  <!--<zui-summary-box [summary]="summaries"></zui-summary-box>-->
+  <!--<zee-gadget-module [summary]="summaries"></zee-gadget-module>-->
+</div>

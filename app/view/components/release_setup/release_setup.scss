@@ -1,0 +1,130 @@
+release-setup-details {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	overflow: hidden;
+}
+.add-white-image:after {
+	content: url(assets/images/add-white.png);
+}
+
+.error-image {
+	content: url(assets/images/error.png);
+}
+
+.italic-font-style {
+	font-style: italic;
+}
+release-setup {
+	.datepicker-wrap {
+		display: inline-block;
+	}
+	#confirmation-modal-clone {
+		.modal-body p {white-space: pre-line;}
+	}
+	.small-checkboxes {
+		span.zui-checkbox2 {
+			margin :0px;
+			font-size: 0.8rem;
+			input[type=checkbox] {
+				width:15px;
+				height:15px;
+				vertical-align: sub;
+
+				&+label:before {
+					border: 1px solid #bababa;
+					width:15px;
+					height:15px;
+					vertical-align: sub;
+				}
+				&+label:after {
+					left:2px;
+					top: -2px;
+				}
+
+			}
+		}
+	}
+	.release-grid {
+		grid {
+		    .grid-action-icon {
+				display: inline-block;
+				padding: 0px 10px;
+				min-height: 0;
+		    }
+		 }
+	 }
+	 .release-setup-container {
+	 	padding: 10px;
+	 	h5 {
+	 		padding-left: 15px;
+	 	}
+	 }
+	 .subform {
+		border-bottom:none;
+		max-width: 100%;
+		.zui-select {
+    		min-width:60%;
+    		max-width:60%;
+    	}
+	}
+	h4 {
+		margin-bottom: 20px;
+	}
+	.add-release-btn {
+		margin: 10px;
+	}
+	.release-form {
+		border-top:1px solid #f3f3f3;
+		h5 {
+			padding-left:0px;
+			margin-top: 10px;
+		}
+		input[type="text"].form-control.ng-invalid.ng-untouched,input[type="text"].form-control.ng-invalid.ng-touched {
+      		border: 1px solid $color-froly !important;;
+    	}
+	}
+    bread-crumb {
+    	display:block;
+    	background-color:#f3f3f3;
+    	ul.zui-breadcrumb {
+    		background-color:#f3f3f3;
+    	}
+    }
+    .zui-radio-wrapper {
+    	text-align:left;
+    }
+    .zui-textarea.form-control {
+        height: 80px;
+    }
+    .clone-release {
+    	padding-top:20px;
+    	border-top:1px solid #f3f3f3;
+    	.subform {
+    		padding:0px 15px;
+    	}
+    }
+}
+
+.cloneTreeWrapper {
+	padding-left:15px;
+	div[data-level*='0']:first-child div[data-level*='1']:last-child {
+		margin-left: 350px!important;
+		margin-top: -25px;
+	}
+	&.currentProjectRelease div[data-level*='0']:nth-child(2) div[data-level*='1']:last-child {
+	 	opacity: 0.5;
+    	pointer-events: none;
+
+    	label:first-of-type {
+    		pointer-events: all;
+    	}
+	}
+   .disabled {
+	 	opacity: 0.5;
+    	pointer-events: none;
+    	.disabled {
+    		opacity: 1;
+    	}
+	 }
+}

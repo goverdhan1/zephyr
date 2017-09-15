@@ -1,0 +1,17 @@
+<div class="col-md-12 fieldWrapper">
+    <div class="col-md-2">
+        <span>
+            <label><b>{{field.name}}</b></label>
+            <label class="required" *ngIf="field.required"><b>&nbsp;*</b></label>&nbsp;:
+        </span>
+    </div>
+    <div class="col-md-9">
+        <span>
+            <div id="{{field.fieldKey}}-field" class="datepicker-wrap defect-datepicker">
+                <calendar
+                 [formkey]="formkey"
+                 (validateDate)="onDateChange()"></calendar>
+            </div>
+        </span>
+    </div>
+</div>

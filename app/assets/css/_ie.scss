@@ -1,0 +1,30 @@
+// IE 11 Styles
+_:-ms-fullscreen, :root  body {
+  // overflow-y: initial; /* avoid the double scroll */
+  .release-setup-wrapper  {
+    .release-grid {
+        // height: 100%;
+      }
+    }
+
+    project-releases {
+      height: 100%;
+    }
+
+    .eas-tree-wrapper .tree-view #zephyr-tree-eas-cycle, .eas-phase-tree .tree-view #zephyr-tree-eas-phase {
+      overflow-y: hidden;
+    }
+
+    .release-form .input-group.date-group, .clone-release .input-group.date-group {
+      display: block !important;
+    }
+
+    system-config zui-admin-system-configuration.zui-admin-section .zui-inline-edit.zephyr-editable-field {
+      margin-top: 1px;
+    }
+
+    .zui-inline-edit .zephyr-editable-field-view-mode .zephyr-overlay-icon {
+      height: 30px;
+    }
+
+}

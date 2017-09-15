@@ -1,0 +1,168 @@
+<zui-modal [title]="fieldOptions.title" [modalId]="'zee-create-edit-modal-' + fieldOptions.id" (onBeforeOpen)="onBeforeOpen()">
+    <zui-modal-body>
+        <div class="zee-testcase-details-wrapper">
+            <p class="bulk-edit-note">Please update one or more fields. These changes will be applied to all selected testcases. Click on "Save" button when done.</p>
+            <p class="bulk-edit-error">No property has been updated.</p>
+            <div class="subform bulk-edit-form clearfix">
+                <form #bulkEdit="ngForm" [formGroup]="bulkEditForm" (ngSubmit)="onEditFormSubmit(bulkEdit.form.value)" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="clearfix">
+                                <label for="release-externalid"><b>Alt ID :</b></label>
+                                <input id="release-externalid" class="form-control" name="externalId" type="text"
+                                [formControl]="bulkEditForm.controls['externalId']"/>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-comments"><b>Comments :</b></label>
+                                <textarea id="release-comments" class="form-control" name="comments" [formControl]="bulkEditForm.controls['comments']" type="text" maxlength="2048"></textarea>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-tag"><b>Tags :</b></label>
+                                <div class="zui-select zui-select2">
+                                    <zee-select
+                                        [class]="'select-control'"
+                                        [allowClear]="true"
+                                        [selectId]="tagId"
+                                        [items]="tagItems"
+                                        [tags]="tags"
+                                        [editOptions]="tagEditOptions"
+                                        [multiple]="true"
+                                        (onSelect)="onTagSelect($event)"
+                                        (onUnselect)="onTagUnselect($event)"
+                                    ></zee-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="col-md-6 col-xs-12">
+                            <div class="clearfix">
+                                <label for="release-automated"><b>Automated Script :</b></label>
+                                <div class="zui-checkbox2">
+                                    <input id="release-automated" class="form-control" name="automated" [formControl]="bulkEditForm.controls['automated']" type="checkbox" (change)="toggleAutomationFields($event)"/>
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-scriptname"><b>Name :</b></label>
+                                <input id="release-scriptname" class="form-control" name="scriptName" [formControl]="bulkEditForm.controls['scriptName']" type="text"/>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-scriptid"><b>ID :</b></label>
+                                <input id="release-scriptid" class="form-control" name="scriptId" [formControl]="bulkEditForm.controls['scriptId']" type="text"/>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-scriptpath"><b>Path :</b></label>
+                                <input id="release-scriptpath" class="form-control" name="scriptPath" [formControl]="bulkEditForm.controls['scriptPath']" type="text"/>
+                            </div>
+                            <div class="clearfix">
+                                <label for="release-priority"><b>Priority :</b></label>
+                                <div class="zui-select zui-select2">
+                                    <zee-select
+                                        [class]="'select-control'"
+                                        [allowClear]="true"
+                                        [items]="priorities"
+                                        [hideSearch]="true"
+                                        [selectId]="priorityId"
+                                        (onSelect)="onPrioritySelect($event)"
+                                        (onUnselect)="onPriorityUnselect($event)"
+                                    ></zee-select>
+                                </div>
+                            </div>
+                            <div class="clearfix" title="valid values are from 00:00:01 to 99:23:59(DD:HH:MM)">
+                                <label for="estTime"><b>Estimated time :</b></label>
+                                <zui-estimated-time style="line-height:33px;"
+                                    [value]= "estimatedTime"
+                                    [editMode]=true
+                                    (onDurationUpdate)="onDurationUpdate($event)"
+                                ></zui-estimated-time>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row" *ngIf="areCustomFieldsAvailable">
+                        <div class="col-md-12 col-xs-12">
+                            <h5 class="bulk-edit-note">Custom Fields</h5>
+                            <ul class="zee-details-two-column-list clearfix">
+                                <li class="zee-column" *ngFor="let customfield of entityCustomFields">
+                                    <div class="zee-column-wrap" [ngClass]="{'disabled': customfield.unique}">
+                                        <label class="custom-field-name" title="{{customfield.displayName}}">{{customfield.displayName}}</label>
+                                        <!-- <span class="'zee-column-value'">{{customfield.entityValue}}</span> -->
+                                        <span *ngIf="customfield?.typeMetaData?.dataType" id="{{customfield.id}}" class="zee-column-value"
+                                                [ngSwitch]="customfield.typeMetaData.dataType">
+
+                                            <input *ngSwitchCase="CUSTOM_FIELD_TYPES.CHECKBOX" class="form-control" type="checkbox" name="{{customfield.fieldName}}"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]">
+
+                                            <input *ngSwitchCase="CUSTOM_FIELD_TYPES.NUMBER" class="form-control" type="number" name="{{customfield.fieldName}}"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]" step="any">
+
+                                            <input type="text" name="{{customfield.fieldName}}"
+                                                class="form-control"
+                                                [ngClass]="{'disabled-noop': isDateicker(customfield.fieldName)}"
+                                                *ngSwitchCase="CUSTOM_FIELD_TYPES.DATE"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]"
+                                                value="{{getDateField(customfield.fieldName)}}"
+                                                (click)="enableDate(customfield.fieldName)">
+
+                                            <datepicker zui-position-calendar
+                                                *ngIf="isDateicker(customfield.fieldName)"
+                                                [ngModel]="date[customfield.fieldName]"
+                                                [ngModelOptions]="{standalone: true}"
+                                                (ngModelChange)="saveDate($event, customfield.fieldName)"
+                                            ></datepicker>
+                                            <div *ngIf="isDateicker(customfield.fieldName)" class="pull-left date-cancel-button">
+                                                <button (click)="onClickCancel(customfield.fieldName)" type="cancel">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+
+                                            <input *ngSwitchCase="CUSTOM_FIELD_TYPES.TEXT" class="form-control" type="text" name="{{customfield.fieldName}}"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]">
+
+                                            <select *ngSwitchCase="CUSTOM_FIELD_TYPES.PICKLIST" class="form-control custom-field-dropdown" name="{{customfield.fieldName}}"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]">
+                                                <option *ngFor="let fval of customfield.fieldValues" value="{{fval.id}}">{{fval.text}}</option>
+                                            </select>
+
+                                            <textarea *ngSwitchCase="CUSTOM_FIELD_TYPES.LONG_TEXT" class="form-control" name="{{customfield.fieldName}}"
+                                                [formControl]="bulkEditForm.controls[customfield.fieldName]"></textarea>
+
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix form-footer">
+                        <span *ngIf="areUniqueCustomFieldAvailable" class="button-info">* Unique Custom Fields cannot be edited in bulk.</span>
+                        <button type="button" class="zui-btn zui-btn-sec" (click)="cancelEditForm()">Cancel</button>
+                        <button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormValid()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </zui-modal-body>
+</zui-modal>
+
+<zui-form-dirty-dialog
+    [show]="showDirtyCheckModal"
+    [identifier]="'bulk-edit-dismiss'"
+    (dismissNavigation)="dismissNavigation()"
+    (continueNavigation)="continueNavigation()"
+></zui-form-dirty-dialog>
+<zui-modal [isDraggable]="false" [hideCloseIcon]="true" [title]="'Testcase Update Confirmation'" [modalId]="'bulk-confirm-modal'" (onClose)="onCloseBulk()">
+    <zui-modal-body>
+        <div>You are about to update multiple testcases. These changes are permanent. Changes are:</div><br/>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div [innerHTML]="textValues"></div>
+          </div>
+        </div>
+        <br/>
+
+        <div>Do you want to continue ?</div>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" (click)="cancelConfirm()">Cancel</button>
+	    <button type="button" class="zui-btn zui-btn-primary" (click)="saveBulk()">Save</button>
+    </zui-modal-footer>
+</zui-modal>

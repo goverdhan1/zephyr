@@ -1,0 +1,58 @@
+<div *ngIf="isConfigureMode">
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <h5 class="zee-content-subtitle">Configure Gadget</h5>
+      </div>
+    </div>
+  </div>
+
+  <form [class]="'form-margin-helper'">
+
+    <div class="form-group row">
+      <label for="projects"> Project </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="projects"
+          [active]="selectedProject"
+          [placeholder]="'Select Project'"
+          (onSelect)="setProject($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <!--<div class="form-group">-->
+        <!--<label for="refreshrate"> Refresh Rate </label>-->
+        <!--<div class="zui-ng-select">-->
+          <!--<zee-select-->
+            <!--[items]="refreshRates"-->
+            <!--[active]="selectedRefreshRate"-->
+            <!--[placeholder]="'Select Refresh Rate'"-->
+            <!--(onSelect)="setRefreshRate($event)"-->
+          <!--&gt;</zee-select>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="clearfix subform text-right">
+      <button type="button" class="zui-btn zui-btn-sec" (click)="toggleConfigurationMode(false)" *ngIf="_gadget?.projectId">Cancel</button>
+      <button type="submit" class="zui-btn zui-btn-primary" (click)="saveConfig()" [disabled]="!(config?.project)" >Save</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!isConfigureMode">
+  <zui-gadget-metadata
+    [projectName]="projectName"
+    [lastRefresh]="lastRefreshTimeLabel"
+    [refreshRate]="config.refreshRate">
+  </zui-gadget-metadata>
+
+  <div>
+    <div class="zui-project-summary-container">
+      <div class="zui-project-summary-wrapper" *ngFor="let summary of summaries">
+        <zui-summary-box [summary]="summary" [applyBreak]="true"></zui-summary-box>
+      </div>
+    </div>
+  </div>
+  <!--<zee-gadget-module [summary]="summaries"></zee-gadget-module>-->
+</div>

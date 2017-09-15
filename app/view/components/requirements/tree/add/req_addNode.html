@@ -1,0 +1,20 @@
+<zui-modal>
+    <zui-modal-body>
+        <form [formGroup]="addNodeForm">
+            <span>
+                <div>
+                    <span><label for="addNodeName">Name: (<i class="ast-red">*</i>)</label></span>
+                    <span><input (keypress)="inputKeyPress($event)" type="text" value="" name="reqNodeName" id="addNodeName" class="form-control" maxlength="225" formControlName="name" /></span>
+                </div>
+                <div>
+                    <span><label for="addNodeDescription">Description:</label></span>
+                    <span><textarea rows="5" name="nodeDescription" value="" id="addNodeDescription" class="form-control" maxlength="1024" formControlName="description" type="text"></textarea></span>
+                </div>
+            </span>
+        </form>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" (click)="removeModal()">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" id="reqAddNodeModalSave" (click)="createReqNode()" [disabled]="addNodeForm.invalid">Create</button>
+    </zui-modal-footer>
+</zui-modal>

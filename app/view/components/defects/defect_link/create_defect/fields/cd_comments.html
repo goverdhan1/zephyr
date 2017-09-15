@@ -1,0 +1,12 @@
+<div *ngFor="let comment of comments">
+    <zee-expander id="zee-testcase-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="expanded">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'"><a target="_blank" href="{{defectSystemUrl}}/secure/ViewProfile.jspa?name={{comment.updatedBy}}">{{comment.updatedBy}}</a> added a comment at {{comment.modifiedOn}}</h5>
+        </div>
+        <div [class]="'zee-module-content zee-module-content-inline'">
+            <label>
+                {{comment.comment}}
+            </label>
+        </div>
+    </zee-expander>
+</div>

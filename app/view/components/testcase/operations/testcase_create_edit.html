@@ -1,0 +1,16 @@
+<button [class]="'zui-btn zui-btn-tertiary zui-operations-trigger'"  title="{{disableButton() ? tooltip : ''}}" [disabled]="disableButton()" (click)="onAddClick()" type="button" data-toggle="modal" id="zui-modal-trigger-{{fieldOptions.id}}" [attr.data-target]="'#zee-create-edit-modal-' + fieldOptions.id">{{fieldOptions.header}}</button>
+
+<tcr-bulk-edit
+    *ngIf="isBulkEdit"
+    [fieldOptions]="fieldOptions"
+    [testcaseIds]="testcaseIds">
+</tcr-bulk-edit>
+<zui-modal [title]="'Clone Testcase ?'" [modalId]="'clone-limit-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        You have selected more than {{TESTCASE_CLONE_LIMIT}} testcases to clone. This operation may take time. <br/>Do you want to proceed ?
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">No</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="cloneTestcaseOnUserApproval()">Yes</button>
+    </zui-modal-footer>
+</zui-modal>

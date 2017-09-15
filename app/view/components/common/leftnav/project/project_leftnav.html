@@ -1,0 +1,8 @@
+<left-nav
+    [columns]="column"
+    [activeItemKey]="activeItemKey"
+    [hideSubHeader]="hideSubHeader"
+    (onItemClick)="goToRelease($event)"
+    (onHeaderLinkClick)="navigateToProject($event)"
+    (onNavigateByURL)="navigateToLink($event)"
+></left-nav>

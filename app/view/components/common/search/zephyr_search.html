@@ -1,0 +1,37 @@
+<div [class]="'zui-search-details-container'">
+    <h3 *ngIf="!hideHeader">
+        {{'zephyr.common.search' | i18nSelect: i18nMessages}}
+    </h3>
+    <div class="search-switch">
+        <div class="zui-radio">
+            <input type="radio" name="zui-search" id="zui-search-quick" value="text" [checked]="!isAdvancedSearch" (click)="toggleSearchType(false)" />
+            <label [class]="'zui-search-label'" for="zui-search-quick">
+                <div class="check"></div>
+                <span>{{'zephyr.search.quick' | i18nSelect: i18nMessages}}</span>
+            </label>
+        </div>
+        <div class="zui-radio">
+            <input type="radio" id="zui-search-zql" name="zui-search" value="zql" [checked]="isAdvancedSearch" (click)="toggleSearchType(true)" />
+            <label [class]="'zui-search-label'" for="zui-search-zql">
+                <div class="check"></div>
+                <span>{{'zephyr.search.advanced' | i18nSelect: i18nMessages}}</span>
+            </label>
+        </div>
+    </div>
+    <zui-zql-search
+            [releaseId]="releaseId"
+            [searchFieldSrcId]="searchFieldSrcId"
+            [zqlEntityName]="zqlEntityName"
+            [searchText]="searchText"
+            [showFilters]="showFilters"
+            [hideGoButton]="hideGoButton"
+            (onZQLGo)="onZQLGo($event)"
+            *ngIf="isAdvancedSearch"
+        ></zui-zql-search>
+    <div [class]="'row zui-search-area-wrapper'" *ngIf="!isAdvancedSearch">
+        <div [class]="(showFilters && !fullWidthText)? 'col-md-6': 'col-md-12'">
+            <input #searchTextarea [class]="'zui-search-textarea zui-textarea'" name="zui-search-textarea" id="zui-search-textarea" (keydown)="keyDownFunction($event)" [(ngModel)]="_txtSearchValue" placeholder="{{'zephyr.search.enter.quick' | i18nSelect: i18nMessages}}" />
+            <button *ngIf="!hideGoButton" class="zui-btn zui-btn-primary zui-search-btn-go" (click)="onGoClick(searchTextarea.value)">{{'zephyr.button.go' | i18nSelect: i18nMessages}}</button>
+        </div>
+    </div>
+</div>

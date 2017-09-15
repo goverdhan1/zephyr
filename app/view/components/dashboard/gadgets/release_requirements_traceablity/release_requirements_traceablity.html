@@ -1,0 +1,208 @@
+<div *ngIf="isConfigureMode">
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <h5 class="zee-content-subtitle">Configure Gadget</h5>
+      </div>
+    </div>
+  </div>
+
+  <form [class]="'form-margin-helper'">
+
+    <div class="form-group row">
+      <label for="projects"> Project </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="projects"
+          [active]="selectedProject"
+          [placeholder]="'Select Project'"
+          (onSelect)="setProject($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="releases"> Release </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="releases"
+          [active]="selectedRelease"
+          [placeholder]="'Select Release'"
+          (onSelect)="setReleaseValue($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="requirements"> Requirements </label>
+
+      <span class="margin-top-3" id="requirements">{{selectedRequirements.length}} requirement(s) selected.</span>
+      <!--<zui-inline-table-->
+        <!--class="margin-top-3"-->
+        <!--[parentId]="1"-->
+        <!--[columns]="columns"-->
+        <!--[key]="columnKey"-->
+        <!--[searchOn]="searchOn"-->
+        <!--[options]="requirements"-->
+        <!--[selectedOptions]="selectedRequirements">-->
+      <!--</zui-inline-table>-->
+
+      <zui-inline-table-zql
+        class="margin-top-3"
+        [parentId]="1"
+        [releaseId]="selectedRelease"
+        [columns]="columns"
+        [key]="columnKey"
+        [searchOn]="searchOn"
+        [options]="requirements"
+        [selectedOptions]="selectedRequirements"
+        (onRowSelection)="onRowSelection($event)"
+        >
+      </zui-inline-table-zql>
+    </div>
+
+    <div class="form-group row">
+      <label for="refreshrate"> Refresh Rate </label>
+      <div class="zui-ng-select">
+        <zee-select
+          [items]="refreshRates"
+          [active]="selectedRefreshRate"
+          [placeholder]="'Select Refresh Rate'"
+          (onSelect)="setRefreshRate($event)"
+        ></zee-select>
+      </div>
+    </div>
+
+    <div class="clearfix subform text-right">
+      <button type="button" class="zui-btn zui-btn-sec" (click)="toggleConfigurationMode(false)" *ngIf="_gadget?.projectId && _gadget?.releaseId &&  _gadget?.refreshInterval">Cancel</button>
+      <button type="submit" class="zui-btn zui-btn-primary" (click)="saveConfig()" [disabled]="!enableSave()" >Save</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!isConfigureMode" id="parent-gadget-view-{{_gadgetId}}">
+  <zui-gadget-metadata
+    [projectName]="projectName"
+    [releaseName]="releaseName"
+    [lastRefresh]="lastRefreshTimeLabel"
+    [refreshRate]="config.refreshRate">
+  </zui-gadget-metadata>
+
+  <div class="grey-background table-req" id="req-traceability-table">
+    <table class="table table-hover">
+      <thead class="thead-inverse">
+      <tr>
+        <th width="5%" class="index-column">ID</th>
+        <th>Requirement</th>
+        <th>Testcases</th>
+        <th>Executions</th>
+        <th>Defects</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of reqGridRows; let i = index">
+        <td class="index-column">{{row.requirementId}}</td>
+        <td width="40%">{{row.requirementName}}</td>
+        <td><b>{{row.testcaseCount}}</b></td>
+        <td>
+          <span class='defects-figures display-block' title="Executions" *ngFor="let execution of row.executionStatuses">
+              <span class="executionKey"> {{execution.key}}: <b>{{execution.value}}</b></span>
+            <!--<span class='display-block'></span>-->
+          </span>
+          <!--<span class='defects-figures'>-->
+            <!--<span class='red'>{{row.execution.fail ? row.execution.fail : '0'}}</span>-->
+            <!--<span class='display-block'>Failed</span>-->
+          <!--</span>-->
+        </td>
+        <td width="15%">
+          <span class='defects-figures' title="Defects">
+            <span (click)="showDefectsFromRow(row)"
+                  class='display-block inline-dialog-trigger inline-dialog-trigger-{{_gadgetId}}'>Total : <b class="green">{{row.defectSummary.total}}</b></span>
+            <span (click)="showOpenDefectsFromRow(row)"
+                  class='display-block inline-dialog-trigger inline-dialog-trigger-{{_gadgetId}}'>
+              Open : <b class="open-defects">{{row.defectSummary.open}}</b>
+            </span>
+          </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="inline-dialog-body defects-container" id="inline-defects-{{_gadgetId}}" [hidden]="!showDefects">
+    <div class="defects-popup zui-inline-options zui-inline-table inline-dialog-content inline-dialog-content-without-padding">
+      <div class="zui-panel-body" id="inline-defects-body-{{_gadgetId}}">
+        <div class="grey-background" id="table-container">
+          <table class="table table-hover">
+            <thead class="thead-inverse">
+            <tr>
+              <th width="10%">
+                ID
+              </th>
+              <th>
+                Ext. ID
+              </th>
+              <th>
+                Status
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let defect of defects">
+              <td scope="row">
+                {{defect.id}}
+              </td>
+              <td scope="row">
+                {{defect.external_id}}
+              </td>
+              <td scope="row">
+                {{defect.status}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-pagination" *ngIf="reqGridRows.length">
+    <div class="pagination-details">
+      <div class="page-size-selector">
+        <div class="zui-select">
+          <select class="page-size form-control ng-untouched ng-pristine ng-valid" id="pagination-page-size-{{_gadgetId}}" (change)="reqGridPageSizeChange($event)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+      <div class="page-track"><span class="zee-pagination-count-show">showing </span><b> {{paginationOptions.currentFirst}} </b> to <b> {{paginationOptions.currentLast}} </b> of <b>{{paginationOptions.totalRecords}}</b>
+      </div>
+    </div>
+
+    <ul class="pagination zui-pagination">
+      <li class="prev-page" [ngClass]="{'disabled': paginationOptions.isFirst}" (click)="reqGridPrevClick($event)">
+        <a>
+          <span> Prev </span>
+        </a>
+      </li>
+
+      <li class="prev-page" *ngFor="let page of paginationOptions.pageNumbers;" (click)="reqGridPaginateByIndex(page)" [ngClass]="{'disabled': page == paginationOptions.currentPage}" >
+        <a>
+          <span> {{page}} </span>
+        </a>
+      </li>
+
+      <li class="next-page" [ngClass]="{'disabled': paginationOptions.isLast}"  (click)="reqGridNextClick($event)">
+        <a>
+          <span> Next </span>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+
+  <!--<zui-summary-box [summary]="summaries" [applyBreak]="true" [headerCentered]="true"></zui-summary-box>-->
+</div>

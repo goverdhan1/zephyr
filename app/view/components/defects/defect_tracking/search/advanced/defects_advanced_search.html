@@ -1,0 +1,36 @@
+<div class="defects-search-container">
+	<div [ngClass]="{'defects-search-header': true, 'defects-header': true, 'hide': hideHeader}" >
+    	<h5 class="zee-content-subtitle">{{isFileNewDefect ? 'Link Defects' : 'Search'}}</h5>
+  	</div>
+	<div class="defects-search-form">
+		<defects-advanced-search-finder
+      [type]="type"
+			[isFileNewDefect]="isFileNewDefect"
+			[selectedSearchCriteria]="selectedSearchCriteria"
+			[hiddenOptions]="hiddenOptions"
+			[filters]="filters"
+			(showFileNewDefectDialog)="openFileNewDefectDialog()"
+			(onSelectedSearchCriteriaChange)="selectedSearchCriteriaChange($event)"
+			(onSearchDefectById)="searchDefectById($event)"
+			(onSearchDefectsByJQL)="searchDefectsByJQL($event)"
+			(onSearchDefectsByFilters)="searchDefectsByFilters($event)"
+			(setFolderstructure)="onSelectFolderStructure($event)"
+			>
+
+		</defects-advanced-search-finder>
+	</div>
+	<div class="defect-search-grid-container">
+		 <grid class="defects-search-grid"
+			[rows]=gridRows
+			[rowIds]="selectedReqIds"
+			[gridType]="searchGridType"
+			[paginationOptions]="paginationOptions"
+			(onGridPrevClick)="gridPrevClick($event)"
+			(onGridNextClick)="gridNextClick($event)"
+			(onGridPaginateByIndex)="gridPaginateByIndex($event)"
+			(onGridPageSizeChange)="gridPageSizeChange($event)"
+			(onGridRowSelection)="gridRowSelection($event)"
+			(onGridIconClick)="gridIconClick($event)">
+		</grid>
+	</div>
+</div>

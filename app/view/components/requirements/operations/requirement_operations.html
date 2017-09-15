@@ -1,0 +1,52 @@
+<div [class]="'zee-primary-buttons'">
+    <zee-create-dialog-requirement
+        [fieldOptions]="reqOpeartionConstants.create"
+        [isDisabled]="!isMenuShown"
+        [reqCatalogTreeId]="reqCatalogTreeId"
+        [reqIDs]="reqIDs"
+        [isGlobal]="isGlobal"
+        [tooltip]="'ADD / SELECT node to create requirements'"
+        [isImported]="isImported"
+        *ngIf="!isSearchView"
+    ></zee-create-dialog-requirement>
+    <button *ngIf="!isSearchView" type="button" class="zui-btn zui-btn-tertiary" (click)="openImportModal()" id="zui-modal-trigger-import-requirements">Import</button>
+
+    <zee-create-dialog-requirement
+        [fieldOptions]="reqOpeartionConstants.clone"
+        [isDisabled]="!isMenuShown"
+        [reqCatalogTreeId]="reqCatalogTreeId"
+        [reqIDs]="reqIDs"
+        [isGlobal]="isGlobal"
+        [isImported]="isImported"
+        [projectId]="projectId"
+        *ngIf="!isSearchView"
+    ></zee-create-dialog-requirement>
+    <zee-delete-dialog-requirement
+        [fieldOptions]="reqOpeartionConstants.delete"
+        [isDisabled]="!isMenuShown"
+        [reqCatalogTreeId]="reqCatalogTreeId"
+        [reqIDs]="reqIDs"
+        [isDeAllocate]="isDeAllocate"
+        *ngIf="!isSearchView"
+    ></zee-delete-dialog-requirement>
+    <zee-create-dialog-requirement
+      [fieldOptions]="reqOpeartionConstants.allocate"
+      [isDisabled]="!isGlobal"
+      [isImported]="isImported"
+      [reqIDs]="reqIDs"
+      *ngIf="!isSearchView"
+    ></zee-create-dialog-requirement>
+    <zee-export-dialog-requirement
+        [fieldOptions]="reqOpeartionConstants.export"
+        [reqCatalogTreeId]="reqCatalogTreeId"
+        [isDisabled]="!isMenuShown || treeType=='import'"
+        [reqIDs]="reqIDs"
+        [releaseId]="releaseId"
+        [inRelease]="inRelease"
+        [isSearchView]="isSearchView"
+        [isGlobal]="isGlobal"
+        [projectId]="projectId"
+        [searchText]="searchText"
+        [isAdvancedSearch]="isAdvancedSearch"
+    ></zee-export-dialog-requirement>
+</div>

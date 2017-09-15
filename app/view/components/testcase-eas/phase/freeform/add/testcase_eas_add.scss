@@ -1,0 +1,88 @@
+#testcase-modal-confirmation .modal-content {
+  width: 800px !important;
+  margin-left: -400px !important;
+   position: absolute !important;
+  padding: 6px;
+  margin: 30px auto 0;
+    top: 30% !important;
+    left:50% !important;
+
+}
+
+@mixin input-label() {
+  input[type="checkbox"] {
+        position: relative;
+        top: 2px;
+    }
+    label {
+        margin-left: 5px;
+    }
+}
+
+.zui-search-save-all-wrapper {
+  input, label {
+    cursor: pointer;
+  }
+}
+#cross
+{
+    font-size: 24px !important;
+}
+.margin-bottom-15{
+  margin-bottom: 15px !important;;
+}
+
+.zui-modal-tab-header {
+    padding-bottom: 0px !important;
+}
+.zui-modal-tabs-heading {
+    &.zui-modal-tab-heading {
+        padding: 0 15px !important;
+        margin-bottom: 15px;
+    }
+    .zui-modal-tab-bar-heading-label {
+        display: inline-block;
+        padding: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        &.selected {
+            border-bottom: 2px solid #289295;
+            color: #289295;
+        }
+    }
+}
+#zui-freeform-testcase-add-grid-wrapper {
+    padding: 10px;
+    grid {
+        height: auto;
+        max-height: 100% !important;
+    }
+    th {
+        background-color: #818586;
+        color: #fff;
+        border-right: 1px solid #fff;
+    }
+}
+.zui-search-save-all-wrapper {
+    @include input-label();
+}
+.zui-heirarchy-wrapper {
+    float: left;
+    @include input-label();
+}
+.zui-add-testcase-assignment-label {
+    max-width: 40%;
+    width: auto;
+    padding-right: 5px;
+}
+.zui-add-testcase-assignment-control {
+    max-width: 50%;
+    display: inline-block;
+}
+#zui-modal-trigger-eas-freform-add-testcase {
+  cursor:pointer !important;
+  margin-right: 5px;
+}
+#testcaseList li, #testcaseIgnored li, #testcaseAdded li, #nodeList li{
+  word-wrap: break-word;
+}

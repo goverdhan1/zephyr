@@ -1,0 +1,306 @@
+header  {
+  border-bottom: 1px solid #dadadb;
+  padding: 0px 15px 0px 0px;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // right: 0;
+  z-index: 2;
+  background: #FFF;
+  .select2-container {
+    width: 100% !important;
+  }
+  .header-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .zui-user-name {
+      width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      top: 7px;
+      .bold {
+          font-weight: bold;
+      }
+    }
+
+    .company-system-name {
+      text-transform: capitalize;
+      position: fixed;
+      width: 200px;
+      background-color: #dadadb;
+      padding: 4px 0px;
+
+      p{
+        margin-left: 45px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: #000000;
+        opacity: .5;
+        &:first-child {
+            font-size: $zui-stronger-font;
+            max-width: 110px;
+            line-height: 22px;
+        }
+        &:last-child {
+            font-size: $zui-p-font;
+            max-width: 95px;
+            font-weight: 600;
+            line-height: 17px;
+        }
+      }
+    }
+
+    > a {
+
+      order: 0;
+      margin-top: -8px;
+
+      img {
+        height: 20px;
+      }
+
+      #responsive-menu-button {
+        height: 16px;
+        margin: 10px 10px 0 0;
+        display: none;
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+
+      &:hover {
+        span {
+          .fa.fa-sort-desc {
+            visibility: visible;
+          }
+        }
+      }
+
+      &.dropdown.open {
+        background: #f3f3f3;
+        cursor: pointer;
+
+        span {
+          color: #000;
+        }
+
+        .fa.fa-sort-desc {
+          visibility: visible;
+        }
+      }
+
+      .dropdown-menu {
+        margin: 0;
+        font-size: $zui-p-font;
+        border: 0;
+        box-shadow: 0 0 1px 0px #ccc;
+        border-radius: 0;
+        cursor: pointer;
+      }
+
+      span {
+        .fa.fa-sort-desc {
+          visibility: hidden;
+          vertical-align: top;
+          font-size: 13px;
+          line-height: 13px;
+          padding-left: 5px;
+        }
+
+        &.dropdown-toggle {
+          display: inline-block;
+          padding: 13px 10px;
+          font-size: $zui-p-font;
+          color: #289295;
+        }
+
+
+        &.fa {
+          font: normal normal normal 20px/1 FontAwesome;
+          margin: 0;
+          cursor: pointer;
+        }
+
+        &.dropdown-toggle:after {
+          display: none;
+        }
+      }
+    }
+
+    &.misc-settings-wrapper {
+      text-align: right;
+      order: 2;
+      .dropdown {
+        vertical-align: middle;
+
+        span {
+          padding: 13px 4px;
+
+          &.dropdown-toggle {
+            color: #000;
+          }
+        }
+      }
+      .misc-image {
+        display: inline-block;
+        vertical-align: middle;
+        height: 19px;
+        width: 19px;
+        background-size: 100%!important;
+      }
+      .question-image {
+        background: url('../../assets/styles/assets/images/info.png') center no-repeat;
+      }
+      .setting-image {
+        background: url('../../assets/styles/assets/images/setting.png') center no-repeat;
+      }
+      .user-image {
+        background: url('../../assets/styles/assets/images/user-info.png') center no-repeat;
+      }
+    }
+
+    &.top-select-wrapper {
+      text-align: left;
+      order: 1;
+      flex-grow: 1;
+      margin-left: 215px;
+      .dropdown {
+        cursor: pointer;
+      }
+       #adminlink{
+         cursor: pointer;
+         padding: 13px 10px;
+         color: #289295 !important;
+      }
+    }
+  }
+
+  .zui-ng-select {
+    &.zui-indrop {
+      background-color: #E6E6E6;
+      padding-left: 0;
+      padding-right: 0;
+			padding-top: 1px;
+    	padding-bottom: 1px;
+      width: 100%;
+
+      input {
+        border: none !important;
+        background-color: #E6E6E6;
+        padding-left: 20px;
+        color: #000;
+
+        &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+          font-style: italic;
+        }
+      }
+      .select2-selection__placeholder {
+        padding-left: 7px !important;
+      }
+
+      .ui-select-container {
+        .ui-select-match {
+          .ui-select-toggle {
+            border-color: transparent;
+            background-color: #E6E6E6;
+            padding-left: 0;
+
+            .ui-select-placeholder, .ui-select-allow-clear {
+              font-style: italic;
+              padding-left: 20px;
+              color: #818a91;
+            }
+          }
+        }
+      }
+
+      .ui-select-choices {
+        padding: 5px 0;
+
+        .ui-select-choices-group {
+          width: 100%;
+
+          .ui-select-choices-row {
+            &.active {
+              >a {
+                background-color: #E6E6E6;
+              }
+
+              .ui-select-choices-row-inner {
+                color: #000;
+              }
+            }
+
+            >a {
+              div {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  header {
+
+    .header-wrap {
+      flex-wrap: wrap;
+
+      a {
+        width: 125px;
+
+        #responsive-menu-button {
+          display: inline-block;
+        }
+      }
+    }
+
+
+    ul {
+
+      &.misc-settings-wrapper {
+        width: calc(100% - 125px);
+        order: 1;
+      }
+
+      &.top-select-wrapper {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 0;
+        justify-content: space-between;
+        // margin-top: 10px;
+
+        li {
+          button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+.rem-proj-list {
+  .ui-select-choices {
+    li {
+      display: block;
+    }
+  }
+}

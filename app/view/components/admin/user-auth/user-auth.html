@@ -1,0 +1,216 @@
+<zui-admin-user-auth [class]="'zui-admin-section'">
+    <div class="main-content" role="main">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3><b>User Authentication</b></h3>
+            </div>
+        </div>
+        <div class="zui-content-layout layout6">
+			<form [formGroup]="form" class="form user-auth-form">
+				<div class="subform authentication-system">
+					<div class="zee-module-header"><span class="zee-module-header-left">Authentication System</span></div>
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="clearfix">
+								<label><b>Select:</b></label>
+								<div class="zui-select">
+									<select [formControl]="form.controls['authenticationSystem']" id="authentication-system-select2" class="form-control" (change)="onChangeAuthenticationSystem($event.target.value)">
+										<option *ngFor="let authenticationSystem of authenticationSystems" value="{{authenticationSystem.id}}">{{authenticationSystem.value}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p *ngIf="isWebServiceSelected">Please ensure that the location of JDK_HOME&#92;bin is added to your system's PATH environment variable</p>
+				</div>
+        <div *ngIf="isWebAuthSelected" class="col-xs-12 sso-info">
+          <div class="zee-module-header"><span class="zee-module-header-left">Configuration Info</span></div>
+          <div class="clearfix">
+            <p>To configure SAML on your Identity Provider, please use the information below:</p>
+            <ul>
+              <li>Single Sign-On URL:&nbsp;&nbsp;<span [class]="'zui-admin-bold'"> {{location}}/flex/saml/sso</span></li>
+              <li>Audience URL:&nbsp;&nbsp;<span [class]="'zui-admin-bold'"> {{location}}/flex/saml/sso</span></li>
+            </ul>
+          </div>
+        </div>
+				<div *ngIf="showConnectionInfoDiv" class="subform connection-info">
+						<div class="zee-module-header"><span class="zee-module-header-left">Connection Info</span></div>
+						<div class="row" *ngIf="isLDAPSelecetd">
+							<div class="col-md-6 col-xs-12">
+								<div class="clearfix">
+									<label for="ldapHost">LDAP Host:</label>
+									<input class="form-control" id="ldapHost" type="text" placeholder="Ex:ldap://localhost:389" [formControl]="form.controls['ldapHostURL']" />
+								</div>
+								<div class="clearfix">
+									<label for="baseDN">Base DN:</label>
+									<input class="form-control" id="baseDN" type="text" placeholder="Ex:cu=Users,dc=example,dc=com" [formControl]="form.controls['ldapBaseDN']" />
+								</div>
+								<div class="clearfix">
+									<label for="bindDN">Bind DN:</label>
+									<input class="form-control" id="bindDN" type="text" placeholder="Ex:cn=Directory Manager" [formControl]="form.controls['ldapBindDN']" />
+								</div>
+								<div class="clearfix">
+									<label for="bindPWD">Bind Password:</label>
+									<input *ngIf="!showLDAPPassword" class="form-control" id="bindPWD" type="password" placeholder="Ex:Bind Password" [formControl]="form.controls['ldapBindPassword']" />
+									<input *ngIf="showLDAPPassword" class="form-control" id="bindPWD" type="text" placeholder="Ex:Bind Password" [formControl]="form.controls['ldapBindPassword']" />
+									<span (click)="showLDAPPassword = !showLDAPPassword" [class]="showLDAPPassword ? 'hide-password-image cursor-pointer': 'show-password-image cursor-pointer'"> </span>
+								</div>
+								<div class="clearfix">
+									<label for="searchAttr">Search Attribute:</label>
+									<input class="form-control" id="searchAttr" type="text" placeholder="Ex:uid" [formControl]="form.controls['ldapSearchAttribute']" />
+								</div>
+							</div>
+						</div>
+
+						<div class="row" *ngIf="isCrowdSelcted">
+							<div class="col-md-6 col-xs-12">
+								<div class="clearfix">
+									<label for="serverURL">Server URL:</label>
+									<input class="form-control" id="serverURL" type="text" placeholder="Ex:http://50.18.117.115:3571/crowd" [formControl]="form.controls['crowdServerURL']">
+								</div>
+								<div class="clearfix">
+									<label for="appName">Application Name:</label>
+									<input class="form-control" id="appName" type="text" placeholder="Ex:application-name" [formControl]="form.controls['crowdAppName']">
+								</div>
+								<div class="clearfix">
+									<label for="appPWD">Application Password:</label>
+									<input *ngIf="!showCrowdPassword" class="form-control" id="appPWD" type="password" placeholder="Ex:Password" [formControl]="form.controls['crowdAppPassword']">
+									<input *ngIf="showCrowdPassword" class="form-control" id="appPWD" type="text" placeholder="Ex:Password" [formControl]="form.controls['crowdAppPassword']">
+									<span (click)="showCrowdPassword = !showCrowdPassword" [class]="showCrowdPassword ? 'hide-password-image cursor-pointer': 'show-password-image cursor-pointer'"> </span>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="isWebServiceSelected">
+							<div class="col-md-6 col-xs-12">
+								<div class="clearfix">
+									<label for="webServiceURL">URL:</label>
+									<input class="form-control" id="webServiceURL" type="text" placeholder="Ex:http:localhost:9150/authenticationService?wsdl" [formControl]="form.controls['webServiceURL']">
+								</div>
+							</div>
+						</div>
+						<div *ngIf="isWebAuthSelected">
+              <div class="col-md-6 col-xs-12 sso-form">
+
+                <div class="clearfix sso-info">
+                  <p>Provide Identity Provider Single Sign-On conncetion info below:</p>
+                </div>
+
+                <div class="clearfix">
+                  <label class="" for="ssoAppUrl">
+                    <span [class]="'zui-admin-bold'">Identity Provider URL:</span>
+                  </label>
+                  <input class="form-control" id="ssoAppUrl" type="text" [formControl]="form.controls['ssoAppUrl']">
+                </div>
+
+                <div class="clearfix">
+                  <label class="" for="ssoIssuerId">
+                    <span [class]="'zui-admin-bold'">Identity Provider Issuer Id:</span>
+                  </label>
+                  <input class="form-control" id="ssoIssuerId" type="text" [formControl]="form.controls['ssoIssuerId']">
+                </div>
+
+                <div class="clearfix sso-attachments-wrapper">
+                  <label><span [class]="'zui-admin-bold'">Identity Provider Certificate:&nbsp;</span></label>
+                  <p id="uploadedCertificateName">{{uploadedCertificate}}</p>
+                  <form id="uploadFileForm" enctype="multipart/form-data" method="post">
+                      <attachments [entityType]="'SSO'" [uploadType]="'SSO'" [id]="1" [multiple]="false" [isEditAvaiable]="true"></attachments>
+                  </form>
+
+                </div>
+
+              </div>
+
+						</div>
+				</div>
+				<div *ngIf = "showSampleUserDiv" class="subform credentials-sample-user">
+					<div [class]="'zui-credentails-subheader'">Enter the credentials of sample user to test this authentication system</div>
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="clearfix">
+								<label for="sampleUsername">Username:</label>
+								<input class="form-control" id="sampleUsername" type="text" placeholder="Ex:Username" [formControl]="form.controls['username']">
+							</div>
+							<div class="clearfix">
+								<label for="samplePassword">Password </label>
+								<input *ngIf="!showPassword" class="form-control" id="samplePassword" type="password" placeholder="Ex:Password" [formControl]="form.controls['password']">
+								<input *ngIf="showPassword" class="form-control" id="samplePassword" type="text" placeholder="Ex:Password" [formControl]="form.controls['password']">
+								<span (click)="showPassword = !showPassword" [class]="showPassword ? 'hide-password-image cursor-pointer': 'show-password-image cursor-pointer'"> </span>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn btn-secondary" [disabled]="isFormValid(form)" [style.margin-left.%]="14.15" (click)="testAuthentication()">Test</button>
+				</div>
+				<div *ngIf="showPolicies" class="subform password-policy">
+					<div class="zee-module-header"><span class="zee-module-header-left">Password Policy</span></div>
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="clearfix">
+								<label><b>Select:</b></label>
+								<div class="zui-select">
+									<select [formControl]="form.controls['passwordPolicySelectid']" id="password-policy-select2"  class="form-control" (change)="onChangePasswordPolicySelect($event.target.value)">
+										<option *ngFor="let passwordPolicy of passwordPolicies" value="{{passwordPolicy.policyName}}">{{passwordPolicy.policyName}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p class="help-text-password">{{passwordPolicyDescription}} Zephyr recommends strong or very strong policy. </p>
+					<div class="card card-gray">
+						<div class="card-block">
+							<div class="card-text">
+								This is applicable only if authentication system is Internal or secondary authentication (<span [class]="'zui-admin-bold'">Customizations -> Advanced -> Miscellaneous -> Enable Secondary Authentication</span>) is turned on.
+							</div>
+						</div>
+					</div>
+				</div>
+        <div class="clearfix form-footer subform">  <!--[disabled]="hasChanges()"-->
+          <button type="button"  class="zui-btn zui-btn-sec" (click)="cancelAdminPref()">Cancel</button>
+          <button type="button" [disabled]="isFormValid()" class="zui-btn zui-btn-primary" data-toggle="modal" data-target="#zui-save-authentication-warning">Save</button>
+         </div>
+			</form>
+		</div>
+    </div>
+	<!-- Saving Authentication confirmation -->
+    <zui-modal [title]="'Information'" [modalId]="'zui-save-authentication-warning'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+            <p>You are switching authentication system
+				<span *ngIf="isLDAPSelecetd">&nbsp;to LDAP</span>
+				<span *ngIf="isCrowdSelcted">&nbsp;to Crowd</span>
+				<span *ngIf="isWebAuthSelected">&nbsp;to Single Sign-On</span></p>
+			<p>Do you want to continue?</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+			      <button *ngIf="isAuthTested" type="button" (click)="saveAuthFields()" data-dismiss="modal" class="btn btn-primary">Yes</button>
+            <button *ngIf="!isAuthTested" type="button" data-dismiss="modal" data-toggle="modal" data-target="#zui-save-authentication-test-warning" class="btn btn-primary">Yes</button>
+        </zui-modal-footer>
+    </zui-modal>
+	<!-- Saving Authentication without testing confirmation -->
+    <zui-modal [title]="'Information'" [modalId]="'zui-save-authentication-test-warning'" [modalSize]="'extrasmall'">
+        <zui-modal-body *ngIf="!isWebAuthSelected">
+            <p>Updated Settings haven't been verified. Information may be incorrect. Are you sure you want to skip this test and continue to save?</p>
+        </zui-modal-body>
+       <zui-modal-body *ngIf="isWebAuthSelected">
+            <p>Updated Settings haven't been verified. Information may be incorrect. Are you sure you want continue to save?</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" (click)="saveAuthFields()" data-dismiss="modal" class="btn btn-primary">Yes</button>
+        </zui-modal-footer>
+    </zui-modal>
+	<!-- Switching Authentication confirmation -->
+    <zui-modal [title]="'Information'" [modalId]="'zui-switching-authentication-warning'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+            <p>It is not recommended to change the authentication system type frequently as this may lead to memory issues.</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </zui-modal-footer>
+    </zui-modal>
+	<!-- Dirty check component -->
+    <zui-form-dirty-dialog
+      [show]="showDirtyCheckModal"
+      (dismissNavigation)="dismissNavigation()"
+      (continueNavigation)="continueNavigation()"
+    ></zui-form-dirty-dialog>
+</zui-admin-user-auth>

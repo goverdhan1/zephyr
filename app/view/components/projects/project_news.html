@@ -1,0 +1,21 @@
+<h3>News Updates</h3>
+<div class="zephyr-news-details clearfix" *ngFor="let news of _newsList">
+    <div class="zephyr-news-image">
+        <span class="zui-avatar avatar-large">
+            <img src="html5/assets/images/user.png" alt="zephyr-news-avatar">
+        </span>
+    </div>
+    <div class="zephyr-news-content">
+        <h4 class="zephyr-news-title">{{news.name}}</h4>
+        <p id="zephyr-news-description-{{news.id}}" class="zephyr-news-description" aria-expanded="false" aria-hidden="false">
+            {{news.description}}
+            <!-- To do implement show-more -->
+            <a>
+                <span class="reveal-text-trigger-text pull-right">Show more</span>
+            </a>
+        </p>
+    </div>
+    <div class="zephyr-news-actions">
+        <span><label>a moment ago</label></span>
+    </div>
+</div>

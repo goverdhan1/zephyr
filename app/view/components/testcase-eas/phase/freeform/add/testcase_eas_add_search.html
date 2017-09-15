@@ -1,0 +1,26 @@
+<zui-add-tab-cycles-component>
+    <zui-zephyr-search
+        [isAdvancedSearch]="_isAdvancedSearch"
+        [releaseId]="releaseId"
+        [searchFieldSrcId]="'eas-search'"
+        [zqlEntityName]="'testcase'"
+        [showFilters]= "'true'"
+        [hideHeader]="'true'"
+        (onSearchGo)="onSearchGo($event)"
+    ></zui-zephyr-search>
+    <div class="zui-search-save-all-wrapper">
+        <input (change)="toggleTestcasesSelection()" type="checkbox" name="zui-search-save-all" id="zui-search-save-all" />
+        <label [attr.for]="'zui-search-save-all'">{{'zephyr.eas.freeform.add.testcase.search.save.all' | i18nSelect: i18nMessages}}</label>
+    </div>
+    <div id="zui-freeform-testcase-add-grid-wrapper">
+        <zui-tcr-grid
+            [releaseId]="releaseId"
+            [showCoverage]="false"
+            [inRelease]="true"
+            [selectedTreeNode]="null"
+            [selectedTctIds]="[]"
+            [isSearchView]="true"
+            [isAdvancedSearch]="false"
+        ></zui-tcr-grid>
+    </div>
+</zui-add-tab-cycles-component>

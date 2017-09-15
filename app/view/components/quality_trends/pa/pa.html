@@ -1,0 +1,54 @@
+<div class="main-content" role="main">
+  <p class="page-description">Plan VS Actual – Shows progress of actual execution wrt. to planned execution.
+    This prediction model also allows to add additional resource to re-run the prediction model and find what it takes to come close to plan.
+    This model utilizes data from previous project where how has been the team efficiency to execute test cases over a period.
+  </p>
+
+  <div class="row">
+    <div class="col-md-7 col-xs-12">
+      <section class="chart-section">
+        <h2>Test Case Planning - Plan Vs Actual</h2>
+        <div class="chart-wrapper">
+          <div class="pa-values-row">
+            <div class="plan-group ze-float-left">
+              <span class="plan-label">Planned Resources: </span>
+              <span class="plan-value">{{ plannedTeamSize }}</span>
+            </div>
+            <div class="actual-group ze-float-left">
+                <span class="actual-label">Actual Resources: </span>
+                <span class="actual-value">{{ actualTeamSize }}</span>
+            </div>
+            <div class="predict-group ze-float-left">
+                <span class="predict-label">Predicted Resources: </span>
+                <span class="predict-value">{{ predictedTeamSize }}</span>
+            </div>
+          </div>
+          <div class="pa-action-row">
+              <ze-counter [(counter)]="selectedTeamSize" (callback)="updateChart($event)"></ze-counter>
+          </div>
+          <nvd3 #nvd3 [options]="options" [data]="data"></nvd3>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-5 col-xs-12">
+      <section class="summary-section">
+        <h2>Summary</h2>
+        <p>
+          The Zephyr platform expands capabilities with more proactive approach that breaks the usual boundaries of data analysis.
+          The goal of this type of analysis is to maximize the efficiency and minimize the cost and risk involved during recurring software lifecycles.
+          It does this by developing prediction models based on extensive data mining and iterative learning techniques.
+        </p>
+        <div class="highlight"><a href="javascirpt:void(0)">View More</a></div>
+        <h2>Our short term recommendations</h2>
+
+        <p>
+          <br>
+          <br>
+        </p>
+
+        <div class="highlight"><a href="javascirpt:void(0)">Subscribe to get more recommendation</a></div>
+      </section>
+    </div>
+  </div>
+
+</div>

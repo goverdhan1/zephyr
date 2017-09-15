@@ -1,0 +1,26 @@
+<div class="zee-module1-wrapper row" *ngIf="summary">
+
+    <div class="col-xs-4 text-left">
+      <span class="zee-module1-title metric" [style.color]="summary.color">{{summary.count}}</span>
+      <br  />
+      <span class="zee-module1-summary-name" [style.border-bottom-color]="summary.color">{{summary.name}}</span>
+    </div>
+
+    <div *ngFor="let group of summary.groups" class="col-xs-8 row zee-module1-group-wrapper">
+        <div *ngFor="let item of group.items; let counter = index" class="col-xs-6 text-left">
+            <span class="zee-module1-title  metric" [style.color]="summary.color" *ngIf="counter < 2 || isExpanded">{{item.count}}</span>
+            <br  />
+          <span class="zee-module1-summary-name" [style.border-bottom-color]="summary.color" *ngIf="counter < 2 || isExpanded">{{item.name}}</span>
+        </div>
+    </div>
+
+</div>
+
+  <a *ngIf="summary && summary.viewAll && !isExpanded && isGreaterThanTwo" class="zee-module1-view-all" (click)="viewAllItems()">
+    Show More &#62;
+</a>
+
+<a *ngIf="summary && summary.viewAll && isExpanded && isGreaterThanTwo" class="zee-module1-view-all" (click)="viewAllItems()">
+    Show less &lt;
+</a>
+

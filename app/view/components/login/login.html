@@ -1,0 +1,106 @@
+<!--<div class="temp-welcome-screen" style="position:fixed;">
+    <div style="background: #26282a;position:fixed;height:100%;width:100%;z-index:-1;top:0;left:0"></div>
+      <p style="color:#fefefe;position:fixed;top:calc(50% - 100px);left:calc(50% - 100px);font-size: 28px;"><i>Welcome to MVP-1</i></p>
+</div>-->
+<div class="login-header login-shadow">
+    <img src="html5/assets/images/logo.png" alt="">
+</div>
+<div class="login-body">
+    <div class="row">
+        <div class="col-md-4">
+          <div class="login-wrapper login-sso" #target [hidden]="!showSSO">
+            <h2 [hidden]="showSSO">LOGIN</h2>
+            <section>
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+                <!-- <div *ngIf="error">Check your username and password.</div> -->
+                <fieldset class="form-group relative-fieldset">
+                  <span class="u-name-image"></span>
+                  <input autocomplete="false" class="form-control" type="text" id="zee-login-username" name="zee-login-username" [formControl]="loginForm.controls['username']" placeholder="Username *">
+                </fieldset>
+                <fieldset class="form-group relative-fieldset">
+                  <span class="password-image"></span>
+                  <input autocomplete="false" class="form-control" type="password" id="zee-login-password" name="zee-login-password" [formControl]="loginForm.controls['password']" placeholder="Password *">
+                </fieldset>
+
+                <button class="login-sso" type="submit" [disabled]="!loginForm.valid || loginInProgress" class="zee-btn login-btn">Login</button>
+                </form>
+            </section>
+
+          </div>
+          <div class="login-sso" [hidden]="!showSSO">
+            <span class="line-wrapper"><span class="line"></span></span>
+            <span class="content"><span >OR</span></span>
+            <span class="line-wrapper"><span class="line"></span></span>
+            <button class="login-sso" type="submit" (click)=redirectToSSO() class="zee-btn login-btn">
+             Login with Single Sign-On
+            </button>
+
+          </div>
+          <div class="login-wrapper" #target [hidden]="showSSO">
+                <h2 >LOGIN</h2>
+                <section>
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+                        <!-- <div *ngIf="error">Check your username and password.</div> -->
+                        <fieldset class="form-group relative-fieldset">
+                            <span class="u-name-image"></span>
+                            <input autocomplete="false" class="form-control" type="text" id="zee-login-username" name="zee-login-username" [formControl]="loginForm.controls['username']" placeholder="Username *">
+                        </fieldset>
+                        <fieldset class="form-group relative-fieldset">
+                            <span class="password-image"></span>
+                            <input autocomplete="false" class="form-control" type="password" id="zee-login-password" name="zee-login-password" [formControl]="loginForm.controls['password']" placeholder="Password *">
+                        </fieldset>
+
+                        <button type="submit" [disabled]="!loginForm.valid || loginInProgress" class="zee-btn login-btn">Login</button>
+                        <!-- <button type="button" (click)="onSubmit(loginForm.value)" [disabled]="!loginForm.valid" class="zee-btn login-btn theme-btn btn-large">Login</button> -->
+                        <!-- <div>
+                            <div [ngClass]="'buttons'">
+                                <button type="button" (click)="onSubmit(form.value)" [disabled]="!form.valid">Login</button>
+                            </div>
+                        </div> -->
+                        <!-- <a class="dropdown-item" data-toggle="modal" href="#reset-password-modal" visibility="hide" style="visibility: hidden;">Reset Password</a> -->
+                    </form>
+                </section>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="login-description">
+                <div class="welcome-text">
+                    <span>Welcome!</span>
+                </div>
+                <div class="app-desc">
+                    <span>Zephyr Enterprise has a fresh new look! Login, explore and let us know what you think.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="login-footer">
+    <div class="features">
+        <div class="automation-tools">
+            <a href="/../../zephyr/zbot/" target="_blank"><span class="feature-img"></span></a>
+            <span><a href="/../../zephyr/zbot/" target="_blank">Automated Tools</a></span>
+        </div>
+        <div class="dashboards">
+            <a [routerLink]="['/dashboards']"><span class="feature-img"></span></a>
+            <span><a [routerLink]="['/dashboards']">Dashboards</a></span>
+        </div>
+    </div>
+    <ul>
+        <li><a href="https://zephyrdocs.atlassian.net/wiki/display/ZEE50/Welcome+to+Zephyr" target="_blank">Online Help</a></li>
+        <li><a href="https://support.getzephyr.com/hc/en-us" target="_blank">Zephyr Support</a></li>
+        <li><a>© Zephyr Enterprise 6.0</a></li>
+    </ul>
+</div>
+<reset-password [resetPasswordObject]="resetPasswordObject" (resetPasswordUpdate)="resetPasswordUpdateClicked($event)"> </reset-password>
+<zui-modal [title]="'Login Error'" [modalId]="'loginError-modal'" [modalSize]="'small'">
+    <zui-modal-body>
+        <p id="login_error_modal_text_p">{{errorObj?.message}}</p>
+    </zui-modal-body>
+    <zui-modal-body *ngIf="ssoRedirectionFailed">
+      <p>{{errorObj?.msg}}</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+  <button type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">OK</button>
+    </zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,20 @@
+<div class="modal fade" data-backdrop="static" tabindex='-1' id="zui-relogin-prompt" role="dialog">
+  <div class="modal-dialog small">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--<button type="button" class="close" (click)="dismissDeleteModal()">&times;</button>-->
+        <h4 class="modal-title">{{'zephyr.relogin.title' | i18nSelect: i18nMessages}}</h4>
+      </div>
+      <div class="modal-body">
+        <p *ngIf="issueType == 0">{{'zephyr.relogin.dialog.message' | i18nSelect: i18nMessages}}</p>
+        <p *ngIf="issueType == 1">{{'zephyr.relogin.dialog.network.message' | i18nSelect: i18nMessages}}</p>
+      </div>
+      <div class="modal-footer">
+       <button type="button" (click)="emitDismissNavigation()" class="zui-btn zui-btn-sec">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        <button type="button" class="zui-btn zui-btn-primary" (click)="emitContinueNavigation()">{{'zephyr.button.continue' | i18nSelect: i18nMessages}}</button>
+
+      </div>
+    </div>
+  </div>
+</div>

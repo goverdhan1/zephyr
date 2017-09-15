@@ -1,0 +1,82 @@
+<div class="release-form subform clearfix" *ngIf="dashboard && dashboard.properties && dashboard.properties.style">
+  <h5 class="zui-panel-heading" >
+    <span *ngIf="_isEditDialog"> Edit Dashboard </span>
+    <span *ngIf="!_isEditDialog"> Add Dashboard </span>
+  </h5>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-5 col-xs-12">
+        <div class="clearfix" >
+          <label for="dashboard-name">{{'zephyr.dashboard.name' | i18nSelect: i18nMessages}}<span class="input-required">*</span></label>
+          <input type="text" formControlName="name" [class]="'form-control'" id="dashboard-name" placeholder="Name">
+        </div >
+        <div class="clearfix">
+          <label for="dashboard-description">{{'zephyr.dashboard.description' | i18nSelect: i18nMessages}}</label>
+          <textarea formControlName="description" id="dashboard-description" [class]="'form-control'" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="offset-md-2 col-md-5 col-xs-12">
+        <div class="clearfix">
+          <label>{{'zephyr.dashboard.layout' | i18nSelect: i18nMessages}}</label>
+          <div>
+            <div [class]="'zui-dashboard-layout-contianer'"
+                 (click)="dashboard.properties.style.layout = _DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_ONE_COLUMN" [attr.title]="i18nMessages['zephyr.dashboard.layout.one.column.dashboard']">
+                    <span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_ONE_COLUMN == dashboard?.properties?.style?.layout? '#26282a':'#C4E3FD'">
+                        <span [class]="'zui-dashboard-layout-1-inner'"></span>
+                    </span>
+            </div>
+            <div [class]="'zui-dashboard-layout-contianer'"
+                 (click)="dashboard.properties.style.layout = _DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_TWO_COLUMN" [attr.title]="i18nMessages['zephyr.dashboard.layout.two.column.dashboard']">
+                    <span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_TWO_COLUMN == dashboard?.properties?.style?.layout? '#26282a':'#C4E3FD'">
+                        <span [class]="'zui-dashboard-layout-2-inner'"></span>
+                        <span [class]="'zui-dashboard-layout-2-inner zui-dashboard-layout-2-inner-last'"></span>
+                    </span>
+            </div>
+            <!--<div [class]="'zui-dashboard-layout-contianer'"-->
+                 <!--(click)="dashboard.properties.style.layout = _DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_THREE_COLUMN" [attr.title]="i18nMessages['zephyr.dashboard.layout.three.column.dashboard']">-->
+                    <!--<span [class]="'zui-dashboard-layout-wrapper'" [style.border-color]="_DASHBOARD_CONSTANTS.DASHBOARD_LAYOUT_THREE_COLUMN == dashboard?.properties?.style?.layout? '#26282a':'#C4E3FD'">-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner'"></span>-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner'"></span>-->
+                        <!--<span [class]="'zui-dashboard-layout-3-inner zui-dashboard-layout-3-inner-last'"></span>-->
+                    <!--</span>-->
+            <!--</div>-->
+          </div>
+
+
+          <!--<select [class]="'form-control'" id="dashboard-start-from"  formControlName="layout">-->
+            <!--<option value="1">{{'zephyr.dashboard.layout.one.column.dashboard' | i18nSelect: i18nMessages}}</option>-->
+            <!--<option value="2">{{'zephyr.dashboard.layout.two.column.dashboard' | i18nSelect: i18nMessages}}</option>-->
+            <!--<option value="3">{{'zephyr.dashboard.layout.three.column.dashboard' | i18nSelect: i18nMessages}}</option>-->
+            <!--&lt;!&ndash;<option value="4">{{'zephyr.dashboard.layout.free.column.dashboard' | i18nSelect: i18nMessages}}</option>&ndash;&gt;-->
+          <!--</select>-->
+        </div>
+        <div class="clearfix access-type-parent">
+          <label for="dashboard-access">{{'zephyr.dashboard.access' | i18nSelect: i18nMessages}}<span class="input-required">*</span></label>
+
+          <div class="access-type-container">
+            <zee-select
+              [items]="accessTypes"
+              [active]="selectedAccessType"
+              [placeholder]="'Select Access Type'"
+              (onSelect)="setAccessType($event)"
+            ></zee-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix form-footer">
+      <button type="button" (click)="onClickClearDashboardState()" class="zui-btn zui-btn-sec" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+      <button *ngIf="!_isEditDialog" type="button" [disabled]="form.invalid" class="zui-btn zui-btn-primary" (click)="onClickAddDashboard()">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+      <button *ngIf="_isEditDialog" type="button" [disabled]="form.invalid || (form.pristine && originalLayout == dashboard.properties.style.layout && originalSelectedAccessType == selectedAccessType[0])" class="zui-btn zui-btn-primary" (click)="onClickUpdateDashboard()">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+
+    </div>
+  </form>
+<zui-modal [title]="'Delete Dashboard'" [modalId]="'confirmation-modal-form'" [modalSize]="'medium'">
+    <zui-modal-body>
+      <p>Are you sure you wanna delete this dashboard ?</p>
+    </zui-modal-body>
+    <zui-modal-footer>
+      <button type="button" class="zui-btn zui-btn-primary" data-dismiss="modal">Delete</button>
+    </zui-modal-footer>
+</zui-modal>
+</div>

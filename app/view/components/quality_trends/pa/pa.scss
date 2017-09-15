@@ -1,0 +1,51 @@
+pa {
+    overflow-x: hidden; 
+    overflow-y: auto;
+    /* start: chart styles */
+    .dashed {
+        stroke-dasharray: 5,5;
+    }
+
+    /*.nv-legendWrap .nv-series:first-child, .nv-legendWrap .nv-series:nth-child(4) {
+        display: none;
+    }*/
+
+    /*.nv-x text {
+        display: none;
+    }*/    
+
+    .nv-x .tick > line {
+        display: none;
+    }
+
+    .nv-y .domain {
+        display: none;
+    }
+
+    /* end: chart styles */
+
+    .pa-values-row {
+        overflow: hidden;
+        margin-left: 25px;
+    }
+
+    .pa-action-row {
+        margin-bottom: 10px;
+        margin-left: 25px;
+    }
+
+    .plan-group {
+        color: #082C43;
+        margin: 15px 10px 15px 0px;  
+    }
+
+    .actual-group {
+        color: #4CA5E0;
+        margin: 15px 10px 15px 10px;
+    }
+
+    .predict-group {
+        color: #DB1FA1;
+        margin: 15px 10px 15px 10px;
+    }
+}

@@ -1,0 +1,18 @@
+<div [class]="'zee-testcase-attachments-wrapper'">
+    <zee-expander (onPanelToggle)="onPanelToggle($event)" id="zee-testcase-attachment-details-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Attachments</h5>
+         </div>
+         <div [class]="'zee-module-content'">
+             <!-- <div *ngFor="let attachment of attachments" [class]="'zee-attachment-item'">
+                 <div [class]="'zee-attachment-thumbnail'">
+                     <a href="/flex/download?action=download&fileId={{attachment.refId}}"><img src="" /></a>
+                 </div>
+                 <a href="/flex/download?action=download&fileId={{attachment.refId}}" target="_blank">
+                    <div [class]="'zee-attachment-name'">{{attachment.name}}</div>
+                 </a>
+             </div> -->
+             <attachments [entityType]="'testcase'"  [id]="testid" [isEditAvaiable]="editable"> </attachments>
+        </div>
+    </zee-expander>
+</div>

@@ -1,0 +1,177 @@
+.defects-link-container-background {
+    background-color: #FFFFFF;
+    padding: 12px 12px 0 12px;
+}
+
+.defect-link-container {
+    overflow: auto;
+    background-color: #FFFFFF !important;
+    .currently-linked-defects-container {
+        @extend .defects-link-container-background;
+        .delete-mapped-schedule {
+            margin-top: -40px;
+        }
+    }
+    .currently-linked-defects-grid-container {
+        // height: 200px;
+        margin-bottom: 30px;
+    }
+    .defect-search-grid-container {
+        // height: 384px;
+    }
+}
+
+.file-new-defect-container, .defect-bulk-edit-wrapper {
+    padding-left: 12px !important;
+    #create-defects-fields-form {
+        >div {
+            padding-bottom: 16px;
+        }
+    }
+    .fieldWrapper>div {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .bold {
+        font-weight: bold;
+    }
+    .required {
+        color: #D04437;
+    }
+    .multicheckboxes {
+        vertical-align: middle;
+        margin-right: 2px;
+    }
+    select[multiple] {
+        overflow: auto;
+    }
+    .copy-steps-reset {
+        color: #a09f9f;
+    }
+    .copy-steps {
+        margin-bottom: 8px;
+    }
+}
+.defect-bulk-edit-wrapper {
+    > div.row {
+        margin-bottom: 4px;
+    }
+}
+.defect-bulk-edit-header {
+    margin-bottom: 12px;
+}
+
+.jql-autocomplete {
+    .suggestions {
+        -webkit-box-shadow: 0 3px 6px rgba(111, 111, 111, 0.2);
+        box-shadow: 0 3px 6px rgba(111, 111, 111, 0.2);
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        margin-top: 1px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 12000;
+        max-width: 250px;
+        position: absolute;
+        width: 100%;
+        .active {
+            background-color: #3b73af;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 2px 0;
+        }
+        li {
+            display: block;
+            margin: 0;
+            padding: 3px 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            color: #333333;
+            text-decoration: none;
+        }
+    }
+    .icon {
+        position: absolute;
+        left: 20px;
+        top: 6px;
+        font-size: 18px;
+    }
+    .fa-check-circle {
+        color: #8dc75e;
+    }
+    .fa-times {
+        color: #D04437;
+    }
+}
+
+.jqltext {
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: block;
+    height: 30px;
+    margin-bottom: 0;
+    padding: 4px 12px 4px 8px;
+    // padding: 4px 35px 4px 26px;
+    resize: none;
+    width: 100%;
+    white-space: pre-wrap;
+    // padding-left: 26px;
+    overflow: hidden;
+}
+
+.floatLeft {
+    float: left;
+}
+
+.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.project-issue-selection {
+    text-align: center;
+    #project-issue-selection-form > div.row {
+        margin-bottom: 10px;
+    }
+    select.project,
+    select.issueType {
+        width: 45%;
+        display: inline-block;
+    }
+    select.issueType {
+        margin-left: -17px;
+    }
+}
+
+.show {
+    display: block !important;
+}
+.file-new-defect-container, .defect-bulk-edit-wrapper, .defect-basic-detail-view-container {
+    .select2-selection--multiple {
+        height: auto !important;
+        overflow-y: auto !important;
+        input.select2-search__field {
+            height: auto !important;
+        }
+    }
+    .select2-search__field {
+        width: 300px !important;
+    }
+    .select2-container {
+        width: 100% !important;
+    }
+}
+.defect-modal-header-buttons {
+    position: absolute;
+    right: 40px;
+    top: 15px;
+}

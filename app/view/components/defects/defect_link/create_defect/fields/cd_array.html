@@ -1,0 +1,80 @@
+<div class="col-md-12 fieldWrapper">
+    <div class="col-md-2">
+        <span>
+            <label><b>{{field.name}}</b></label>
+            <label class="required" *ngIf="field.required"><b>&nbsp;*</b></label>&nbsp;:
+        </span>
+    </div>
+    <div class="col-md-9">
+        <span *ngIf="fieldSubType !== 'multicheckboxes' && fieldSubType !== 'multiuserpicker' &&
+            fieldSubType !== 'labels' && fieldSubType !== 'gh-sprint' && fieldSubType !== 'radiobuttons' &&
+            fieldSystemValue !== 'labels' && fieldSystemValue !== 'attachment' && fieldSystemValue !== 'issuelinks'">
+            <!--multiselect-->
+            <zee-select
+                *ngIf="fieldSubType === 'multiversion' || fieldSubType === 'multiselect' || fieldSubType === 'multigrouppicker'"
+                [multiple]="true"
+                [placeholder]="'Please select a value'"
+                [selectClass]="'zui-multiselect-picker'"
+                [selectId]="field.fieldKey + '-field'"
+                [items]="fieldOptions"
+                [formkey]="formkey"
+                (onSelect)="onMultiOptionChange($event, field.fieldKey)"
+                (onUnselect)="onMultiOptionUnSelect($event, field.fieldKey)"
+            ></zee-select>
+            <!--<select *ngIf="fieldSubType === 'multiversion' || fieldSubType === 'multiselect'" [attr.multiple]="'true'" class="form-control" id="{{field.fieldKey}}-field" [formControl]="formkey">
+                <option [value]="option.id" *ngFor="let option of fieldOptions; let i=index" [selected]="hasDefaultValue(field.hasDefaultValue, i)">{{option.name || option.value}}</option>
+            </select>-->
+            <!--dropdown-->
+            <zee-select
+                *ngIf="fieldSubType !== 'multiversion' && fieldSubType !== 'multiselect' && fieldSubType !== 'multigrouppicker'"
+                [placeholder]="'Please select a value'"
+                [selectClass]="'zui-select-picker'"
+                [selectId]="field.fieldKey + '-field'"
+                [items]="fieldOptions"
+                [formkey]="formkey"
+                [allowClear]="true"
+                (onSelect)="onOptionChange($event, field.fieldKey)"
+                (onUnselect)="onMultiOptionUnSelect($event, field.fieldKey)"
+            ></zee-select>
+            <!--<select *ngIf="fieldSubType !== 'multiversion' && fieldSubType !== 'multiselect'" class="form-control" id="{{field.fieldKey}}-field" [formControl]="formkey">
+                <option [value]="option.id" *ngFor="let option of fieldOptions; let i=index" [selected]="hasDefaultValue(field.hasDefaultValue, i)">{{option.text}}</option>
+            </select>-->
+        </span>
+        <span id="{{field.fieldKey}}-field" *ngIf="fieldSubType === 'multicheckboxes'">
+            <!--multiple checkboxes-->
+            <div *ngFor="let option of fieldOptions; let i=index">
+                <input id="checkbox_{{option.id}}" class="multicheckboxes" [formControl]="formkey" type="checkbox" [value]="option.id" [checked]="hasDefaultValue(field.hasDefaultValue, i)">
+                <label [attr.for]="'checkbox_' + option.id"><b>{{option.text}}</b></label>
+            </div>
+        </span>
+        <span id="{{field.fieldKey}}-field" *ngIf="fieldSubType === 'radiobuttons'">
+            <!--multiple radio buttons-->
+            <div>
+                <input name="radio_{{field.fieldKey}}" id="radio_none_{{field.fieldKey}}" class="multiradios" [formControl]="formkey" type="radio" [value]="''">
+                <label [attr.for]="'radio_none_' +field.fieldKey"><b>None</b></label>
+            </div>
+            <div *ngFor="let option of fieldOptions; let i=index">
+                <input id="radio_{{option.id}}_{{field.fieldKey}}" class="multiradios" [formControl]="formkey" type="radio" [value]="option.id" [checked]="hasDefaultValue(field.hasDefaultValue, i)">
+                <label [attr.for]="'radio_' + option.id + '_' + field.fieldKey"><b>{{option.text}}</b></label>
+            </div>
+        </span>
+        <span *ngIf="fieldSubType === 'multiuserpicker'">
+            <!--multiuserpicker-->
+            <cd-user
+                [multiple]="true"
+                [hideLabel]="true"
+                [field]="field"
+                [formkey]="field.fieldKey"
+                [projectkey]="projectkey"
+                (onUserSelect)="setUser($event)"
+                (onMultiUserUnselect)="multiUserUnselect($event, field.fieldKey)"
+            ></cd-user>
+        </span>
+        <span *ngIf="fieldSubType === 'labels' ||
+            fieldSubType === 'gh-sprint' || fieldSystemValue === 'labels' ||
+            fieldSystemValue === 'attachment' || fieldSystemValue === 'issuelinks'">
+            <!--input text-->
+            <input id="{{field.fieldKey}}-field" class="form-control" type="text" [formControl]="formkey">
+        </span>
+    </div>
+</div>

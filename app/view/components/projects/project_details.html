@@ -1,0 +1,26 @@
+<!-- project name, description -->
+<div class="row" *ngIf="project?.description">
+    <div class="col-md-12 zephyr-project-details">
+        <p class="zephyr-content-subtitle">{{project.description}}</p>
+    </div>
+</div>
+<form [class]="''">
+    <div class="zui-ng-select project-release-select">
+        <zee-select
+            [allowClear]="true"
+            [items]="releases"
+            [placeholder]="'Go to Release'"
+            [hideSearch]="false"
+            (onSelect)="goToRelease($event)"
+          ></zee-select>
+    </div>
+</form>
+<div class="clearfix"></div>
+
+<div>
+    <div class="zui-project-summary-container">
+        <div class="zui-project-summary-wrapper" *ngFor="let summary of summaries">
+            <zui-summary-box [summary]="summary"></zui-summary-box>
+        </div>
+    </div>
+</div>

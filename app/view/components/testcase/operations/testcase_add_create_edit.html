@@ -1,0 +1,8 @@
+<button [class]="'btn btn-secondary zui-operations-trigger'" [disabled]="isDisabled" type="button" data-toggle="modal" id="zui-modal-trigger-{{fieldOptions.id}}" [attr.data-target]="'#zee-create-edit-modal-' + fieldOptions.id">{{fieldOptions.header}}</button>
+
+<tcr-create-testcase
+    [fieldOptions]="fieldOptions"
+    [testcase]="testcase"
+    [tcrCatalogTreeId]="tcrCatalogTreeId"
+    [releaseId]="releaseId">
+</tcr-create-testcase>

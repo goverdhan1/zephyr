@@ -1,0 +1,25 @@
+<div style="display:inline;" #target>
+    <tree-view
+        [treeData]="treeData"
+        [treeContext]="'-tcr'"
+        [contextMenuItems]="tcrContextMenuItems"
+        [showContextMenu]="showContextMenu"
+        [options]="treeOptions"
+        [forceSelect]="forceSelect"
+        [openSelect]="treeId"
+        [deleteNode]="deleteNode"
+        [checkCb]="checkCb"
+        [doDirtyCheck]="true"
+        [selectOnRedraw]="true"
+        [dropExternal]="dropExternal"
+        (onTreeNodeClick)="onTcrTreeClick($event)"
+        (onTreeNodeSelect)="onTreeNodeSelected($event)"
+        (onToggleNode)="onToggleTcrNode($event)"
+        (onTreeNodeDragAndDrop)="onTcrNodeDragAndDrop($event)"
+        (clearTreeUpdate)="clearTreeUpdate()"
+        (onDragEnd)="onTreeDrop($event)"
+        (treeInstance)="treeInstance($event)"
+        [showDocker]="!isDetailView"
+        [sectionTitle]="['Test Repository']"
+    ></tree-view>
+</div>

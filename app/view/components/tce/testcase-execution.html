@@ -1,0 +1,277 @@
+<!--<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-project-left-nav
+    [activeItemKey]="'testcase-execution'">
+</zui-project-left-nav>
+
+<div class="tce-wrapper">
+  <!-- <zui-tabs>
+    <zui-tabs-header>
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a class="active" href="#myExecutions" role="tab" data-toggle="tab"><span>My Executions</span></a></li>
+        <li class="nav-item"><a href="#allExecutions" role="tab" data-toggle="tab"><span>All Executions</span></a></li>
+      </ul>
+    </zui-tabs-header>
+    <zui-tabs-content>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="myExecutions">  *for tabs -->
+          <div class="main-content">
+              <section class="module-subheader no-breadcrumb">
+                  <div class="left-navs">
+                      <!-- <bread-crumb [breadCrumbsList]="[{id:1,text:'Release 1.0'},{id:1,text:'Phase 1'},{id:1,text:'System 1'}]" (click)="onBreadCrumbClick($event)">
+                      </bread-crumb> -->
+                      <!-- <h3><b>Testcase Execution</b></h3> -->
+                  </div>
+                  <div *ngIf="!isPanelCollapsed" class="zui-tcr-folder-view">
+                      <div>
+                          <a (click)="toggleSearchFolderView(true)" [ngClass]="{'active': isSearchView, 'zui-tcr-view-disabled': isSearchView}">
+                              <span>
+                                  <i class="fa fa-search zui-search-icon" aria-hidden="true"></i>
+                                  {{'zephyr.tcr.view.search' | i18nSelect: i18nMessages}}
+                              </span>
+                          </a>
+                      </div>
+                      <div [class]="">
+                          <a (click)="toggleSearchFolderView(false)" [ngClass]="{'active': !isSearchView, 'zui-tcr-view-disabled': !isSearchView}">
+                              <span>
+                                  <i class="fa fa-folder-open" aria-hidden="true"></i>
+                                  {{'zephyr.tcr.view.folder' | i18nSelect: i18nMessages}}
+                              </span>
+                          </a>
+                      </div>
+                      <notifications *ngIf="!isSearchView"
+                        [appId]="appId"
+                        (onNotificationApply)="applyNotifications($event)"
+                      ></notifications>
+                  </div>
+              </section>
+              <div class="zui-content-layout layout6">
+                  <div class="row">
+                      <section *ngIf="isSearchView && !_isMobile && !isPanelCollapsed" [class]="'zui-search-details-container'">
+                          <section *ngIf="isSearchView && !_isMobile && !isPanelCollapsed" class="zui-search-details-container">
+                              <div class="zee-layout" style="padding: 10px;">
+                                  <zui-zephyr-search
+                                      [isAdvancedSearch]="isAdvancedSearch"
+                                      [releaseId]="releaseId"
+                                      [searchFieldSrcId]="'req-search'"
+                                      [zqlEntityName]="'testSchedule'"
+                                      [searchText]= "searchText"
+                                      [showFilters]="'true'"
+                                      (onSearchGo)="onSearchGo($event)">
+                                  </zui-zephyr-search>
+                                  <div class="clearfix in-release">
+                                      <label for="in-release">In this release :</label>
+                                      <div class="zui-checkbox2">
+                                          <input id="in-release" class="form-control" name="inRelease" type="checkbox" [(ngModel)]="inRelease" />
+                                          <label for="in-release"></label>
+                                      </div>
+                                  </div>
+                              </div>
+                          </section>
+                      </section>
+                  </div>
+                  <div class="row upper-split" [hidden]="isPanelCollapsed">
+                      <div class="col-md-12 resizable-flex-wrapper">
+                          <div class="zui-flex-v-resizable ui-resizable tree-tcr tree-tce">
+                              <div class="zui-content-layout layout5">
+                                  <div class="row upper-split">
+                                      <div class="col-md-12 resizable-flex-wrapper">
+                                          <div class="collapsible-tree-container" [ngClass]="{'hide': isSearchView}"> <!-- class="zui-flex-h-resizable" id="tce-h-resizer" -->
+                                              <tree-view
+                                                  [showFilter]='false'
+                                                  [showContextMenu]="true"
+                                                  [treeData]="treeData"
+                                                  [selectID]="selectedTreeNode"
+                                                  [openSelect]="selectedTreeNode"
+                                                  [removeFromDefault]="['dnd']"
+                                                  [contextMenuItems]="tceContextMenuItems"
+                                                  [treeContext]="'-tce'"
+                                                  [showDocker]="true"
+                                                  [sectionTitle]="['Test Execution']"
+                                                  (onTreeNodeClick)="onNodeClick($event)"
+                                              ></tree-view>
+                                          </div>
+                                          <!-- <div class="zui-w-handle" id="tce-h-resizer-handle">
+                                              <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                                          </div> -->
+                                          <div class="zui-flex-h-fixed">
+                                              <div class="testcase-grid grid-10-row-fix">
+                                                  <div class="bulk-exec-update" style="margin-top: 10px;" [ngClass]="{'search-view': isSearchView}">
+                                                      <div class="grouped-build-content" [ngClass]="{'hide': isSearchView}">
+                                                        <label id="_build" ><div title="{{build}}"><strong>Build:</strong> {{build}}</div></label>
+                                                        <label id="_environment"><div title="{{environment}}"><strong>Environment:</strong> {{environment}}</div></label>
+                                                      </div>
+                                                      <div class="grouped-content" [ngClass]="{'hide': isSearchView}">
+                                                          <label for="release-priority"><strong>Change multiple :</strong></label>
+                                                          <div class="zui-ng-select">
+                                                              <zee-select class="select-exec-status"
+                                                                  [allowClear]="true"
+                                                                  [items]="statuses"
+                                                                  [editOptions] = "statusSelectEditOptions"
+                                                                  (onSelect)="updateStatus($event)"
+                                                              ></zee-select>
+                                                          </div>
+                                                      </div>
+
+                                                    <zui-tce-bulk-operations style="margin-top: -12px;"
+                                                          [isMenuShown]="isMenuShown"
+                                                          [tcrCatalogTreeId]="selectedTreeNode"
+                                                          [tcrCatalogTreeName]="selectedTreeNodeName"
+                                                          [tctIds]="selectedTctIds"
+                                                          [testcaseIds]="selectedTestcaseIds"
+                                                          [releaseId]="releaseId"
+                                                          [tceGridRows]="tceGridRows"
+                                                          [executionIds]="allExecutionIds"
+                                                          [exportPrefix]="exportPrefix"
+                                                          [fieldOptions]="fieldOptions"
+                                                          [statuses]="statuses"
+                                                          [isSearchView]="isSearchView"
+                                                          [isAdvancedSearch]="isAdvancedSearch"
+                                                          [searchText]= "searchText"
+                                                          [inRelease]="inRelease"
+                                                      ></zui-tce-bulk-operations>
+                                                  </div>
+                                                <div style="border-bottom: 1px solid #ddd;margin: 2px;margin-top: 30px;" *ngIf="!isSearchView && testcaseId && relatedTc.tcid!=0"></div>
+                                                <div style="border-left: 3px solid #8dc75e;margin: 2px;margin-top: 10px;" *ngIf="!isSearchView && testcaseId && relatedTc.tcid!=0">
+                                                  <span style="margin-left: 10px; font-size: 14px;line-height: 30px;">Execution processed : </span>
+                                                  <span style="margin-left: 10px; font-size: 14px;line-height: 30px;color: #a2a5a5;">{{relatedExec}}</span>
+                                                </div>
+                                                <div style="margin-bottom: 80px;width: 80%;margin-left: 10px;" class="zui-project-summary-container" *ngIf="!isSearchView && testcaseId && relatedTc.tcid!=0">
+                                                  <div class="zui-project-summary-wrapper" *ngFor="let summary of summaries">
+                                                    <zui-summary-box [summary]="summary"></zui-summary-box>
+                                                  </div>
+                                                  <div style="margin-top: 15px;">
+                                                      <span>
+                                                        <a (click)="searchForRelatedTc()">
+                                                        <span style="display: block;cursor: pointer;">
+                                                            <i class="fa fa-search zui-search-icon" style="opacity: 0.5;" aria-hidden="true"></i>
+                                                          <span class="zui-link">show executions</span>
+                                                        </span>
+                                                      </a>
+                                                      </span>
+                                                    <span>
+                                                        <button (click)="markAllAsFailed()" type="button" style="margin-top: 5px;" class="btn btn-secondary">Mark Executions as Fail</button>
+                                                      </span>
+                                                  </div>
+                                                </div>
+                                                <div style="border-bottom: 1px solid #ddd;margin-top: 10px;" *ngIf="!isSearchView && testcaseId && relatedTc.tcid!=0"></div>
+                                                <grid style="margin-top: 10px"
+                                                      [rows]=tceGridRows
+                                                      [rowIds]="selectedTctIds"
+                                                      [secondaryIds]="selectedTestcaseIds"
+                                                      [executionIds]="allExecutionIds"
+                                                      [gridType]="selectedGridType"
+                                                      [paginationOptions]="paginationOptions"
+                                                      (onDialogTrigger)="showTestcaseCoverage($event)"
+                                                      (onGridRowClick)="tceGridRowClick($event)"
+                                                      (onGridPrevClick)="tceGridPrevClick($event)"
+                                                      (onGridNextClick)="tceGridNextClick($event)"
+                                                      (onGridPageSizeChange)="tceGridPageSizeChange($event)"
+                                                      (onGridPaginateByIndex)="tceGridPaginateByIndex($event)"
+                                                      (onGridRowSelection)="tceGridRowSelection($event)"
+                                                      (onGridLinkClick)= "tceGridLinkClick($event)"
+                                                      (onGridInlineEditSubmit)="tceGridInlineEditSubmit($event)">
+                                                </grid>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+                          <div class="zui-s-handle" [hidden]="!testcaseId">
+                              <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+                              <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+                          </div>
+                          <div class="zui-flex-v-fixed" *ngIf="testcaseId && !isPanelCollapsed">
+                              <zee-testcase class="zee-testcase"
+                                  [testcaseId]=testcaseId
+                                  [paginationOptions]="paginationOptions"
+                                  [currentRecord]=currentRecord
+                                  [totalRecords]=totalRowCount
+                                  (onRecordChange)="recordChanged($event)"
+                                  [editable]="areTceDetailsEnabled"
+                                  [areExecDetailsEnabled]="areExecDetailsEnabled"
+                                  [isSearchView]="isSearchView"
+                                  [isTce]="true"
+                                  [isEditable]="false"
+                                  [fetchFromServer]=true
+                                  [cyclePhaseId]="cyclePhaseId"
+                                  [rtsId]="rtsId"
+                                  (onEditClick)="enableEditableFields()"
+                                  (emitAttachmentCount)="attachmentsCountRefreshed($event)"
+                                  (onTestStepAttachmentCountClicked)="onTestStepAttachmentClick($event)">
+                              </zee-testcase>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <attachment [entityType]="attachmentEntityType" [id]="testcaseAttachmentId" [isEditAvaiable]="true"(emitAttachmentCount)="attachmentsCountRefreshed($event)">
+          </attachment>
+
+          <zee-defect-link *ngIf="!syncClicked" (onMapDefectsSchedule)="onMapDefectsSchedule($event)" (triggerChangeDetection)="triggerChange($event)" [releaseId]="releaseId" [testcaseId]="testId" [scheduleId]="scheduleId"></zee-defect-link>
+
+          <!--<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal-tce'" [modalSize]="'extrasmall'">
+              <zui-modal-body>
+                  <p class="white-space-pre-wrap"> {{confirmationObject.text}} </p>
+              </zui-modal-body>
+              <zui-modal-footer>
+                  <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">{{confirmationObject.cancelButtonText}}</button>
+                  <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+              </zui-modal-footer>
+          </zui-modal>-->
+
+          <zui-modal [title]="'Confirmation'" [modalId]="'confirmation-modal-tce'" [modalSize]="'extrasmall'">
+              <zui-modal-body>
+                  <p class="white-space-pre-wrap"> This process will take few minutes to sync mapped defects.
+                      Do you wish to continue? </p>
+              </zui-modal-body>
+              <zui-modal-footer>
+                  <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="true">No</button>
+                  <button type="button" class="zui-btn zui-btn-primary" [attr.value]="'SYNC'" (click) = "confirmationActionCall($event)">Yes</button>
+              </zui-modal-footer>
+          </zui-modal>
+
+          <job-status [modalHeading]="'Sync Defect Progress'" [messages]="defectSyncMessages" [jobStatusId]="'-execution'"> </job-status>
+          <zee-update-defect-user *ngIf="syncClicked" (onShowUpdateUserModal)="onShowUpdateUserModal($event)" [isModal]="true">
+          </zee-update-defect-user>
+          <zui-modal [title]="'Execute Testcase'" [modalId]="'execute-testcase-tce'" [modalSize]="'extrasmall'">
+              <zui-modal-body>
+                  All Steps are updated to <span class="bold-font">{{statusAllTestSteps}} </span>. Do you also want to update current test status.
+                  <div class="zui-ng-select">
+                      <zee-select
+                        [items]="statuses"
+                        [active]="testcaseStatusDropdown"
+                        [placeholder]="'Select a Status'"
+                        (onSelect)="updateTestcaseStatusDropdown($event)"
+                      ></zee-select>
+                  </div>
+              </zui-modal-body>
+              <zui-modal-footer>
+                  <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="zui-btn zui-btn-primary" [disabled]="testcaseStatusDropdown == ''" (click)="executeTestcaseStatus($event)">Execute</button>
+              </zui-modal-footer>
+          </zui-modal>
+
+          <zui-coverage-grid [gridType]="_reqGridType" [ids]="coverageRequirementIds" [releaseId]="releaseId" *ngIf="coverageRequirementIds.length"></zui-coverage-grid>
+
+          <!--<zui-modal [title]="'Switch view'" [modalId]="'switch-to-search-modal'" [modalSize]="'small'">-->
+            <!--<zui-modal-body>-->
+              <!--<p *ngIf="!isSearchView">Do you want to switch to search view?</p>-->
+              <!--<p *ngIf="isSearchView">Do you want to switch to folder view?</p>-->
+            <!--</zui-modal-body>-->
+            <!--<zui-modal-footer>-->
+              <!--<button type="button" class="zui-btn zui-btn-primary" (click)="dismissSwitchViewModal(!isSearchView,true)" data-dismiss="modal">Yes</button>-->
+              <!--<button type="button" class="zui-btn zui-btn-sec" (click)="dismissSwitchViewModal(!isSearchView,false)" data-dismiss="modal">No</button>-->
+            <!--</zui-modal-footer>-->
+          <!--</zui-modal>-->
+        <!-- </div> *for tabs -->
+        <!-- <div role="tabpanel" class="tab-pane fade" id="allExecutions">
+          <div class="flex">
+            <h4>All Executions</h4>
+          </div>
+        </div> -->
+      <!-- </div>
+    </zui-tabs-content>
+  </zui-tabs> *for tabs -->
+</div>

@@ -1,0 +1,18 @@
+// Css not being used now as 'map-grid' class is not being used. leaving as is for future use.
+.map-grid grid {
+    position: static;
+    margin: 0 0 40px;
+}
+.map-grid .grid-pagination {
+    right: 30px;
+    bottom: 5px;
+}
+.map-grid grid table tr {
+    cursor: pointer;
+}
+.map-details {
+    border-top: 1px solid;
+}
+.map-save button {
+    margin: 5px 0 0 5px;
+}

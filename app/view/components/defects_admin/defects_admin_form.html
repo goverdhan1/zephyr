@@ -1,0 +1,33 @@
+<h3>{{formtype}} Preference </h3>
+<div class="subform preference-form">
+    <form [formGroup]="preferenceForm" (ngSubmit)="preferenceFormSubmit(preferenceForm.value)">
+        <div class="row preference-subform">
+            <div class="col-md-6 col-xs-12">
+                <div class="clearfix" >
+                    <label for="preference-name"><b>Name</b><span class="input-required">*</span>:</label>
+                    <span *ngIf="formtype === 'Edit' && !preferenceObject.customizable ">{{preferenceObject.name}}</span>
+                    <input *ngIf="formtype === 'Add' || preferenceObject.customizable" id="preference-name" class="form-control" type="text" placeholder="Enter Name" [formControl]="preferenceForm.controls['name']" title="{{preferenceForm.controls['name'].invalid ? 'Name should contain 1-255 characters and be unique' : ''}}"/>
+                </div >
+                <div class="clearfix">
+
+                    <label for="preference-active"><b>Active:</b></label>
+                    <div class="zui-checkbox2">
+                        <input id="preference-active" class="form-control"  [formControl]="preferenceForm.controls['active']" type="checkbox"/>
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="clearfix">
+                    <label for="preference-value"><b>Value</b><span class="input-required" *ngIf="formtype == 'Edit'">*</span>:</label>
+                    <input id="preference-value" class="form-control"  [formControl]="preferenceForm.controls['value']" type="text" placeholder="Enter Value" title="{{preferenceForm.controls['value'].invalid ? 'Value is a required field' + valueErrorMsg : ''}}"/>
+                    <!-- <textarea name="" id="preference-value" class="form-control zui-textarea"  [formControl]="preferenceForm.controls['value']" title="{{preferenceForm.controls['value'].invalid ? 'Value should contain 2-100 characters.' : ''}}"></textarea> -->
+                </div>
+            </div>
+        </div>
+        <div class="clearfix form-footer">
+            <button type="button" class="zui-btn zui-btn-sec" (click)="resetPreferenceForm()">Cancel</button>
+             <button type="button" (click)="preferenceFormSubmit(preferenceForm.value)" class="zui-btn zui-btn-primary" [disabled]="!preferenceForm.valid">Save</button>
+        </div>
+    </form>
+</div>

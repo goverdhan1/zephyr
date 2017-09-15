@@ -1,0 +1,107 @@
+<zui-admin-system-admin [class]="'zui-admin-section'">
+    <div class="main-content" role="main">
+        <div class="module-subheader no-breadcrumb">
+            <div class="left-navs">
+                <h3><b>System Admin</b></h3>
+            </div>
+        </div>
+        <div class="zui-content-layout layout6">
+          <div class="subform">
+              <div class="zee-module-header"><span class="zee-module-header-left">Server Status</span></div>
+              <p>To start and stop Zephyr server, make sure you are physically logged into the machine on which it is installed.
+              </p>
+              <ul>
+              <li>
+                    <span [class]="'zui-admin-bold'">For Windows</span>
+                    <p>
+                     Go to <span [class]="'zui-admin-bold'">Start —> Zephyr —> Server Admin</span> and use <span [class]="'zui-admin-bold'">’Start Zephyr Server’</span> or <span [class]="'zui-admin-bold'">’Stop Zephyr Server’.</span>
+                    </p>
+                  </li>
+                <li>
+                    <span [class]="'zui-admin-bold'">For Linux</span>
+                    <p>
+                      To start or stop Zephyr manually please use the following commands <span [class]="'zui-admin-bold'">./bin/ZephyrService.sh start</span> and <span [class]="'zui-admin-bold'"> ./bin/ZephyrService.sh stop.</span>
+                    </p>
+                  </li>
+             </ul>
+          </div>
+          <div class="subform">
+              <div class="zee-module-header"><span class="zee-module-header-left">Logging</span></div>
+              <p>To view Zephyr log files, make sure you are physically logged into the machine which it is installed.</p>
+                <ul>
+              <li>
+                    <span [class]="'zui-admin-bold'">For Windows</span>
+                    <p>
+                     Go to <span [class]="'zui-admin-bold'">Start —> Zephyr —> Server Admin</span> and use <span [class]="'zui-admin-bold'">’View logs’.</span>
+                    </p>
+                  </li>
+                <li>
+                    <span [class]="'zui-admin-bold'">For Linux</span>
+                    <p>
+                       Navigate to <span [class]="'zui-admin-bold'"> %Zephyr Installation Directory%->tomcat->logs    </span>
+                    </p>
+                  </li>
+             </ul>
+          </div>
+        <!--   <div class="subform">
+             <div class="zee-module-header"><span class="zee-module-header-left">Backup & Restore</span></div>
+              <p>To backup and/or restore your Zephyr server, make sure you are physically logged into the machine on which it is installed.</p>
+               <ul>
+              <li>
+                    <span [class]="'zui-admin-bold'">For Windows</span>
+                    <p>
+                     Go to <span [class]="'zui-admin-bold'">Start —> Zephyr —> Server Admin —> Backup</span> and follow the instructions in readme.txt.
+                    </p>
+                  </li>
+                <li>
+                    <span [class]="'zui-admin-bold'">For Linux</span>
+                    <p>
+                       Navigate to <span [class]="'zui-admin-bold'">%Zephyr Installation Directory% ->backup_restore->bin</span> and follow the instructions in readme.txt.
+                    </p>
+                  </li>
+
+             </ul>             
+            <p>To do hot backups on a schedule or on demand, click here &nbsp;&nbsp;
+              <button (click)="getHotBackupData()" type="button" class="zui-btn zui-btn-primary" data-toggle="modal" data-target="#hot-backup-modal">Hot Backups</button></p>
+          </div>-->   
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onBackupFormSubmit(form.value)" class="" *ngIf="backupHistory">
+        <zui-modal [title]="'Hot Backups'" [modalId]="'hot-backup-modal'" [modalSize]="'medium'">
+          <zui-modal-body>
+            <div class="">
+              <p>Hot Backups are a snapshot of your data without having to stop the server. You can schedule Zephyr to automatically do this every few hours. The last 12 backups are stored. To restore from a hot backup, please contact Zephyr Support</p>
+              <hr>
+              <p>{{backupHistory.noOfBackupAvailable}} hot backups available</p>
+              <p>Last hot backup: {{backupHistory.lastBackupDate}}, File size = {{backupHistory.fileSize}} KB</p>
+              <p>Backups are located at: {{backupHistory.path}}</p>
+              <hr>
+              <div class="zui-checkbox">
+                <input #backupFlag id="backupFlag" type="checkbox" [formControl]="form.controls['enableBackup']" (change)="toggleBackup(backupFlag.checked)"/>
+                <label for="backupFlag">Enable automatic backups</label>
+              </div>
+              <p class="form-inline">
+                <label for="">Take a hot backup every</label>
+                <input type="number" min="1" max="24" class="form-control" [validate]="'number'" [formControl]="form.controls['hotBackupPeriod']">
+                <label for=""> hours</label>
+              </p>
+              <hr>
+              <p>
+                You can take hot backup anytime
+                <button type="button" class="zui-btn zui-btn-tertiary" [style.float]="'right'" (click)="onHotBackupNow()">Hot Backup Now</button>
+              </p>
+            </div>
+          </zui-modal-body>
+          <zui-modal-footer>
+            <button type="button" class="zui-btn zui-btn-sec" (click)="cancelHotBackup()" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormValid(form)">Save</button>
+          </zui-modal-footer>
+        </zui-modal>
+      </form>
+    </div>
+    <!-- Dirty check component -->
+    <zui-form-dirty-dialog
+      [show]="showDirtyCheckModal"
+      (dismissNavigation)="dismissNavigation()"
+      (continueNavigation)="continueNavigation()"
+    ></zui-form-dirty-dialog>
+</zui-admin-system-admin>

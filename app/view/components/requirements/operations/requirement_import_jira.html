@@ -1,0 +1,67 @@
+<zui-modal [title]="(isUserUpdateRequired === 'true') ? 'External DTS Login' : 'zephyr.operation.import.jira.header' | i18nSelect: i18nMessages" [modalId]="'zee-import-modal-requirement-jira'" [modalSize]="(isUserUpdateRequired === 'true') ? 'small' : 'large'">
+    <zui-modal-body [ngClass]="{'hide': isResetDTUser}" *ngIf="isUserUpdateRequired==='false' || isResetDTUser">
+        <div class="row">
+            <div class="col-md-12">
+                <defects-advanced-search *ngIf="showSearchComp"
+                    [type]="'requirement'"
+                    [hiddenOptions]="'id'"
+                    [hideHeader]="true"
+                    [searchGridType]="'IMPORT_JIRA'"
+                    (searchCriteria)="getSearchCriteria($event)"
+                    (onGridSelection)="onGridSelection($event)"
+                    (setFolderstructure)="setFolderStructure($event)"
+                ></defects-advanced-search>
+            </div>
+        </div>
+
+      <zui-modal [title]="'Unsaved changes'" [backgroundBlur]="true" [modalId]="'confirmation-modal-import-all'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+          <p class="white-space-pre-wrap"> You're about to import {{records}} record. This might need take some time. Are you sure ?</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+          <button type="button" class="zui-btn zui-btn-sec" (click)="hideModal()">Cancel</button>
+          <button type="button" class="zui-btn zui-btn-primary" (click)="importAll()">Yes</button>
+        </zui-modal-footer>
+      </zui-modal>
+
+      <zui-modal [title]="'Unsaved changes'" [backgroundBlur]="true" [modalId]="'jql-empty-popup'" [modalSize]="'extrasmall'">
+        <zui-modal-body>
+          <p class="white-space-pre-wrap"> Please enter JQL or filter to import all requirements. </p>
+        </zui-modal-body>
+        <zui-modal-footer>
+          <button type="button" class="zui-btn zui-btn-primary" (click)="closeEmptyPopup()">OK</button>
+        </zui-modal-footer>
+      </zui-modal>
+
+
+    </zui-modal-body>
+    <zui-modal-body [ngClass]="{'show': isUserUpdateRequired === 'true', 'hide': !isResetDTUser}">
+        <zee-update-defect-user (onDeleteUser)="onDeleteUser()" [isResetDTUser]="isResetDTUser" (onShowUpdateUserModal)="onShowUpdateUserModal($event)" [isModal]=false></zee-update-defect-user>
+    </zui-modal-body>
+    <zui-modal-header-buttons *ngIf="isUserUpdateRequired==='false'">
+        <div class="defect-modal-header-buttons" *ngIf="isUserUpdateRequired==='false'">
+            <button (click)="resetDTUserButtonClick($event)" class="btn btn-secondary zui-dt-reset-user-button">
+                <i aria-hidden="true" class="fa fa-refresh zui-dt-reset-user-icon"></i>
+                    Reset User
+            </button>
+        </div>
+    </zui-modal-header-buttons>
+    <zui-modal-footer>
+        <div *ngIf="isUserUpdateRequired === 'false'">
+            <button type="button" class="zui-btn zui-btn-sec" (click)="dismissModal($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+            <button type="button" title="Import requirements selected in the grid" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true}" [disabled]="isImportDisabled()" (click)="importRequirementsFromJIRA(false)">{{'zephyr.requirement.import.selected.button.title' | i18nSelect: i18nMessages}}</button>
+            <button type="button" title="Import all the search results" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true}" (click)="importAll()">{{'zephyr.requirement.import.all.button.title' | i18nSelect: i18nMessages}}</button>
+        </div>
+        <div *ngIf="isUserUpdateRequired === 'true'">
+            <div *ngIf="!isResetDTUser">
+                <button type="button" class="zui-btn zui-btn-sec" (click)="dismissModal($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: inlineTableComponent && inlineTableComponent.updateDefectUserForm && inlineTableComponent.updateDefectUserForm.invalid}" (click)="onUserUpdate($event)">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+            </div>
+            <div *ngIf="isResetDTUser">
+                <button type="button" class="zui-btn zui-btn-sec" (click)="onResetUserCompletion($event)">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+                <button type="button" class="zui-btn zui-btn-sec" (click)="showDeleteUserPopup($event)">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+                <button type="button" [ngClass]="{'zui-btn': true, 'zui-btn-primary': true, disabled: inlineTableComponent && inlineTableComponent.updateDefectUserForm && inlineTableComponent.updateDefectUserForm.invalid}" (click)="onResetUser($event)">{{'zephyr.button.update' | i18nSelect: i18nMessages}}</button>
+            </div>
+        </div>
+    </zui-modal-footer>
+</zui-modal>

@@ -1,0 +1,537 @@
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-button {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbcbcb;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bbbbbb;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #a7a7a7;
+}
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #fff;
+}
+::-webkit-scrollbar-track:active {
+  background: #fff;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+#hmrLoader {
+  background: #000;
+  color: white;
+}
+
+.hide-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  overflow: hidden!important;
+}
+
+div.dropdown-menu {
+  font-size: $zui-p-font;
+}
+
+html,
+body {
+  height: 100%;
+  font-size: $zui-p-font !important;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: #F3F3F3;
+
+  .zee-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    zui-dashboard {
+      height: calc(100% - 85px);
+      padding: 10px;
+    }
+
+    admin,
+    zee-projects,
+    zee-release,
+    zee-defect-tracking,
+    zee-test-requirements,
+    zee-test-repository,
+	zee-automation,
+    testcase-execution,
+    release-setup,
+    project-setup,
+    resource-management,
+    defects-admin,
+    testcase-eas,
+    testcase-eas-cycle,
+    testcase-eas-phase,
+    quality-trends,
+    reports {
+      display: flex;
+      flex-direction: row;
+      //height: 100%;
+      flex-grow: 1;
+      align-items: stretch;
+      width: 100%;
+      flex-basis: 100%;
+      overflow: hidden;
+    }
+
+    testcase-eas-cycle {
+      &.isEmbedded {
+        height: 100%;
+        display: block;
+
+        .testcase-eas-wrapper {
+          height: 100%;
+        }
+      }
+    }
+
+    .defect-tracking-container,
+    customizations,
+    about-zephyr,
+    zee-project,
+    release-component,
+    .release-setup-wrapper,
+    .project-setup-wrapper,
+    resource-management-details,
+    test-repository-component,
+    test-repository-component,
+    test-requirements-component,
+    test-repository-component,
+    test-repository-component,
+    .tce-wrapper,
+    zee-release-wrapper,
+    defects-admin-wrapper,
+    .testcase-eas-wrapper,
+    .zui-admin-section,
+    .quality-trends-wrapper,
+    .reports-content {
+      transition: all 0.2s linear;
+      padding: 0px 10px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 50px);
+      overflow: hidden;
+    }
+  }
+  .release-setup-wrapper {
+    overflow: scroll;
+
+    .main-content {
+      background: #fff;
+    }
+    .release-grid {
+      min-height: 350px;
+    }
+    .zui-content-layout {
+      overflow-y: auto;
+    }
+  }
+
+  &.collapse-nav {
+    left-nav, zui-project-left-nav, zui-administration-left-nav {
+      width: 52px;
+      min-width: 52px;
+      .sidr{
+        .nav-icon{
+          min-width: 52px;
+        }
+      }
+      .release-dropdown-toggle{
+        display: none;
+      }
+    }
+
+    .footer-wrapper {
+      width: calc(100% - 52px);
+    }
+
+    zui-dashboard + zee-footer {
+      .footer-wrapper {
+        width: 100%;
+        transition: none;
+      }
+    }
+
+    // system-config,
+    // system-admin,
+    // user-auth,
+    // defect-tracking,
+    // customizations,
+    // about-zephyr,
+    // zee-project,
+    // release-component,
+    // .release-setup-wrapper,
+    // .project-setup-wrapper,
+    // test-requirements-component,
+    // test-repository-component,
+    // .testcase-eas-wrapper,
+    // .resource-management-wrapper,
+    // .tce-wrapper,
+    // .footer-wrapper {
+    //   width: calc(100% - 70px);
+    // }
+  }
+
+  zui-dashboard + zee-footer {
+    .footer-wrapper {
+      width: 100%;
+      transition: none;
+    }
+  }
+}
+
+// top-nav {
+//   display: block;
+// }
+
+// admin,
+// zee-projects,
+// zee-release,
+// zee-test-requirements,
+// zee-test-repository,
+// testcase-execution,
+// release-setup,
+// project-setup,
+// resource-management,
+// testcase-eas {
+//   height: calc(100vh - 60px);
+//   display: block;
+// }
+/*Project left nav */
+zui-project-left-nav,
+zui-administration-left-nav {
+    min-width: 200px;
+    overflow-x: visible;
+    position: relative;
+    transition: all 0.2s linear;
+    display: flex;
+    z-index: 3;
+
+    left-nav{
+      &.expanded-on-hover{
+        min-width: 200px;
+
+        .leftnav-list{
+          .nav-icon{
+            width: 45px;
+            min-width: 45px;
+          }
+        }
+        .release-dropdown-toggle{
+          display: block;
+        }
+      }
+    }
+}
+
+zui-administration-left-nav {
+  .nav-icon{
+    .admin-icon{
+      display: inline-block;
+    }
+  }
+}
+
+zui-project-left-nav{
+  .nav-icon{
+    .project-icon{
+      display: inline-block;
+    }
+  }
+}
+
+login {
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: #FFF;
+}
+
+// system-config,
+// system-admin,
+// user-auth,
+// defect-tracking,
+// customizations,
+// about-zephyr,
+// zee-project,
+// release-component,
+// .release-setup-wrapper,
+// .project-setup-wrapper,
+// .resource-management-wrapper,
+// test-repository-component,
+// test-repository-component,
+// test-requirements-component,
+// test-repository-component,
+// test-repository-component,
+// .tce-wrapper,
+// .testcase-eas-wrapper {
+//   float: right;
+//   width: calc(100% - 260px);
+//   transition: width 0.2s linear;
+//   display: block;
+//   padding: 10px;
+//   height: calc(100% - 54px);
+//   overflow: auto;
+// }
+
+.main-content {
+  margin: 0;
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+  position: relative;
+  padding: 0;
+  //overflow: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; // stablising between ie and safari
+  > .zui-content-layout {
+    overflow-y: auto;
+    flex: 1;
+    max-width: 100%;
+  }
+}
+
+.footer-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: calc(100% - 200px);
+  padding: 0 10px;
+  transition: width 0.2s linear;
+
+  .footer {
+    padding: 0 0.9735rem;
+
+    .footer-component {
+      padding: 10px;
+      background: #FFF;
+      text-align: center;
+
+      &:last-child {
+        border-left: 1px solid #F3F3F3;
+      }
+    }
+  }
+}
+
+.modal-dialog {
+  margin-top: 70px;
+  font-size: $zui-strong-font;
+
+  .modal-title {
+    color: #289295;
+    font-size: 20px;
+  }
+
+  .modal-title {
+
+    &.sub-title {
+      font-size: 14px !important;
+    }
+
+  }
+
+  .subform {
+    border-bottom: 1px solid #F3F3F3;
+
+    .datepicker-wrap {
+      display: inline-block;
+      width: 50%;
+    }
+
+    .input-group {
+      width: 50%;
+
+      &.date-group {
+        width: 100%;
+      }
+    }
+    .zui-checkbox2 label:after {
+      content: '';
+    }
+    &:last-child,
+    &:last-of-type {
+      border: 0;
+    }
+  }
+
+  button {
+    font-size: $zui-p-font;
+  }
+
+  .modal-body {
+    p {
+      margin-bottom: 5px;
+    }
+
+    .zui-checkbox2 input[type=checkbox] {
+
+      + label {
+
+        &:before {
+          width: 15px;
+          height: 15px;
+        }
+      }
+
+      &:checked + label {
+
+        &:after {
+          left: 2px;
+          top: 1px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  &.large {
+    height: calc(100vh - 55px);
+  }
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  // admin,
+  // zee-projects,
+  // zee-release,
+  // zee-test-requirements,
+  // zee-test-repository,
+  // zee-test-repository,
+  // testcase-eas,
+  // testcase-execution {
+  //   height: calc(100vh - 102px);
+  //   display: block;
+  // }
+
+  left-nav {
+    //float: none;
+    min-width: 0;
+    //height: calc(100vh - 58px);
+    //overflow: auto;
+
+    .sidr {
+      position: fixed;
+      width: 200px;
+    }
+  }
+
+  // system-config,
+  // system-admin,
+  // user-auth,
+  // defect-tracking,
+  // customizations,
+  // about-zephyr,
+  // zee-project,
+  // release-component,
+  // .release-setup-wrapper,
+  // .resource-management-wrapper,
+  // .project-setup-wrapper,
+  // test-requirements-component,
+  // test-repository-component,
+  // .tce-wrapper,
+  // .testcase-eas-wrapper  {
+  //   float: none;
+  //   width: 100%;
+  //   display: block;
+  // }
+
+  .footer-wrapper {
+    width: 100%;
+  }
+}
+
+.zui-table {
+    > tfoot > tr,
+    > tbody > tr {
+        background: #fff;
+        border-bottom: 1px solid #ccc;
+        color: #333;
+        &:first-child {
+            > td,
+            > th {
+                border-top: 1px solid #ccc;
+            }
+        }
+        > td {
+            padding: 7px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+    }
+    > thead > tr {
+        > td,th {
+            padding: 7px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+    }
+}
+.zui-avatar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px #ccc;
+    position: relative;
+    overflow: hidden;
+    @include border-radius(100%);
+    &.avatar-large {
+      height: 48px;
+      width: 48px;
+    }
+    img {
+      width: 100%;
+    }
+    &.icon-avatar {
+        background-color: #ccc;
+        i {
+            color: #fff;
+            font-size: 40px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1499px) {
+
+}
+
+@media (min-width: 1500px) {
+
+}
+
+@media (min-width: 1800px) {
+
+}
+
+@media (min-width: 2200px) {
+
+}

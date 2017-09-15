@@ -1,0 +1,51 @@
+zui-release-daily-plus-gadget {
+
+  .date-range {
+    margin-top: 6px !important;
+    margin-bottom: 1px !important;
+
+    .col-xs-6 {
+      max-width: 172px;
+    }
+  }
+
+  .date-picker {
+    width: 500px !important;
+  }
+
+  .date-picker-container {
+    position: absolute !important;
+    padding-bottom: 100px !important;
+    left: 30px !important;
+  }
+
+  .metrics-container {
+    margin-top:100px !important;
+  }
+
+  .date-btn {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  label {
+    line-height: 2.3;
+  }
+
+  .zui-ng-select {
+    display: inline-block;
+    width: 348px;
+  }
+
+  .zee-module1-wrapper .zee-module1-title {
+    font-size: 22px;
+    color: #289295;
+  }
+
+  .zee-module1-wrapper .zee-module1-summary-name {
+    font-size: 12px;
+    padding-left: 5px;
+  }
+
+
+}

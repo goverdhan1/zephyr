@@ -1,0 +1,26 @@
+<grid class="phase-grid-table"
+     [rows]="phaseGridRows"
+     [rowIds]="selectedTctIds"
+     [keyToCheck]="keyToCheck"
+     [keyOnRowSelect]="keyOnRowSelect"
+     [gridType]="_phaseGridType"
+     [paginationOptions]="paginationOptions"
+     (onGridInlineEditSubmit)="phaseGridAssignSelectChange($event)"
+     (onGridRowClick)="phaseGridRowClick($event)"
+     (onGridRowSelection)="phaseGridRowSelection($event)"
+     (onGridActionIconClick)="phaseGridActionClick($event)"
+     (onGridPrevClick)="phaseGridPrevClick($event)"
+     (onGridNextClick)="phaseGridNextClick($event)"
+     (onGridPageSizeChange)="phaseGridPageSizeChange($event)"
+     (onGridPaginateByIndex)="phaseGridPaginateByIndex($event)"
+></grid>
+
+<zui-modal [title]="confirmationObject.heading" [modalId]="'confirmation-modal-eas'" [modalSize]="'medium'" *ngIf="confirmationObject" >
+    <zui-modal-body>
+        <p> {{confirmationObject.text}} </p>
+    </zui-modal-body>
+    <zui-modal-footer>
+        <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">Cancel</button>
+        <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+    </zui-modal-footer>
+</zui-modal>

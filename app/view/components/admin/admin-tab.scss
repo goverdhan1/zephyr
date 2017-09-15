@@ -1,0 +1,378 @@
+.t-center {
+  text-align: center;
+}
+
+.form-footer {
+  text-align: right;
+  //margin: 10px 0;
+}
+.zui-zephyr-section {
+  .subform {
+    padding: 0;
+    border: 0;
+
+    .about-zephyr-inline-wrapper {
+      line-height: normal;
+    }
+  }
+}
+.sso-info {
+      li,p {
+        margin-bottom: 5px;
+      }
+}
+.sso-form label{
+  width: 29%;
+  margin-bottom: 5px;
+}
+.sso-attachments-wrapper {
+  attachments {
+    display: inline-block;
+    width: 60%;
+    position: relative;
+    top: -20px;
+  }
+  #uploadedCertificateName {
+    position: relative;
+    left: 62%;
+    top: 17px;
+  }
+  /*#uploadFileForm {
+       button {
+         position: absolute;
+         width: 100px;
+         color: #ffffff;
+         background: #818586;
+       }
+       #uploadFile {
+         position: absolute;
+         width: 100px;
+         z-index: 2;
+         opacity: 0;
+       }
+       #uploadFilename {
+         position: relative;
+         z-index: 4;
+         left: 104px;
+       }
+  }*/
+}
+
+customizations zui-estimated-time {
+  display: inline-block;
+  margin-left: 7%;
+}
+.estTime-input-wrapper {
+    display: inline-block;
+    padding: 0px 10px 0px 3px;
+    margin-left: 7%;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      border:none;
+      width:1.2rem;
+      outline:none;
+      margin:0px;
+      padding:0px;
+    }
+  }
+execution-status-modal {
+  .zui-toggle .tgl + .tgl-btn {
+    width: 30px;
+    height: 12px;
+  }
+
+  .zui-toggle .tgl + .tgl-btn:after, .zui-toggle .tgl + .tgl-btn:before {
+    width: 15px;
+    height: 15px;
+    top: -2px;
+  }
+}
+.execution-status-color-box {
+  display: inline-block;
+  width:15px;
+  height:15px;
+}
+
+.add-role.subform {
+  padding:10px 0px;
+}
+
+.apps-listing {
+  h5 {
+    color: #289295;
+    margin:30px 0px 15px 0px;
+
+    &:first-of-type {
+      margin-top: 0px;
+    }
+  }
+
+  .apps-checkboxes {
+    padding:5px;
+    border:1px solid #ccc;
+    border-radius : 2px;
+    &:first-of-type {
+      margin-bottom:10px;
+    }
+
+    span {
+      display: inline-block;
+      width:33%;
+      float:left;
+    }
+  }
+}
+
+table tbody tr {
+  &.selected-row {
+    background: #eeeeef;
+  }
+}
+
+button#enable-zephyr-access {
+  color: red;
+  border-color: red;
+}
+
+.enable-lock-zephyr-access {
+  margin-bottom: 10px;
+}
+.project-list-custom {
+    border-top: 1px solid;
+    padding: 5px 0;
+    border-bottom: 1px solid;
+}
+
+.fields-checkboxes-layout {
+  padding-bottom: 10px;
+  > div {
+    width:33%;
+  }
+}
+
+.picklistValues {
+  &.disabled {
+      opacity: 0.2;
+      pointer-events: none;
+  }
+  .picklist-wrapper {
+
+      border : 1px solid #ccc;
+
+      p {
+         padding: 4px;
+         border-bottom: 1px solid #eceeef;
+      }
+      p > span:first-child , p span:nth-child(3) {
+         width : 10%;
+         height: 30px;
+         padding: 5px 0;
+         line-height: 1.8;
+      }
+
+      p span {
+        float:left;
+      }
+
+      .picklist-wrapper-heading {
+        color: #fff;
+        background-color: #373a3c;
+
+        span {
+          height: 30px;
+          padding: 5px 0;
+          line-height: 1.8;
+          &:nth-child(2) {
+            width : 70%;
+          }
+          &:nth-child(3) {
+            width : 20%;
+          }
+        }
+      }
+
+      .picklist-values-wrapper {
+        height:125px;
+        overflow:overlay;
+        min-height:125px;
+
+        zephyr-inline-edit {
+          width:70%;
+          float:left;
+          padding-right: 5px;
+        }
+      }
+
+      .picklist-input {
+        background-color:#eceeef;
+        padding: 0.75rem;
+
+        input {
+          width:calc(100% - 58px);
+          float:left;
+          border:none;
+          padding: 0.15rem;
+          padding-left:0.75rem;
+        }
+
+        span {
+          display:inline-block;
+          line-height: 30px;
+          width:50px;
+          background-color:white;
+          color:#0275d8;
+        }
+
+      }
+  }
+}
+
+.admin-pref-form {
+
+    label + span {
+      float: left;
+      line-height: 2.5;
+      vertical-align: middle;
+      margin-right: 1%;
+    }
+
+  zephyr-inline-edit {
+    float:left;
+    width:60%;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    border: 1px solid transparent;
+
+    .zee-inline-edit {
+      font-size: 14px;
+      vertical-align: middle;
+      padding: 0.375rem 0.75rem;
+      display: inline-block;
+
+      div, form.aui input[type="text"], input, textarea {
+        display: inline-block;
+        width: auto;
+      }
+    }
+
+    .zephyr-inline-field-name {
+      display: inline-block;
+    }
+
+    .zephyr-overlay-icon {
+      line-height: 35px;
+      text-align: center;
+    }
+  }
+}
+
+.button-link {
+    border: 1px solid #66afe9;
+}
+
+#roles-modal grid {
+
+  table {
+    table-layout: fixed;
+    tr th:first-child,
+    tr td:first-child {
+      width: 75px;
+    }
+    tr th:last-child,
+    tr td:last-child {
+      width: 700px;
+    }
+  }
+}
+
+#history {
+  .history-job-grid {
+    padding-top: 20px;
+  }
+}
+
+.card-gray {
+  background: #f3f3f3;
+  .card-block {
+    padding: 0.5em 1em;
+  }
+}
+system-config {
+  zephyr-inline-edit {
+    width: 40%;
+  }
+}
+
+.zui-admin-section {
+  .subform {
+    padding: 0 15px !important;
+    border: none;
+  }
+	.show-password-image , .hide-password-image {
+		margin: 10px 0px 0px -30px;
+    display: inline-block;
+	}
+  .hide-password-image {
+    margin-top: 11px;
+    margin-left: -32px;
+  }
+}
+
+        .hide-password-image:before {
+          content:url(../../assets/styles/assets/images/show-password.png);
+        }
+        .show-password-image:before {
+          content:url(../../assets/styles/assets/images/hide-password.png);
+        }
+
+.zui-admin-http {
+  padding: 1px;
+}
+
+.zui-admin-bold {
+  font-weight: bold;
+}
+
+.zui-credentails-subheader {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-style: italic;
+}
+
+#license-modal {
+  .bar {
+    fill: #4CC185;
+
+    &:hover {
+      fill: rgba(76, 193, 133, 0.9);
+    }
+  }
+}
+
+.license-tip {
+  z-index: 1051;
+  width: 100px !important;
+  font-family: sans-serif;
+  font-weight: normal !important;
+}
+
+.defect-tracking-system {
+  .current-dt-system {
+    margin-bottom: 8px;
+    span {
+      margin-right: 4px;
+    }
+  }
+}

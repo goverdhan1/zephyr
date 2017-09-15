@@ -1,0 +1,95 @@
+.search-table {
+  padding-left: 0px !important;
+
+  .input-group-addon {
+    background: #8dc75e;
+    color: #fff;
+    height: 30px;
+  }
+
+}
+
+th:nth-child(3) {
+  width: auto;
+}
+
+.zui-inline-options {
+  width: 50%;
+  height: 300px;
+  margin-left: 20px;
+  overflow-y: auto;
+}
+
+.zui-inline-options-trigger {
+  color: #5cb7bb !important;
+}
+
+#table-container, .table-req {
+  max-height: 320px;
+  overflow-y: scroll;
+  padding: 0;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background: #fff;
+  padding: 6px;
+  word-wrap: break-word;
+  padding-bottom: 0px;
+  padding-top: 1px;
+
+  thead tr th {
+    color: #000;
+    background-color: #e7e7e7;
+  }
+
+  .zui-checkbox2 {
+    margin-top:4px !important;
+    margin-bottom:4px !important;
+  }
+
+  th, td {
+    vertical-align: inherit;
+    padding: 0;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background: #fff;
+  }
+
+}
+
+#search-bar {
+  position: absolute;
+  right: 26px;
+  top: 14px;
+}
+
+.page-size {
+  width: 100% !important;
+}
+
+#select-all-table {
+  margin-top:2px;
+  margin-bottom:2px;
+}
+
+#inline-table {
+  .zui-inline-table {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    height: 400px;
+    width: 600px;
+    overflow: hidden;
+  }
+
+  .zui-inline-options-header {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+}
+
+.table-footer {
+  text-align: center;
+  margin-top: 7px;
+}

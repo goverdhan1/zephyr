@@ -1,0 +1,89 @@
+.zui-search-details-container {
+    width: 100%;
+
+    h3{
+        margin-bottom: 20px;
+    }
+    .search-switch {
+        .zui-radio {
+            display: inline-block;
+            min-width: 100px;
+        }
+
+        .check {
+          top: 6px !important;
+        }
+
+    }
+    .zee-module-title {
+        .zui-search-icon {
+            margin-right: 5px;
+            margin-left: -5px;
+        }
+        margin-left: 15px;
+    }
+    .zui-search-label {
+        float: none !important;
+        width: 5% !important;
+        position: relative;
+        top: -4px;
+        left: 5px;
+    }
+    .zui-search-area-wrapper {
+        .zui-search-textarea {
+            width: 65%;
+            height: 30px;
+            margin-top: 5px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        zui-zql-search {
+            margin-top: 8px;
+        }
+        .zui-search-btn-go {
+            min-width: 80px;
+            display: inline-block;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+    }
+    .zephyr-content-title {
+        margin-bottom: 15px;
+    }
+}
+
+zui-zql-search {
+    margin-top: 8px;
+
+    .zql-search-input {
+        height: 30px;
+        width: 65%;
+        display: inline-block;
+    }
+    .zql-search-btn-go {
+        min-width: 80px;
+        display: inline-block;
+        margin-top: 5px;
+        margin-left: 10px;
+    }
+    .zql-search-previous {
+        width: 100%;
+        padding-left: 10px;
+        background: white;
+    }
+    .previous-select{
+        width: 60%;
+        float: right;
+        margin-top: 5px;
+    }
+}
+
+/*
+ * Setting the z-index in case where autocomplete is displayed within the modal
+ */
+.ui-autocomplete {
+    z-index: 1100;
+    max-height: 250px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}

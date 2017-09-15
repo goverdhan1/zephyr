@@ -1,0 +1,66 @@
+<form [formGroup]="addCycleForm" (ngSubmit)="addCycleFormSubmit(addCycleForm.value)">
+	<zui-modal [title]="'Add New Cycle'" [modalId]="'easAddCycleModal'" [modalSize]="'small'">
+	    <zui-modal-body>
+			<div class="subform">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="clearfix">
+						<label for=""><b>Name</b> <i class="ast-red">*</i></label>
+						<input type="text" class="form-control" formControlName="name" title="{{addCycleForm.controls['name'].invalid ? 'Name should contain 2-128 characters.' : ''}}"  (keypress)="inputKeyPress($event)" />
+					</div>
+					<div class="clearfix">
+						<label for=""><b>Build</b></label>
+						<input type="text" class="form-control" formControlName="build" title="{{addCycleForm.controls['build'].invalid ? 'Build cannot contain > 128 characters.' : ''}}"   (keypress)="inputKeyPress($event)" />
+					</div>
+					<div class="clearfix">
+						<label for=""><b>Environment</b></label>
+						<input type="text" class="form-control" formControlName="environment" title="{{addCycleForm.controls['environment'].invalid ? 'Environment cannot contain > 128 characters.' : ''}}"   (keypress)="inputKeyPress($event)" />
+					</div>
+					<div class="clearfix">
+						<label for=""><b>Hide</b></label>
+
+					<div class="zui-checkbox2">
+						<input type="checkbox" class="grid_checkbox" name="testcase_select" formControlName="status">
+						<label></label>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="subform">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="clearfix">
+						<label for=""><b>Start Date</b> <i class="ast-red">*</i></label>
+						<div class="datepicker-wrap">
+							<calendar
+							  [formkey]= "addCycleForm.controls['startDate']"
+							  [model]= "startDate"
+							  [minDate]="startMinDate"
+							  [maxDate]="startMaxDate"
+							  (validateDate)="resetDates($event)">
+							</calendar>
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for=""><b>End Date</b> <i class="ast-red">*</i></label>
+						<div class="datepicker-wrap">
+							<calendar
+							  [formkey]= "addCycleForm.controls['endDate']"
+							  [model]= "endDate"
+							  [minDate]="endMinDate"
+							  [maxDate]="endMaxDate"
+							  (validateDate)="resetDates($event)">
+							</calendar>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    </zui-modal-body>
+	    <zui-modal-footer>
+			<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="zui-btn zui-btn-primary" [disabled]="addCycleForm.invalid">Save</button>
+	    </zui-modal-footer>
+	</zui-modal>
+</form>

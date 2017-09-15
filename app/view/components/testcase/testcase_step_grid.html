@@ -1,0 +1,25 @@
+<div [class]="'zee-testcase-steps-wrapper'">
+    <zee-expander id="zee-testcase-step-details-grid-module" [class]="'zee-module zee-module-toggle-wrapper'" [action]="action">
+        <div id="zee-testcase-details-module-heading" [class]="'zee-module-header'">
+            <h5 [class]="'zee-module-title'">Step Details</h5>
+        </div>
+        <div [class]="'zee-module-content grid-10-row-fix'">
+            <grid
+                *ngIf="areExecDetailsEnabled"
+                [rows]=testcaseGridRows
+                [gridType]="_testStepGridType"
+                [paginationOptions]="paginationOptions"
+                (onGridLinkClick)= "testStepGridLinkClick($event)"
+                (onGridInlineEditSubmit)="testStepGridInlineEditSubmit($event)">
+            </grid>
+            <grid
+                *ngIf="isSearchView && !areExecDetailsEnabled"
+                [rows]=testcaseGridRows
+                [gridType]="_testStepSearchGridType"
+                [paginationOptions]="paginationOptions"
+                (onGridLinkClick)= "testStepGridLinkClick($event)"
+                (onGridInlineEditSubmit)="testStepGridInlineEditSubmit($event)">
+            </grid>
+        </div>
+    </zee-expander>
+</div>

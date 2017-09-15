@@ -1,0 +1,141 @@
+zui-release-requirements-traceability-gadget {
+    height: auto;
+    display: block;
+}
+
+zui-release-requirements-traceability-gadget label {
+    line-height: 2.3;
+}
+
+.executionKey {
+  text-transform:capitalize;
+}
+
+.defects-figures {
+  //width: 50px;
+  display: inline-block;
+  //text-align: center;
+}
+
+.display-block {
+  display: block;
+}
+
+.green {
+  color: green;
+}
+
+#req-traceability-table {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.index-column{
+  text-align: center;
+  width: 45px;
+}
+
+.open-defects {
+  color : #209397;
+}
+
+.red {
+  color: red;
+}
+
+.maroon {
+  color : #a10e0e;
+}
+.blue {
+    color: #0f89e2;
+}
+
+.green, .red, .bold-font, .open-defects {
+  font-weight: 700;
+}
+
+#defects-container {
+  padding: 0px !important;
+
+  .zui-panel-body {
+    height: 100%;
+
+    #table-container, .table {
+      //height: 100%;
+    }
+
+    .table {
+      margin-bottom: 0px;
+    }
+  }
+
+}
+
+zui-release-requirements-traceability-gadget {
+
+  .td-show {
+    height: 50px;
+  }
+
+  .grid-column-div > div {
+    max-height: 50px !important;
+  }
+
+  .table-req th, .table-req td {
+    padding: 3px;
+  }
+
+  .table-req {
+    padding-top:0px;
+
+    .inline-dialog-trigger, .inline-table-content {
+      cursor: pointer;
+    }
+  }
+
+  .zui-pagination {
+    font-size: 20px;
+  }
+
+}
+
+zui-release-requirements-traceability-gadget .zui-ng-select {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.margin-top-3 {
+  margin-top: 3px !important;
+}
+
+.zui-blue {
+  color: #0275d8 !important;
+}
+.grey-background {
+  background: #f9f9f9;
+  padding: 10px 0;
+  padding-top: 0px !important;
+  padding-left: 5px !important;
+}
+.zui-gadget-label {
+  display: inline;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.defects-container {
+  .grey-background {
+    padding-top: 0px !important;
+  }
+
+  .defects-popup {
+    height: 320px !important;
+    max-width: 500px !important;
+    overflow: hidden;
+    padding: 0 !important;
+    //
+    //.grey-background {
+    //  overflow: hidden;
+    //}
+  }
+}

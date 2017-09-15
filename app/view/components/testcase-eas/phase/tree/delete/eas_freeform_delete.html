@@ -1,0 +1,15 @@
+<zui-modal [title]="'Confirm Delete'" [modalId]="'easDeleteNodeModal'" [modalSize]="'small'">
+    <zui-modal-body>
+		<div class="subform">
+			<div class="row">
+				<div class="col-md-12">
+					<p>Selected tree node will be deleted. This cannot be rolled back. Do you wish to continue?</p>
+				</div>
+			</div>
+		</div>
+    </zui-modal-body>
+    <zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">No</button>
+		<button type="button" class="zui-btn zui-btn-primary"  (click)="deleteFreeformNode($event)">Yes</button>
+    </zui-modal-footer>
+</zui-modal>

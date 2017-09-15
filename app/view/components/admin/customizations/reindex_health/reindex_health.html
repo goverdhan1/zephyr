@@ -1,0 +1,22 @@
+<zui-modal [title]="'Indexing health'" [modalId]="'reindex-health-modal'" [modalSize]="'medium'">
+  <zui-modal-header-buttons>
+    <div class="defect-modal-header-buttons">
+      <button (click)="refreshIndexingHealth($event)" class="btn btn-secondary zui-dt-reset-user-button">
+        <i aria-hidden="true" class="fa fa-refresh zui-dt-reset-user-icon"></i>
+      </button>
+    </div>
+  </zui-modal-header-buttons>
+	<zui-modal-body>
+    <div style="max-height: calc(100vh - 200px); overflow: auto;">
+	    <div class="reindex-health" *ngFor="let projectStatus of projectStatuses" style="display: flex;">
+        <p class="overflow-ellipsis"> <span>{{projectStatus.projectName}}</span>
+        <div class="progress-bar">
+          <span [ngStyle]="{'width': (projectStatus.projectHealthPercentage > 100 ? 100 : projectStatus.projectHealthPercentage) + '%'}">  </span>
+        </div>
+        <span>{{projectStatus.projectHealthPercentage | number:'1.0-2'}}%</span>
+	    </div>
+    </div>
+	</zui-modal-body>
+	<zui-modal-footer>
+	</zui-modal-footer>
+</zui-modal>

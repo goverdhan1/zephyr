@@ -1,0 +1,292 @@
+.defects-container-background {
+    background-color: #FFFFFF;
+    padding: 0 12px 0 12px;
+}
+
+.defect-details-grid-full {
+  height: calc(100% - 170px);
+
+  grid {
+    height:100%;
+  }
+
+  .grid-container {
+    height: calc(100% - 20px) !important;
+    max-height: 100% !important;
+  }
+}
+
+.row-parent {
+  height: calc(100% - 115px);
+
+  .full-height {
+    height: 100%;
+  }
+
+}
+
+.floatRight {
+    float: right;
+}
+
+.defects-header {
+    padding-top: 12px;
+}
+.relogin-form {
+    .subform {
+        label {
+            width: 80px;
+        }
+    }
+    .relogin-button-margin-helper {
+        margin-left: 80px;
+    }
+}
+.defect-tracking-container {
+    overflow: auto;
+    .zui-defect-summary-container {
+        @extend .defects-container-background;
+        >.zui-defect-summary-wrapper {
+            margin-top: 10px;
+            display: flex;
+            >.zui-defect-summary-list {
+                border-right: 1px solid #eee;
+                text-align: center;
+                flex: 1;
+            }
+        }
+    }
+    .defect-details-container-child {
+        // min-height: 300px;
+        @extend .defects-container-background;
+        >.defects-search-chooser {
+            height: 20px;
+        }
+        >.defects-search-chooser-container {
+            margin-top: 4px;
+            margin-bottom: 8px;
+            height: 70px;
+            >.defects-basic-search-container {
+                border-bottom: 1px solid #f6f6f6;
+                .defect-basic-search > div {
+                    margin-bottom: 6px;
+                }
+            }
+            >.defects-advanced-search-container {
+                padding-top: 20px;
+                margin-left: -30px;
+                height: 70px;
+                border-bottom: 1px solid #f6f6f6;
+            }
+        }
+        >.defect-search-grid-bar {
+            height: 36px;
+            >.defect-details-buttons {
+                position: absolute;
+                right: 10px;
+                top: 135px;
+                height: 40px;
+                >zee-defect-export {
+                    float: right;
+                    margin-right: 5px;
+                }
+            }
+            >.defect-id-search-grid {
+                width: 35%;
+            }
+        }
+        .defect-detail-id {
+            padding-right: 8px;
+        }
+
+        >.defect-details-grid-full {
+          height: calc(100% - 170px);
+        }
+        >.defects-search-form {
+            margin-bottom: 40px;
+        }
+        >.defects-search-chooser {
+            > span.search-title {
+                position: absolute;
+                left: 12px;
+                font-weight: bold;
+            }
+            > span.search-link-title {
+                position: absolute;
+                right: 14px;
+                cursor: pointer;
+            }
+        }
+    }
+    .defect-basic-detail-view-container {
+        paginator {
+            right: 85px;
+            top: 15px;
+        }
+    }
+    .defect-search-grid-container {
+      height: calc(100% - 170px);
+    }
+    .dt-right-top-buttons {
+        > .zui-dt-reset-user-button {
+            margin-right: 4px;
+        }
+    }
+}
+
+.defects-search-container {
+    // min-height: 300px;
+    @extend .defects-container-background;
+}
+
+.defects-search-form {
+    margin-top: 28px;
+    margin-bottom: 20px;
+    margin-left: -30px;
+    // .search-box {
+    //     @extend .col-md-6;
+    //     input.jqltext {
+    //         width: 96% !important;
+    //     }
+    // }
+}
+
+.popover {
+    padding: 0;
+    .popover-content {
+        padding: 0;
+        .defect-details-popover {
+            background-color: #000000;
+            color: #FFFFFF;
+            padding: 4px 8px;
+            border-radius: 2px;
+            label {
+                width: 68px;
+                vertical-align: top;
+            }
+            span {
+                width: 100px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.popover::after {
+    border-left-color: #000000 !important;
+}
+
+.update-defect-user-container {
+    background: #FFFFFF !important;
+
+
+    >.row {
+        margin-bottom: 4px !important;
+        .label {
+            text-align: right;
+            line-height: 30px;
+        }
+        .update-user-password {
+            .zui-content-layout{
+                padding:15px;
+            }
+        }
+    }
+    .show-password-image,.hide-password-image {
+      display: inline-block;
+      position: relative;
+      top: -33px;
+      float: right;
+      padding-right:5px;
+        margin-top: 10px;
+        margin-bottom: -32px;
+        right: 4px;
+      }
+
+
+
+}
+
+.show {
+    display: block !important;
+}
+
+defect-tracking-integration,
+system-config,
+user-auth,
+system-admin {
+    width: 100%;
+}
+.modal-header {
+    .zui-dt-reset-user-button {
+        margin-right: 8px;
+    }
+}
+
+defects-advanced-search-finder {
+    > .row {
+        margin-left: 15px;
+        .search-box {
+            margin-left: -40px;
+            input.jqltext, .defect-id {
+                height: 28px;
+                width: 97%;
+            }
+        }
+        .search-button {
+            margin-left: -40px;
+            .zui-btn {
+                height: 28px;
+            }
+        }
+        .optionOr {
+            flex: none !important;
+            text-align: center;
+            margin-top: 3px;
+            width: 50px !important;
+        }
+        .link-new-defect {
+            //margin-left: -22px;
+            .zui-btn {
+                height: 28px;
+            }
+        }
+    }
+}
+
+.create-issue-form {
+    .modal-body {
+        height: 72vh;
+        overflow-y: auto;
+        .fieldWrapper {
+            .col-md-2 {
+                margin-left: 30px;
+            }
+            .col-md-9 {
+                margin-left: -20px;
+            }
+        }
+      .option-with-child {
+        .col-md-2 {
+          margin-left: 45px;
+          margin-right: -23px;
+        }
+      }
+    }
+}
+
+
+.folder-struct-detail {
+  margin-top: 15px;
+  width: 100%;
+  .folder-sort-by {
+    display: inline-block;
+  }
+  .top-folder-name {
+    margin-left: -42px;
+  }
+  #fldrnm{
+      border: 1px solid #ccc;
+  }
+}
+

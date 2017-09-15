@@ -1,0 +1,50 @@
+<div *ngIf="hideDefectForm">Loading...</div>
+<form [ngClass]="{'hide': hideDefectForm}" id="create-defects-fields-form" [formGroup]="createDefectForm">
+    <div *ngFor="let field of fieldsArray">
+        <div *ngIf="field.schema && field.schema.type=='user'">
+            <input class="form-control" type="hidden" name="{{field.fieldKey}}" [formControl]="createDefectForm.controls[field.fieldKey]">
+            <cd-user *ngIf="field.fieldKey!='reporter'" [field]="field" [formkey]="field.fieldKey" [projectkey]="selectedProject" (onMultiUserUnselect)="onMultiUserUnselect($event)" (onUserUnselect)="onUserUnselect($event)" (onUserSelect)="setUser($event)"></cd-user>
+            <cd-label *ngIf="field.fieldKey=='reporter'" [field]="field" [fieldValue]="selectedReporter"></cd-label>
+        </div>
+        <div *ngIf="field.schema && field.schema.type=='date'">
+            <cd-date
+                (dateChange)="dateChange($event)"
+                [field]="field"
+                [formkey]= "createDefectForm.controls[field.fieldKey]"
+            ></cd-date>
+        </div>
+        <div *ngIf="field.schema && (field.schema.type=='string' || field.schema.type=='any'
+            || field.schema.type=='number' || field.schema.type=='option' || field.schema.type=='group')">
+            <cd-text (onSingleListUnselect)="onSingleListUnselect($event)" [disableCopyTestStep]="disableCopyTestStep" (optionChange)="listOptionChange($event)" (onDescStepsParsing)="descStepsParsing($event)" [field]="field" [formkey]= "createDefectForm.controls[field.fieldKey]"></cd-text>
+        </div>
+        <div *ngIf="field.schema && (field.schema.type=='array' || field.schema.type=='priority'
+            || field.schema.type=='version')">
+            <cd-array [projectkey]="selectedProject" (multiOptionChange)="onMultiOptionChange($event)" (onMultiUserUnselect)="onMultiUserUnselect($event)" (onUserUnselect)="onUserUnselect($event)" (multiOptionUnSelect)="onMultiOptionUnSelect($event)" (onSetUser)="setUser($event)" (optionChange)="optionChange($event)" [field]="field" [formkey]= "createDefectForm.controls[field.fieldKey]"></cd-array>
+        </div>
+        <div *ngIf="field.schema && field.schema.type=='project'">
+            <cd-label [field]="field" [fieldValue]="selectedProject"></cd-label>
+        </div>
+        <div *ngIf="field.schema && field.schema.type=='issuetype'">
+            <cd-label [field]="field" [fieldValue]="selectedIssueTypeName"></cd-label>
+        </div>
+        <div *ngIf="field.schema && field.schema.type=='issuelink' && parentIssueKey">
+            <cd-label [field]="field" [fieldValue]="parentIssueKey"></cd-label>
+        </div>
+
+        <div class="col-md-12 option-with-child" *ngIf="field.schema && field.schema.type=='option-with-child' ">
+          <cd-optionwithchild
+            [projectkey]="selectedProject"
+            [field]="field"
+            [formkey]= "field.fieldKey"
+            [isUpdate]="isUpdate"
+            [casCadeSelectDefault]="casCadeSelectDefault"
+            (optionChange)="optionChange($event)"
+          ></cd-optionwithchild>
+
+        </div>
+
+    </div>
+    <div *ngIf="isUpdate">
+        <attachments [entityType]="'defect'" [id]="selectedDefect.id" [isEditAvaiable]="true" [isdefectView]="true"></attachments>
+    </div>
+</form>

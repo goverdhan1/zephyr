@@ -1,0 +1,28 @@
+<div class="row" >
+
+  <div class="col-md-2">
+    <label ><b>{{field.name}}</b></label>
+    <label class="required" *ngIf="field.required"><b>&nbsp;*</b></label>&nbsp;:
+  </div>
+
+  <span class="col-md-4" >
+              <zee-select class="zui-cascade-select1"
+                [selectId]="field.fieldKey + '-field'"
+                [items]="fieldoption1"
+                (onSelect)='onChangeAppOptions($event)'
+                [placeholder]="'Select a value'"
+                 >
+              </zee-select>
+            </span>
+
+  <span class="col-md-4" >
+              <zee-select class="zui-cascade-select2"
+                [selectId]="field.fieldKey + '-field-child'"
+                [items]="fieldoption2"
+                (onSelect)='onChangeReleaseOption($event)'
+                [placeholder]="'Select a value'"
+              >
+              </zee-select>
+            </span>
+
+</div>

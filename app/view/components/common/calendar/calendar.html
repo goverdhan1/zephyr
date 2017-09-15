@@ -1,0 +1,11 @@
+<div class="input-group date-group"  (click)="toggleDatepicker($event)">
+  <input type="text" class="form-control date-control" placeholder="mm/dd/yyyy" [formControl]="formkey" *ngIf="formkey" [ngModel]="model | date:'MM/dd/yyyy'">
+  <input type="text" class="form-control date-control" placeholder="mm/dd/yyyy" [formControl]="formkey" *ngIf="!formkey" [ngModel]="model | date:'MM/dd/yyyy'">
+  <div class="input-group-addon" >
+      <i class="fa fa-calendar"></i>
+      <div *ngIf="showDatePicker">
+        <div class="inline-calendar-body" > </div>
+          <datepicker zui-position-calendar [(ngModel)]="model" (ngModelChange)="onChange($event, model)" [ngModelOptions]="{standalone: true}" [minDate]="minDate" [maxDate]= "maxDate"  [onlyCurrentMonth]="true"></datepicker>
+      </div>
+  </div>
+</div>

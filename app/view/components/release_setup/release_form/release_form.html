@@ -1,0 +1,120 @@
+<div class="release-form subform clearfix" [hidden]="!isShowForm">
+    <h5 class="zui-panel-heading" >
+        <span *ngIf="!isAdd"> Edit Release </span>
+        <span *ngIf="isAdd"> Add Release </span>
+    </h5>
+    <form [formGroup]="releaseForm" (ngSubmit)="onReleaseFormSubmit(releaseForm.value)">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="clearfix" >
+                    <label for="release-name">Name<span class="input-required">*</span> :</label>
+                    <input title="Name is a required field and should be less than 50 charcters"
+                        placeholder="Enter name" id="release-name" class="form-control" type="text" formControlName="name" name="name" />
+                </div >
+                <div class="clearfix">
+                    <label for="release-description">Description :</label>
+                    <textarea title="Length should be less than 250 characters" placeholder="Enter description" id="release-description" class="form-control zui-textarea"  formControlName="description" name="description"> </textarea>
+                </div>
+                <div class="clearfix">
+                    <label for="release-id">ID :</label>
+                    <span *ngIf="isAdd" class="field-value italic-font-style">Auto Generated </span>
+                    <span *ngIf="!isAdd" class="field-value">{{release.id}} </span>
+                </div>
+                <div class="clearfix">
+                    <label for="release-status">Hide:</label>
+                    <div class="zui-checkbox2">
+                        <input id="release-status" class="form-control" formControlName="status" name="status" type="checkbox" (change)="onChangeHide($event.target.checked)"/>
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="clearfix" [hidden]="!isDefectOn">
+                    <label for="project-externalSystem">Map external defect project :</label>
+                    <div class="field-value">
+                        <div class="zui-select">
+                            <select  [formControl]="releaseForm.controls['externalSystem']" class="form-control">
+                                <option [attr.value]="''">Select Project</option>
+                                <option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <label for="release-startdate">Start Date<span class="input-required">*</span> :</label>
+                    <div class="datepicker-wrap"  title="Start date is a required field. It should be after project's start date and before project's end date" id="release-startdate">
+                        <calendar
+                          [formkey]= "releaseForm.controls['startDate']"
+                          [model]= "release.startDate"
+                          [minDate]="datesValidation.startDateMin"
+                          [maxDate]="datesValidation.startDateMax"
+                          (validateDate)="onChangeStartDate($event)">
+                        </calendar>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <label for="release-enddate">End Date :</label>
+                    <div class="datepicker-wrap"  title="End date should be after release start date and before project's end date" id="release-enddatee">
+                        <calendar
+                          [formkey]= "releaseForm.controls['endDate']"
+                          [model]= "release.endDate"
+                          [minDate]="datesValidation.endDateMin"
+                          [maxDate]="datesValidation.endDateMax"
+                          (validateDate)="onChangeEndDate($event)">
+                        </calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix form-footer">
+        <button type="button" class="zui-btn zui-btn-sec" (click)="cancelReleaseForm()">Cancel</button>
+          <button type="submit" class="zui-btn zui-btn-primary" [disabled]="isFormInValid(releaseForm)"> {{isAdd ? 'Add' : 'Save'}}</button>
+
+        </div>
+    </form>
+    <zui-form-dirty-dialog
+      [show]="showDirtyCheckModal"
+      (dismissNavigation)="dismissNavigation($event)"
+      (continueNavigation)="continueNavigation($event)"
+    >
+    </zui-form-dirty-dialog>
+    <!--<div class="modal fade" data-backdrop="static" tabindex='-1' id="zui-unsaved-changes-prompt" role="dialog">
+      <div class="modal-dialog small">
+        &lt;!&ndash; Modal content&ndash;&gt;
+        <div class="modal-content">
+          <div class="modal-header">
+            &lt;!&ndash;<button type="button" class="close" (click)="dismissDeleteModal()">&times;</button>&ndash;&gt;
+            <h4 class="modal-title">{{'zephyr.general.changes.unsaved.title' | i18nSelect: i18nMessages}}</h4>
+          </div>
+          <div class="modal-body">
+            <p>{{'zephyr.general.changes.unsaved.confirmation' | i18nSelect: i18nMessages}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="continueNavigation(isNext)">{{'zephyr.button.continue' | i18nSelect: i18nMessages}}</button>
+            <button type="button" (click)="dismissNavigation($event)" class="btn btn-default">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  <div class="modal fade" data-backdrop="static" tabindex='-1' *ngIf="confirmationObject" id="confirmation-modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title" id="myModalLabel">{{confirmationObject.heading}} </h2>
+                </div>
+                <div class="modal-body">
+                    <p> {{confirmationObject.text}} </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton">{{confirmationObject.cancelButtonText}}</button>
+                  <button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" (click) = "confirmationActionCall($event)"  >{{confirmationObject.buttonText}}</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

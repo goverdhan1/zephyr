@@ -1,0 +1,45 @@
+<!-- Report UI -->
+<div id="zui-gadget-view-mode-{{componentOptions.id}}">
+    <zui-tcr-grid
+        id="zui-tcr-grid-{{componentOptions.id}}"
+        [releaseId]="1"
+        [selectedTreeNode]="[]"
+        [selectedTctIds]="[]"
+        [isSearchView]="true"
+        [isAdvancedSearch]="true"
+    ></zui-tcr-grid>
+</div>
+<!-- Report Edit UI -->
+<div id="zui-gadget-edit-mode-{{componentOptions.id}}">
+    <fieldset>
+        <div [class]="'form-group'">
+            <label for="dashboard-name">{{'zephyr.dashboard.name' | i18nSelect: i18nMessages}}</label>
+            <input type="text" [(ngModel)]="gadgetName" [class]="'form-control'" id="dashboard-name" placeholder="Name">
+        </div>
+        <div [class]="'form-group'">
+            <label for="zui-report-entitytype">{{'zephyr.search.entity.type' | i18nSelect: i18nMessages}}</label>
+            <select [class]="'form-control'" id="dashboard-start-from" [(ngModel)]="componentOptions.params.entityType">
+                <option value="testcase">{{'zephyr.search.entity.type.testcase' | i18nSelect: i18nMessages}}</option>
+                <!--<option value="requirement">{{'zephyr.search.entity.type.requirement' | i18nSelect: i18nMessages}}</option>
+                <option value="testSchedule">{{'zephyr.search.entity.type.execution' | i18nSelect: i18nMessages}}</option>-->
+            </select>
+        </div>
+        <div [class]="!componentOptions.params.entityType? 'form-group zui-disable-pointer zui-zql-gadget-wrapper': 'form-group zui-zql-gadget-wrapper'">
+            <label for="zui-report-entitytype">ZQL</label>
+            <zui-zql-search
+                id="zui-zql-search-{{componentOptions.id}}"
+                [searchFieldSrcId]="componentOptions.id"
+                [style.display]="'inline'"
+                [releaseId]="1"
+                [zqlEntityName]="componentOptions.params.entityType"
+                [showFilters]="false"
+                [searchText]="componentOptions.params.searchText"
+                [hideGoButton]="true"
+            ></zui-zql-search>
+        </div>
+    </fieldset>
+    <div [style.margin-top.px]="20">
+        <button type="button" class="btn btn-default" (click)="onSaveEditGadget()">{{'zephyr.button.save' | i18nSelect: i18nMessages}}</button>
+        <button type="button" class="btn btn-default" (click)="onCancelEditGadget()">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+    </div>
+</div>

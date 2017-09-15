@@ -1,0 +1,131 @@
+<div class="project-form clearfix" [hidden]="!isShowForm">
+    <h3 class="zui-panel-heading">{{isAdd ? 'Add Project' : 'Edit Project'}}</h3>
+    <form [formGroup]="projectForm" (ngSubmit)="onProjectFormSubmit(projectForm.value)" >
+        <div class="subform padding15">
+            <div class="row zui-project-division">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix" >
+                        <label for="project-name"><b>Name</b><span class="input-required">*</span> :</label>
+                        <input title="Name should be > 1 character and <= 100 characters and unique" placeholder="Enter name" #projectName (keyup)="projectNamechange($event.target.value)" id="project-name" class="form-control" type="text" [formControl]="projectForm.controls['name']" />
+                    </div >
+                    <div class="clearfix">
+                        <label><b>Type :</b></label>
+                        <a [ngClass]="{'disabled' :!(projectForm.valid && projectDataobject.isDatesValidated) }" class="field-value" data-toggle="modal" href="#isolationLevel-modal">{{isolationLevelValue}} </a>
+                    </div>
+                    <div class="clearfix">
+                        <label for="project-description"><b>Description :</b></label>
+                        <input title="Description should be <= 255 characters" type="text" placeholder="Enter description" id="project-description" class="form-control"  [formControl]="projectForm.controls['description']"/>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix" [hidden]="!isDefectOn">
+                        <label for="project-externalSystem"><b>Map external defect project :</b></label>
+                        <div class="field-value">
+                            <div class="zui-select">
+                                <select  [formControl]="projectForm.controls['externalSystem']" class="form-control">
+                                    <option [attr.value]="''"><b>Select Project</b></option>
+                                    <option *ngFor="let project of defectProjects;" [attr.value]="project.key" >{{project.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="project-lead"><b>Lead :</b></label>
+                        <div class="field-value">
+                            <div class="zui-select">
+                                <select #select (change)="onChangeLead(select.value, true)" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedLead">
+                                    <option [attr.value]="''"><b>Select Lead</b></option>
+                                    <option *ngFor="let user of leadUsers;" [attr.value]="user.id" >{{user.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="project-startdate"><b>Start Date</b><span class="input-required">*</span> :</label>
+                        <div class="datepicker-wrap field-value" id="project-startdate" [ngClass]="{'date-error' : !projectDataobject.isDatesValidated }">
+                            <calendar
+                              [formkey]= "projectForm.controls['startDate']"
+                              [model]= "projectDataobject['startDate']"
+                              [maxDate]="projectDataobject['maxDateValidation']"
+                              (validateDate)="onChangeStartDate($event)">
+                            </calendar>
+                        </div>
+                    </div>
+                    <div class="clearfix" [ngClass]="{'disabled' :!projectForm.value.startDate }">
+                        <label for="project-enddate"><b>End Date :</b></label>
+                        <div class="datepicker-wrap field-value" id="project-enddate">
+                            <calendar
+                              [formkey]= "projectForm.controls['endDate']"
+                              [model]= "projectDataobject['endDate']"
+                              [minDate]="projectDataobject['minDateValidation']"
+                              (validateDate)="onChangeEndDate($event)">
+                            </calendar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="clearfix resource-allocation">
+                    <label><b>Resource Allocation :</b></label>
+                    <unselected-selected-list
+                        [unSelectedListHeading]="'Resources'"
+                        [unSelectedListSubHeading]="'Names'"
+                        [selectedListSubHeading]="'Names'"
+                        [selectedListHeading]="'Selected Resources'"
+                        [globalList]="globalList"
+                        [isUnselectedListPassed]="false"
+                        [selectedList]="allocatedResources"
+                        [isMapSelected]="true"
+                        (updatedSelectedList)="selectedResources($event)">
+                    </unselected-selected-list>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix form-footer">
+            <button type="button" class="zui-btn zui-btn-sec" (click)="cancelFormConfirmation()">Cancel</button>
+            <button type="submit" class="zui-btn zui-btn-primary" [disabled]="!(projectForm.valid  && projectDataobject.isDatesValidated && isFormDirty)">{{isAdd ? 'Add' : 'Save'}}</button>
+        </div>
+        <zui-modal [modalId]="'isolationLevel-modal'" [title]="'Advanced Project Configuration'" [modalSize]="'medium'">
+            <zui-modal-body>
+                <div class="project-type">
+                    <div class="clearfix" *ngFor="let type of adminPrefProjectType">
+                        <div class="zui-radio">
+                            <input [checked]="type.id == isolationLevelId" (change)="projectTypeChanged(type.id)" type="radio" name="'projectType'" id="{{type.id + 'isolationlevel'}}" value="{{type.id}}">
+                            <label> </label>
+                            <label [attr.for]="type.id + 'isolationlevel'">
+                                <div class="check"></div>
+                                <span>{{type.value}}</span>
+                            </label>
+                        </div>
+                        <p [innerHtml]="'zephyre.projectSetup.projectType.' + (type.value | lowercase) | i18nSelect: i18nMessages"></p>
+                    </div>
+                </div>
+               <!-- <div class="disabled">
+                    <div class="clearfix subform" >
+                        <label for="project-dashboard-url"><b>Dashboard URL</b></label>
+                        <input id="project-dashboard-url" class="form-control" type="text" [formControl]="projectForm.controls['dashboardUrl']" />
+                    </div >
+
+                    <h5> Project Dashboard Security </h5>
+                    <div class="clearfix" >
+                        <div class="zui-checkbox2">
+                            <input type="checkbox" id="dashboard-secured" [formControl]="projectForm.controls['dashboardSecured']">
+                            <label for="dashboard-secured"><b>Secure the project dashboard</b></label>
+                        </div>
+                        <p [innerHtml]="'zephyre.projectSetup.projectType.secure' | i18nSelect: i18nMessages"> </p>
+                    </div>
+                    <div class="clearfix" >
+                        <div class="zui-checkbox2">
+                            <input type="checkbox" id="dashboardRestricted" [formControl]="projectForm.controls['dashboardRestricted']">
+                            <label for="dashboardRestricted">Limit it to only Project team</label>
+                        </div>
+                        <p [innerHtml]="'zephyre.projectSetup.projectType.limit' | i18nSelect: i18nMessages"> </p>
+                    </div>
+                </div>-->
+            </zui-modal-body>
+            <zui-modal-footer>
+                <button type="button" class="zui-btn zui-btn-primary" [disabled]="!(projectForm.valid && projectDataobject.isDatesValidated)" data-dismiss="modal"> OK </button>
+            </zui-modal-footer>
+        </zui-modal>
+    </form>
+</div>

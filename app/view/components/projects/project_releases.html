@@ -1,0 +1,25 @@
+<div class="zee-module-header"><span class="zee-module-header-left">Release Details</span></div>
+<div class="module-content zephyr-releases-wrapper flex-column-stretch">
+    <grid class="project-release-grid-table"
+        [rows]="releaseGridRows"
+        [gridType]="_releaseGridType"
+        [paginationOptions]="paginationOptions"
+        (onGridPrevClick)="releaseGridPrevClick($event)"
+        (onGridNextClick)="releaseGridNextClick($event)"        
+        (onGridLinkClick)="releaseGridLinkClick($event)"
+        (onGridPageSizeChange)="releaseGridPageSizeChange($event)"
+        (onGridPaginateByIndex)="releaseGridPaginateByIndex($event)">
+    </grid>
+</div>
+<!--
+<div class="zee-module-header"><span class="zee-module-header-left">Release Details</span></div>
+<div class="module-content zephyr-releases-wrapper">
+    <grid class="project-release-grid-table"
+        [rows]="releaseGridRows"
+        (onGridPrevClick)="releaseGridPrevClick($event)"
+        (onGridNextClick)="releaseGridNextClick($event)"        
+        (onGridLinkClick)="releaseGridLinkClick($event)"
+        (onGridPageSizeChange)="releaseGridPageSizeChange($event)"
+        (onGridPaginateByIndex)="releaseGridPaginateByIndex($event)">
+    </grid>
+</div>-->

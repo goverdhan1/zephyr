@@ -1,0 +1,27 @@
+<div>
+	<zui-modal [title]="progessStatus?.heading" [class]="'job-status-modal'" [modalId]="'job-status-modal'+jobStatusId" [modalSize]="'medium'">
+		<zui-modal-body>
+			<p> <span> Name : </span> <span>{{progessStatus?.status?.name}}</span>
+			<p> <span> Started : </span> <span>{{progessStatus?.status?.startTime | date: 'medium'}}</span>
+			<p> <span> Status : </span> <span [ngStyle]="setStyles()">{{progessStatus?.status?.statusMessage}}</span>
+			<div class="progress-bar">
+				<span [ngStyle]="{'width': percentageCompleted + '%'}">  </span>
+			</div>
+			<p> {{progessStatus.status.completedSteps}} / {{progessStatus.status.totalSteps}} {{ progessStatus.status.stepLabel}} . Completed {{percentageCompleted}} %</p>
+			<p [hidden]="isJobCompleted"> <span> Current Step : </span> <span>{{progessStatus.status.stepMessage}}</span> </p>
+			<p class="f600" [hidden]="!isJobCompleted"> {{progessStatus.status.summaryMessage || ''}}</p>
+			<div class="status-log">
+				<p  *ngFor="let log of progessStatus?.status?.message;"> {{log}} </p>
+			</div>
+		</zui-modal-body>
+		<zui-modal-footer>
+			<!-- <button *ngIf="!isJobCompleted" type="button" class="zui-btn zui-btn-sec" (click)="hideClicked($event)">Hide</button> -->
+			<button type="button" class="zui-btn zui-btn-sec" (click)="refreshClicked($event)" [disabled]="!isJobCompleted">Ok</button>
+			<button type="button" class="zui-btn zui-btn-primary" (click)="refreshStatus()">Refresh</button>
+		</zui-modal-footer>
+	</zui-modal>
+	<div [hidden]="!isShowStatusWindow" class="status-window">
+		<span> {{progessStatus.heading}} </span>
+		<span (click)="openStatusModal()" class="maximize-image pull-right cursor-pointer" title="Click to see detailed status"> </span>
+	</div>
+</div>

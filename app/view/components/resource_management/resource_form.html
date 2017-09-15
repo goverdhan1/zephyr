@@ -1,0 +1,151 @@
+<h3>{{formtype}} User </h3>
+<div class="subform resource-form">
+    <form [formGroup]="resourceForm" (ngSubmit)="resourceFormSubmit(resourceForm.value)">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="zui-checkbox2 bold" *ngIf="resourceObject && resourceObject.id != 1">
+                    <input #cbEnabled type="checkbox" id="resource-accountEnabled" [formControl]="resourceForm.controls['accountEnabled']" (change)="accountEnabledCheckboxClicked(cbEnabled.checked)">
+                    <label for="resource-accountEnabled">Account Enabled</label>
+                </div>
+            </div>
+            <div class="col-md-6" [ngClass]="{'disabled' : !isAccountEnabled}">
+                <label>
+                    <span class="link-color cursor-pointer" (click)="resetUsersPassword()"><b>Reset this User's password</b></span>
+                </label>
+                <div [ngClass]="{'disabled': formtype === 'Edit'}">
+                    <div class="zui-checkbox2 bold">
+                        <input type="checkbox" id="resource-credentialsExpired" [formControl]="resourceForm.controls['credentialsExpired']">
+                        <label for="resource-credentialsExpired"><b>Expire Credentials</b></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [ngClass]="{'disabled' : !isAccountEnabled}">
+            <div class="row resource-subform">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for="resource-firstname"><b> First Name</b><span class="input-required">*</span>:</label>
+                        <input (keyup)="onKeyupUserName($event)" id="resource-firstname" class="form-control" type="text" placeholder="Enter First Name" [formControl]="resourceForm.controls['firstName']" title="{{resourceForm.controls['firstName'].invalid ? 'First Name should contain 2-100 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-lastname"><b>Last Name</b><span class="input-required">*</span>:</label>
+                        <input (keyup)="onKeyupUserName($event)" id="resource-lastname" class="form-control"  [formControl]="resourceForm.controls['lastName']" type="text" placeholder="Enter Last Name" title="{{resourceForm.controls['lastName'].invalid ? 'Last Name should contain 2-100 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-type"><b>Type:</b></label>
+                        <div class="zui-select">
+                            <select id="resource-type" class="form-control" [formControl]="resourceForm.controls['type']">
+                                <option value=""><b> Select A Type </b></option>
+                                <option *ngFor="let userType of adminPrefuserTypes;" value="{{userType.id}}">{{userType.value}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-roles"><b>Role</b><span class="input-required">*</span>:</label>
+                        <div class="zui-select">
+                            <select id="resource-roles" class="form-control"  [formControl]="resourceForm.controls['roles']">
+                                <option value=""><b> Select A Role </b></option>
+                                <option *ngFor="let role of resourceRoleArray;" value="{{role.id}}">{{role.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-email"><b>Email</b><span class="input-required">*</span>:</label>
+                        <input id="resource-email" class="form-control" [formControl]="resourceForm.controls['email']" type="text" placeholder="Enter Email" title="{{resourceForm.controls['email'].invalid ? 'Please match the email format or provide an unique email' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-title"><b>Title:</b></label>
+                        <input id="resource-title" class="form-control"  [formControl]="resourceForm.controls['title']" type="text" placeholder="Enter Title" title="{{resourceForm.controls['title'].invalid ? 'Title cannot contain > 50 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-location"><b>Location</b><span class="input-required">*</span>:</label>
+                        <input id="resource-location" class="form-control" type="text" placeholder="Enter Location" [formControl]="resourceForm.controls['location']" title="{{resourceForm.controls['location'].invalid ? 'Location should contain 2-50 characters.' : ''}}"/>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <form id="uploadResourceProfilePic" enctype="multipart/form-data" method="post">
+                       <!--  if changing name of default image, same is to be changed in function onResourceFormSubmit
+                            in this syntax "profileImageSrc.includes('default')"  && in function resetResourceForm in this syntax "let imageSrc= 'view/assets/images/default.png';"-->
+                        <img class="cursor-pointer" src="html5/assets/images/default-image.png" title="Click to upload picture" id="output" width="120" height="120" (click)="triggerLoadFile()" />
+                        <input id ="userImg" name="userImg" src="" (change)="loadFile($event)" type="file" accept="image/*">
+                    </form>
+                    <div class="clearfix">
+                        <div class="zui-checkbox2 bold">
+                            <input #cb type="checkbox" id="resource-customizausername" (change)="customizeUsernameCheckboxClicked(cb.checked)">
+                            <label for="resource-customizausername"><b>Customize Username</b></label>
+                        </div>
+                    </div>
+                    <div class="clearfix" [ngClass]="{'disabled' : !isCustomizeUsername}">
+                        <label for="resource-username"><b>Username:</b></label>
+                        <input id="resource-username" class="form-control"  [formControl]="resourceForm.controls['username']" type="text" title="{{resourceForm.controls['username'].invalid ? 'Username should contain 2-255 characters and should be unique.' : ''}}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row resource-subform">
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for="resource-address1"><b>Address1:</b></label>
+                        <input id="resource-address1" class="form-control"  [formControl]="resourceForm.controls['address1']" type="text" placeholder="Enter Address1" title="{{resourceForm.controls['address1'].invalid ? 'Address1 cannot contain > 150 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-address2"><b>Address2:</b></label>
+                        <input id="resource-address2" class="form-control" type="text" placeholder="Enter Address2" [formControl]="resourceForm.controls['address2']" title="{{resourceForm.controls['address2'].invalid ? 'Address2 cannot contain > 150 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-country"><b>Country:</b></label>
+                        <input id="resource-country" class="form-control" type="text" placeholder="Enter Country" [formControl]="resourceForm.controls['country']" title="{{resourceForm.controls['country'].invalid ? 'Country cannot contain > 100 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-state"><b>State:</b></label>
+                        <input id="resource-state" class="form-control"  [formControl]="resourceForm.controls['state']" type="text" placeholder="Enter State" title="{{resourceForm.controls['state'].invalid ? 'State cannot contain > 100 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-city"><b>City:</b></label>
+                        <input id="resource-city" class="form-control"  [formControl]="resourceForm.controls['city']" type="text" placeholder="Enter City" title="{{resourceForm.controls['city'].invalid ? 'City cannot contain > 50 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-postalCode"><b>Zip:</b></label>
+                        <input id="resource-postalCode" class="form-control"  [formControl]="resourceForm.controls['postalCode']" type="text" placeholder="Enter Zip" title="{{resourceForm.controls['postalCode'].invalid ? 'Zip cannot contain > 15 characters.' : ''}}"/>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="clearfix">
+                        <label for="resource-workPhoneNumber"><b>Work Phone:</b></label>
+                        <input id="resource-workPhoneNumber" class="form-control" type="text" placeholder="Enter Work Phone" [formControl]="resourceForm.controls['workPhoneNumber']" title="{{resourceForm.controls['workPhoneNumber'].invalid ? 'Work Phone cannot contain > 32 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-mobilePhoneNumber"><b>Mobile Phone:</b></label>
+                        <input id="resource-mobilePhoneNumber" class="form-control"  [formControl]="resourceForm.controls['mobilePhoneNumber']" type="text" placeholder="Enter Mobile Phone" title="{{resourceForm.controls['mobilePhoneNumber'].invalid ? 'Mobile Phone cannot contain > 32 characters.' : ''}}"/>
+                    </div>
+                    <div class="clearfix">
+                        <label for="resource-homePhoneNumber"><b>Home Phone:</b></label>
+                        <input id="resource-homePhoneNumber" class="form-control" type="text" placeholder="Enter Home Phone" [formControl]="resourceForm.controls['homePhoneNumber']" title="{{resourceForm.controls['homePhoneNumber'].invalid ? 'Home Phone cannot contain > 32 characters.' : ''}}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row resource-subform">
+                <div class="col-md-12">
+                    <div class="clearfix project-allocation" *ngIf="formtype === 'Edit'">
+                        <label><b>Manage Projects :</b></label>
+                        <unselected-selected-list
+                            [unSelectedListHeading]="'Projects'"
+                            [unSelectedListSubHeading]="'Names'"
+                            [selectedListSubHeading]="'Names'"
+                            [selectedListHeading]="'Selected Projects'"
+                            [globalList]="globalProjects"
+                            [isUnselectedListPassed]="false"
+                            [selectedList]="selectedProjects"
+                            [isMapSelected]="true"
+                            (updatedSelectedList)="updateProjects($event)"
+                        ></unselected-selected-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix form-footer">
+             <button type="button" class="zui-btn zui-btn-sec" (click)="resetResourceForm()">Cancel</button>
+             <button type="submit" class="zui-btn zui-btn-primary" [disabled]="enableSave()">Save</button>
+        </div>
+    </form>
+</div>

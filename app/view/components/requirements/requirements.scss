@@ -1,0 +1,84 @@
+.displayInlBlock {
+	display: inline-block;
+}
+.verticalTop {
+	vertical-align: top;
+}
+.floatRight {
+	float: right;
+}
+.zephyr-inline-field-name {
+	width: 80%;
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow: hidden;
+}
+.map-text {
+	margin: 0 0 0 10px;
+}
+#req-count {
+  float: right;
+  margin-right: 20px;
+}
+#requirement-grid-panel {
+    border: 1px solid #F1F1F1;
+    padding: 20px;
+    flex: 1 1;
+}
+#requirement-grid-panel table {
+    table-layout: fixed;
+}
+#zephyr-req-panel {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+#zephyr-req-resizable {
+    position: absolute;
+    right: -10px;
+    cursor: col-resize;
+}
+#requirement-grid-panel {
+    border: 1px solid #F1F1F1;
+    padding: 20px;
+    flex: 1 1;
+}
+#requirement-grid-panel table {
+    table-layout: fixed;
+}
+.req-grid-table {
+  .table {
+    thead,tbody {
+      th {
+        line-height: 0;
+      }
+      td,th {
+        vertical-align: middle;
+        padding: 2px 10px;
+      }
+    }
+    td,th {
+      vertical-align: middle;
+      padding: 2px 10px;
+    }
+  }
+}
+.req-grid-table .grid-column-div {
+  word-wrap: break-word;
+}
+.in-release {
+  label {
+    width: 7%;
+    line-height: 3;
+  }
+}
+.navigate-link {
+    margin-left: 5px;
+    margin-top: 2px;
+}
+button[type=button]:enabled {
+    cursor: default;
+}
+button[type=button]:disabled {
+    cursor: not-allowed;
+}

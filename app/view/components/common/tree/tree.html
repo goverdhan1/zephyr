@@ -1,0 +1,26 @@
+<div class="tree-view{{treeClass}}" [ngClass]="{'expanded-on-hover': !hoverCollapsed  , 'tree-docked': ( showDocker && treeDocked )}" (mouseleave)="onTreeCollapse()"> <!-- "zui-flex-h-resizable" id="tree-h-resizer" -->
+    <div [class]="'tree-collapse'" (mouseover)="onTreeExpand()">
+        <span class="tree-collapse-icon"></span>
+        <div class="section-title">
+            <div class="rotated-text"><span class="rotated-text-inner">{{ sectionTitle }}</span></div>
+        </div>
+    </div>
+    <div class="tree-collapsible-body">
+  	     <div class="tree-view-filter-wrapper" *ngIf="showFilter">
+             <div class="filter-content">
+                 <input type="text" placeholder="Filter Here" id="tree-view-filter{{treeContext}}" />
+                 <i class="fa fa-filter"></i>
+             </div>
+         </div>
+         <div id="zephyr-tree{{treeContext}}" class="zephyr-tree-container"></div>
+         <div id="tree-context-menu{{treeContext}}"></div>
+     </div>
+     <div class="collapse-tree-menu" [hidden]="!showDocker">
+         <span (click)="toggleTreeMenu()">
+             <i class="toggle-tree-menu fa" [ngClass]="this.treeDocked ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+         </span>
+     </div>
+</div>
+<!-- <div class="zui-w-handle" id="tree-h-resizer-handle">
+    <i aria-hidden="true" class="fa fa-ellipsis-v"></i><i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+</div> -->

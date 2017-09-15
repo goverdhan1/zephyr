@@ -1,0 +1,94 @@
+<div class="grid">
+    <div class="grid-wrapper step-details-table">
+        <form>
+            <table class="table fixed-header">
+                <thead>
+                    <tr class="zui-grid-header-with-background zui-grid-header-column-seperator">
+                        <th
+                            *ngFor="let column of fieldOptions.columns"
+                            [class]="column.className"
+                            id="{{column.id}}-th"
+                        ><div class="zui-th-label-text">{{column.header}}</div></th>
+                        <th><div *ngIf="fieldOptions.allowOperations">&nbsp;&nbsp;</div></th>
+                    </tr>
+                </thead>
+                <tbody id="zee-test-rows">
+                    <tr #rowRef [draggable]="!field.editMode" *ngFor="let field of fields; let i = index;" id="zephyr-editable-row-{{field.orderId}}"
+                    (dragstart)="gridRowDrag($event, i)" (drop)="gridRowDrop($event,rowRef, i)" (dragover)="gridRowAllowDrop($event)">
+                      <td [class]="'zephyr-editable-row-td'" *ngFor="let column of fieldOptions.columns">
+                            <div *ngIf="column.allowEdit" [class]="'zui-inline-edit zephyr-editable-field'">
+                                <div [hidden]="field.editMode" (click)="showEdit(field, column, $event)" [class]="'zephyr-editable-field-view-mode'">
+                                    <span [class]="'zephyr-inline-row-name'" [attr.placeholder]="column.emptyText" [innerHTML]="getTextField(field[column.key])"></span>
+                                </div>
+                                <div [hidden]="!field.editMode">
+                                    <div [class]="'zephyr-editable-field-edit-mode'">
+                                        <textarea [class]="'textarea'" [attr.data-key]="column.key" value="{{field[column.key]}}" (change)="onChange($event)"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="!column.allowEdit" [class]="'zui-column-non-editable'">
+                                {{field[column.key]}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="zui-inline-dialog" zui-inline-dialog *ngIf="fieldOptions.allowOperations && !field.editMode">
+                                <a class="inline-dialog-trigger">
+                                    <span [class]="'fa fa-gear'"></span>
+                                </a>
+                                <div class="inline-dialog-body">
+                                    <div class="inline-dialog-content inline-rows-dialog">
+                                        <ul>
+                                            <li *ngFor="let operation of fieldOptions.operations" (click)="onClickContextAction(operation, field.id)">
+                                                <a>{{operation.header}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf="fieldOptions.allowCreate">
+                    <tr>
+                        <td></td>
+                        <td>
+                          <textarea [(ngModel)]="testStep" id="zee-add-step" (change)="onChange($event)" class="zee-add-step" name="zee-add-step" style="width: 100%"></textarea>
+                        </td>
+                        <td>
+                          <textarea [(ngModel)]="testData" id="zee-add-test-data" (change)="onChange($event)" class="zee-add-data" name="zee-add-data" style="width: 100%"></textarea>
+                        </td>
+                        <td>
+                          <textarea [(ngModel)]="testResult" id="zee-add-expected-result" (change)="onChange($event)" class="zee-add-results" name="zee-add-results" style="width: 100%"></textarea>
+                        </td>
+                        <td>
+                          <button [class]="'zui-btn zui-btn-plus zui-btn-sec'" (click)="onClickAdd($event)"><span class="">+</span></button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="save-wrapper" *ngIf="editable">
+    <button [class]="'zui-btn zui-btn-tertiary'" [disabled]="isFormValid()" (click)="onClickCancelStep()">Cancel</button>
+    <button [class]="'zui-btn zui-btn-primary'" [disabled]="isFormValid()" (click)="onClickBulkUpdate($event)">Save</button>
+</div>
+<div class="modal fade" data-backdrop="static" tabindex='-1' id="zee-operation-modal-{{modalOptions.id}}" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalOptions.header}}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{modalOptions.message}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal">{{modalOptions.action?.cancel}}</button>
+                <button type="button" class="zui-btn zui-btn-primary" (click)="onClickModalAction(modalOptions.action?.confirm, modalOptions.stepId)">{{modalOptions.action?.confirm}}</button>
+            </div>
+        </div>
+    </div>
+</div>

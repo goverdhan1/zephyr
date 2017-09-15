@@ -1,0 +1,139 @@
+#import-instructions-title, #import-savedMaps-title {
+	font-weight: bold;
+}
+.zee-import-modal .zui-panel-title {
+	color: #289295;
+    font-size: 14px;
+}
+.zee-import-modal .zui-panel-headings {
+	font-weight: bold;
+}
+
+.fa-play-circle-o:before {
+  font-size: 20px;
+}
+
+.zee-import-modal .zee-import-modal-body {
+	height: 525px;
+	overflow-y: auto;
+	padding-top: 0;
+
+  .zee-module-content {
+    padding: 0;
+  }
+
+  #update-importJobs, #update-savedMaps {
+    margin-top: 10px;
+    border-top: 1px solid rgb(229, 229, 229);
+  }
+}
+.jobs-browse, .savedMaps-buttons, .importJobs-buttons {
+	float: right;
+}
+.savedMaps-back, .import-importJobs-back {
+	float: left;
+}
+#savedMaps-fields, #importJobs-fields{
+	width: 50%;
+    float: left;
+    padding: 0 10px;
+}
+#savedMaps-fields span, #savedMaps-fieldsMapper span, #importJobs-fields span {
+	display: inline-block;
+	width: 48%;
+	margin-bottom: 4px;
+	vertical-align: top;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+
+  attachments{
+    .attachments-wrapper{
+      .color-link{
+        text-align: left;
+      }
+    }
+  }
+}
+.add-maps-header, .add-jobs-header{
+	padding: 10px;
+}
+#savedMaps-fieldsMapper, #importJobs-fieldsMapper {
+	float: right;
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 260px;
+    overflow-y: auto;
+}
+.fields-mapper-header {
+	font-weight: bold;
+    padding-bottom: 8px;
+}
+.savedMaps-details, .importJobs-details {
+	height: 270px;
+}
+.grid-icon {
+	cursor: pointer;
+}
+#importJobs-fields .jobsFileRadio{
+	width: 10%;
+    vertical-align: middle;
+    padding-right: 10px;
+}
+#importJobs-fields .jobsFileLabel{
+	width: 80%;
+}
+#fromLocal .jobs-browse-input {
+	width: 68%;
+}
+#fromLocal .jobs-browse {
+	width: 30%;
+}
+#fromServer span {
+	width: 100%;
+}
+.jobCommentLabel {
+	font-weight: bold;
+}
+.jobComment {
+	border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    word-wrap: break-word;
+}
+.grid-column-div i {
+    padding-right: 6px;
+    font-size: 16px;
+}
+.import-instructions {
+	margin: 40px;
+}
+.error-input {
+    color: #db4040;
+    position: absolute;
+    margin-top: -22px;
+    margin-left: 230px;
+}
+
+input[type=number].form-control.error, input[type=text].form-control.error, input[type=password].form-control.error, select.form-control.error, select.form-control.ng-invalid, textarea.form-control.error, textarea.form-control.ng-invalid, textarea.ng-invalid {
+    border: 1px solid #f06870;
+}
+.import-heading-label {
+	color: #289295;
+	font-size: 14px;
+	font-weight: bold;
+}
+.import-bold-font{
+  font-weight: bold;
+}
+.import-file-label{
+  margin-top: 20px;
+}
+zui-import-req-jira .defect-search-grid-container {
+	// height: 384px;
+	// .grid-container {
+	// 	height: 280px;
+	// 	min-height: 250px;
+	// }
+}

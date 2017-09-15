@@ -1,0 +1,59 @@
+<div class="zui-row-column-padding gadgets">
+  <div class="zui-panel zui-panel-default zui-sortable-ui-state" [attr.data-id]="gadget.id">
+      <div class="zui-panel-heading zui-panel-heading-gadget" *ngIf="gadget.properties.settings">
+        <h3>
+          {{gadget.name}}
+        </h3>
+        <!--<p>{{gadget.description}}</p>-->
+        <!-- Settings dropdown -->
+
+         <div>
+            <span class="fa fa-caret-square-o-down fa-1 zui-gadget-settings" id="dropdown-menu-gadget-{{gadget.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+            <div class="dropdown-menu dropdown-menu-right" [attr.aria-labelledby]="'dropdown-menu-gadget-' + gadget.id">
+                <a class="dropdown-item" (click)="toggleConfigurationMode()" *ngIf="_userId == createdBy && !gadget.properties.settings.minimize && !cmpRef?.instance?.isConfigureMode">{{'zephyr.common.operation.configure' | i18nSelect: i18nMessages}}</a>
+                <a class="dropdown-item" (click)="refreshGadget(true)" *ngIf="!gadget.properties.settings.minimize && gadget.projectId && !cmpRef?.instance?.isConfigureMode">{{'zephyr.common.operation.refresh' | i18nSelect: i18nMessages}}</a>
+                <a *ngIf="gadget.properties.settings.minimize" class="dropdown-item" (click)="onToggleOfMinimize(false)">{{'zephyr.common.operation.maximize' | i18nSelect: i18nMessages}}</a>
+                <a *ngIf="!gadget.properties.settings.minimize" class="dropdown-item" (click)="onToggleOfMinimize(true)">{{'zephyr.common.operation.minimize' | i18nSelect: i18nMessages}}</a>
+                <a *ngIf="gadget.properties.settings.editable && !gadget.properties.settings.editMode" class="dropdown-item" (click)="onClickEditGadget()">{{'zephyr.common.operation.edit' | i18nSelect: i18nMessages}}</a>
+                <a *ngIf="gadget.properties.settings.editable" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#zui-gadget-modal-delete-' + gadget.id">{{'zephyr.common.operation.delete' | i18nSelect: i18nMessages}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="zui-panel-body"  *ngIf="gadget.properties.settings">
+      <div class="gadget-container-parent" [ngClass]="{'hide': hasConfigError == true}">
+        <zui-gadget-report #target
+           class="gadget-view-container"
+           id="zephyr-gadget-component-{{gadget.id}}"
+           [componentOptions]="gadget.component"
+           [editMode]="gadget.properties.settings.editMode"
+           (onDeleteGadget)="onDeletegadget($event)"
+           (onUpdategadget)="onUpdategadget($event)"
+        ></zui-gadget-report>
+      </div>
+
+      <h3 class="component-heading zee-content-title text-center config-error" [hidden]="!hasConfigError">
+        <img src="html5/assets/images/caution.png" class="caution-img"/>
+
+        <ul class="error-message-container">
+          <li class="error-message"></li>
+        </ul>
+
+        Please reconfigure the gadget to continue.
+      </h3>
+
+    </div>
+
+    <!-- Delete gadget modal -->
+
+    <zui-modal [title]="'zephyr.gadget.delete.title' | i18nSelect: i18nMessages" [modalId]="'zui-gadget-modal-delete-' + gadget.id" [modalSize]="'medium'">
+        <zui-modal-body>
+            <p>{{'zephyr.gadget.delete.confirmation' | i18nSelect: i18nMessages}}</p>
+        </zui-modal-body>
+        <zui-modal-footer>
+            <button type="button" class="btn btn-primary" (click)="onClickDeleteGadget()">{{'zephyr.button.delete' | i18nSelect: i18nMessages}}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{'zephyr.button.cancel' | i18nSelect: i18nMessages}}</button>
+        </zui-modal-footer>
+    </zui-modal>
+
+  </div>
+</div>

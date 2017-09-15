@@ -1,0 +1,118 @@
+resource-management {
+	.resource-search {
+		margin-right: 15px;
+	}
+	resource-management-details {
+		display:block;
+
+	    .resource-management-container {
+
+				.resource-header {
+					padding: 15px 15px 0;
+
+					h5 {
+						margin: 0;
+					}
+				}
+	 		}
+	}
+	add-resource {
+		display:block;
+	}
+	.resource-form {
+		border-bottom:none;
+
+		// input[type="text"], select {
+		// 	&.form-control.ng-untouched.ng-invalid {
+		// 		border: 1px solid #f06870 !important;
+		// 	}
+		// }
+		.subform .zui-select {
+			width: 60%;
+
+			select {
+				height: inherit;
+			}
+		}
+		.project-allocation {
+			label  {
+				width: 14%;
+			}
+		}
+
+		resource-form {
+
+			h3 {
+				margin: 0;
+				padding: 30px 15px 15px 15px;
+			}
+
+			#resource-username, #resource-email {
+				text-transform: lowercase;
+			}
+			#resource-email::-webkit-input-placeholder {
+			text-transform: initial;
+			}
+
+			#resource-email:-moz-placeholder { 
+			text-transform: initial;
+			}
+
+			#resource-email::-moz-placeholder {  
+			text-transform: initial;
+			}
+
+			#resource-email:-ms-input-placeholder { 
+			text-transform: initial;
+			}
+		}
+		.zui-checkbox2.bold label {
+			float:none;
+			font-weight: bold;
+		}
+	}
+	.resource-subform {
+		border-bottom:1px solid #e5e5e5;
+		padding: 20px 0px;
+	}
+	.projects-allocated-wrapper {
+		padding:10px;
+		border:1px solid #e5e5e5;
+	}
+	.checkobox-wrapper {
+		width:33%;
+		float:left;
+
+		.zui-checkbox2 {
+			label {
+				word-break: break-all;
+			}
+		}
+	}
+
+	bread-crumb {
+		display:block;
+		background-color:#f3f3f3;
+		ul.zui-breadcrumb {
+			background-color:#f3f3f3;
+		}
+	}
+
+
+	.disabled {
+		pointer-events: none;
+    	opacity: 0.6;
+    	// input {
+    	// 	color: #ccc;
+    	// }
+	}
+	.link-color {
+		color : #0275d8;
+	}
+	input[type='file'] {
+		display: none;
+	}
+	.default-image {
+		content:url(assets/images/default-image.png);
+	}
+}

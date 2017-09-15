@@ -1,0 +1,16 @@
+<!--<div class="jql-autocomplete" style="float: left; width: 100%;">
+    <div>
+        <span id="jqlerrormsg" class="icon fa fa-times" title=""></span>
+        <textarea [(ngModel)]="jqlQuery" id="{{jqlFieldId}}" filterid="" class="text jqltext" name="jqltext" maxlength="2000" autocomplete="off" value=""></textarea>
+    </div>
+    <div class="notifications" id="jql-message-bar"></div>
+    <div class="suggestions" style="display: none;"></div>
+</div>
+<div *ngIf="!hideSubmitButton" style="float: left; margin-left: 4px;">
+    <button (click)="searchDefects($event)" class="btn btn-secondary">Go</button>
+</div>-->
+
+<!--Should be removed when jql component is added.-->
+<input type="text" [(ngModel)]="jqlQuery" id="{{jqlFieldId}}" filterid=""
+       (keypress)="inputKeyPress($event)"
+       class="text form-control jqltext" name="jqltext" maxlength="2000" autocomplete="off" value="" />

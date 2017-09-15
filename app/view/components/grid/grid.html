@@ -1,0 +1,177 @@
+<div class="grid-container" [style.maxHeight.px]="340" [style.height.px]="30 * (rows?.length + 1)">
+    <div class="grid-wrapper no-scroll">
+        <div class="zui-flex-grid" [id]="'grid-table-' + gridType" (click)="onGridClick($event)">
+            <div class="grid-header" [hidden]="!_gridOptions?.headerRow">
+                <div id="header-parent-{{gridType}}" [style.width.px]="_gridOptions?.fixedSize" [class]="'header-bar'" [style.paddingRight.px]= "scrollbarWidth" [ngClass]="{'zui-grid-header-with-background': _gridOptions?.headerBackground}">
+                    <div *ngFor="let column of _gridOptions?.columns;let i = index;" [id]="'th-' + column.labelId"
+                         [class]="'flex-header-item'" [attr.data-col-index]="i" [ngClass]="{'dont-sort': column.labelName == '#' || column.labelName == 'Action' || column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_CHECKBOX || column.isId == true,'zui-th-resizable': column.resizable, 'zui-th-sortable': column.sortable, 'td-show': column.show, 'td-hide': !column.show}" [style.width.px]="column.min" [style.flexGrow]="column.flexGrow" [attr.tabindex]="i">
+                        <div class="header-item item-data">
+                            <div *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_CHECKBOX " class="zui-checkbox2">
+                                <input [checked]="isSelectedAllRow()" [disabled]="noData" type="checkbox" [id]="column.labelId" [attr.title]="column.labelName" [class]="column.labelClass" />
+                                <label></label>
+                            </div>
+                            <div [class]="'zui-th-label-text'" [hidden]="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_CHECKBOX" [attr.title]="column.labelName" *ngIf="(column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT || column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT_SERIAL_NUMBER || column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT_NOWRAP)" [innerHTML]="column.labelName"></div>
+                            <div [class]="'zui-th-label-text'" [hidden]="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_CHECKBOX"  [attr.title]="column.labelName" *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TOGGLE" [innerHTML]="column.labelName"></div>
+                            <i *ngIf="column?.sortable" [attr.data-id]="column?.labelId" [attr.data-sort]="column?.sortOptions?.order" [class]="getSortableClass(column)" aria-hidden="true"></i>
+                        </div>
+                        <i class="column-resizer"></i>
+                    </div>
+
+                    <div class="flex-header-item column-chooser-parent dont-sort" [hidden]="!_gridOptions?.columnChooser?.show" [style.width.px]="25">
+                        <div [class]="'grid-column-chooser'">
+                            <div class="zui-inline-dialog" zui-inline-dialog>
+                                <a class="inline-dialog-trigger">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </a>
+                                <div class="inline-dialog-body">
+                                    <div class="inline-dialog-content grid-column-chooser-content">
+                                        <ul>
+                                            <li *ngFor="let column of _gridOptions?.columns; let i = index" class="disabled-{{column.columnChooser?.default}}">
+                                                <div *ngIf="column.columnChooser?.show" class="zui-checkbox2">
+                                                    <input [disabled]="column.columnChooser?.default" [(ngModel)]="column.show" (change)="onColumnChooserClick($event, column)" type="checkbox" id="column-{{i}}-{{gridType}}" [checked]="column.show" [attr.data-id]="column.labelId">
+                                                    <label [attr.for]="'column-' + i + '-' + gridType" title="{{column.labelName}}">{{column.labelName}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid-content" [hidden]="noData" [style.marginBottom.px]="scrollbarWidth">
+                  <div *ngFor="let row of rows; let i = index" [class]="'flex-bar'" [attr.data-id]="row.id" [attr.data-index]="i" [style.paddingRight.px]= "scrollbarWidth" [hidden]="row.hide" [ngClass]="{'italic': row.accountEnabled === false || row.status === 'deleted'}">
+                    <div #tdEl *ngFor="let column of _gridOptions?.columns; let j = index"  [class]="'flex-data-item '+ column.customClass" [style.width.px]="_gridOptions?.columns[j].min" [style.flexGrow]="_gridOptions?.columns[j].flexGrow" [attr.data-col-index]="j" [ngClass]="{'no-ellipsis': column.ellipsis === 'no-ellipsis', 'ellipsis': column.ellipsis !== 'no-ellipsis', 'td-show': column.show, 'td-hide': !column.show}">
+                        <zephyr-inline-edit *ngIf="(column.editable)"
+                            [placeholder]="'Enter value'"
+                            [title]="column.cell.title && (row[column.cell.title.key] | gridPipe: column.cell.title.pipes)"
+                            [scrollViewMode]="column.scrollCell"
+                            [field]="row[column.cell.key] | gridPipe: column.cell.pipes"
+                            [editType]="column.editOptions.type"
+                            [validationPattern]="column.editOptions.validationPattern"
+                            [selectedOption]="row[column.cell.key] | gridPipe: column.editOptions.selectedOption.pipes"
+                            [fieldOptions]="row[column.cell.key] | gridPipe: column.editOptions.selectOptions.pipes"
+                            [editOptions] = "column.editOptions"
+                            (onSubmit)="onGridSubmit($event, row, column.labelId)"
+                        ></zephyr-inline-edit>
+                        <!--
+                            1. Reorder
+                            2. Cell text
+                            3. Cell action
+                        -->
+                        <div [class]="'grid-column-div'"
+                             [ngClass]="{'dont-sort': column?.cell?.actions.length && !row.noneditable}"
+                             *ngIf="!(column.editable && row.editable)">
+                            <div *ngIf="j == 0 && _gridOptions?.rowReorder" class="zui-w-handle zui-grid-handle">
+                                <i aria-hidden="true" class="fa fa-ellipsis-v"></i>&nbsp;<i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+                            </div>
+                            <div #elChkHtml [title]="getTitle(elChkHtml, column?.hideTitle,i)" *ngIf="column?.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_CHECKBOX " class="zui-checkbox2">
+                                <input (click)="selectRows($event)" type="checkbox" [name]="check_name" class="grid_checkbox select-flex-row" [checked]="isSelectedRow(row)" />
+                                <label></label>
+                            </div>
+                            <div *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT" #elHtml [title]="getTitle(elHtml, column?.hideTitle, i)" [innerHTML]="row[column.cell.key]| gridPipe: column.cell.pipes">
+                            </div>
+                            <div *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT_NOWRAP" #elHtml [title]="getTitle(elHtml, column?.hideTitle, i)" [innerHTML]="getTextField(row[column.cell.key]| gridPipe: column.cell.pipes)">
+                            </div>
+                            <div *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TEXT_SERIAL_NUMBER" #elHtml [title]="getTitle(elHtml, column?.hideTitle, i)" [innerHTML]="i+1">
+                            </div>
+                            <div *ngIf="column.labelType == _GRID_CONSTANTS.GRID_LABEL_TYPE_TOGGLE" #elHtml [title]="getTitle(elHtml, column?.hideTitle)">
+                                <div class="zui-toggle-wrapper">
+                                    <div [class]="getToggleClass(row)">
+                                        <input class="tgl" id="toggle-{{row.id}}" type="checkbox" [checked]="isToggleOn(row)"/>
+                                        <label class="tgl-btn" for="toggle1"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="column?.cell?.actions.length && !row.noneditable">
+                                <span *ngFor="let action of column?.cell?.actions">
+                                    <span
+                                      *ngIf="showActionIcons(row, action)" [attr.title]="action.title"
+                                      [invisible]="checkIfActionDisabled(row, action)"
+                                      [attr.data-action]="action.name ? action.name : row[action.key] | gridPipe: action.pipes.action"
+                                      [ngClass]="action.className ? action.className : row[action.key] | gridPipe: action.pipes.image"
+                                      class="grid-action-icon cursor-pointer">
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div [style.minWidth.px]="25" [class]="'zee-column-chooser-row-placeholder'" [style.width.px]="25" *ngIf="_gridOptions?.columnChooser?.show">
+                    </div>
+                </div>
+            </div>
+            <div class="resizer-line" id="columnresize">
+                <div class="line-resize-header"></div>
+                <div class="line-resize-content"></div>
+            </div>
+        </div>
+        <div *ngIf="noData" class="zui-alt-table-body">{{'zephyr.grid.no.data' | i18nSelect: i18nMessages}}</div>
+    </div>
+</div>
+<div [class]="'grid-pagination'" >
+    <div class="pagination-details" *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show" >
+        <div class="page-size-selector" *ngIf="_gridOptions?.pagination?.pageSize">
+            <div class="zui-select">
+                <select id="pagination-page-size-{{gridType}}" class="form-control" (change)="onPageSizeSelection($event)" [ngModel]="rowCount">
+                    <option *ngFor="let page of _gridOptions?.pagination.pages" [attr.value]="page">{{page}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="page-track" [innerHTML]="paginationOptions.currentOfTotal" *ngIf="_gridOptions?.pagination?.currentOfTotal"></div>
+    </div>
+
+
+
+    <ul class="pagination zui-pagination">
+        <li *ngIf="!hideReset && !paginationOptions?.pageList?.length" style="position: absolute; right: 8px;">
+          <div>
+            <span class="grid-action-icon cursor-pointer reset-prefs one" title="Reset to Default View" data-action="edit" (click)="resetPrefs()"></span>
+          </div>
+        </li>
+
+        <li *ngIf="!hideReset && paginationOptions?.pageList?.length">
+          <div>
+            <span class="grid-action-icon cursor-pointer reset-prefs two" title="Reset to Default View" data-action="edit" (click)="resetPrefs()"></span>
+          </div>
+        </li>
+
+        <li *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show && _gridOptions?.pagination?.navBar?.isFirstLast" class="first-page" [ngClass]="{'disabled': (paginationOptions?.isFirstPage && !paginationOptions?.disabled)}">
+            <a (click)="_onGridFirstClick($event)" aria-label="First">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show" class="prev-page" [ngClass]="{'disabled':paginationOptions?.isFirstPage}">
+            <a (click)="_onGridPrevClick($event)">
+                <span>Prev</span>
+            </a>
+        </li>
+        <span *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show && _gridOptions?.pagination?.navBar?.type == _GRID_CONSTANTS.GRID_PAGINATION_NAV_BAR_COMPLEX">
+            <li *ngFor="let pagenum of paginationOptions?.pageList">
+                <a (click)="_onGridPageClick(pagenum)" [ngClass]="{'active': (paginationOptions?.currentIndex) == pagenum}">{{pagenum}}</a>
+            </li>
+        </span>
+        <li class="next-page" [ngClass]="{'disabled':paginationOptions?.isLastPage}" *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show">
+            <a (click)="_onGridNextClick($event)">
+                <span>Next</span>
+            </a>
+        </li>
+        <li *ngIf="_gridOptions?.pagination?.show && paginationOptions?.show && _gridOptions?.pagination?.navBar?.isFirstLast" class="last-page" [ngClass]="{'disabled': (paginationOptions?.isLastPage && !paginationOptions?.disabled)}">
+            <a (click)="_onGridLastClick(paginationOptions?.lastIndex)" aria-label="Last">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<zui-modal [title]="'Reset to Default View'" [backgroundBlur]="true" [modalId]="'reset-warning-popup-' + gridType" [modalSize]="'extrasmall'">
+  <zui-modal-body>
+    <p class="white-space-pre-wrap"> Are you sure to reset this grid to default view ? </p>
+  </zui-modal-body>
+  <zui-modal-footer>
+    <button type="button" class="zui-btn zui-btn-primary" (click)="resetPrefsConfirm()">Yes</button>
+    <button type="button" class="zui-btn zui-btn-sec" (click)="resetPrefsConfirmClose()">Cancel</button>
+  </zui-modal-footer>
+</zui-modal>

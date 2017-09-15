@@ -1,0 +1,97 @@
+
+<zui-modal (onBeforeClose)="closeRolesModal()" [title]="'Customize Roles'" [modalId]="'roles-modal'" [modalSize]="'medium'">
+	<zui-modal-body>
+		<div class="roles-fun-buttons clearfix">
+			<span class="pull-right add-release-btn add-white-image cursor-pointer" title="Add New Role" (click)="addRoleConfirmation()"></span>
+		</div>
+		<!-- ROLES GRID -->
+		<div class="roles-grid clearfix">
+			<grid
+			    [rows]="rolesGrid.rows"
+			    [paginationOptions]="rolesGrid.paginationOptions"
+	      		[gridType]="rolesGridType"
+			    (onGridActionIconClick)="rolesGridActionClick($event)"
+			    (onGridRowClick) = "rolesGridRowClicked($event)">
+			</grid>
+		</div>
+
+		<!-- DELETE ROLE CHANGE OPTIONS -->
+	    <div  [hidden]="!isShowRoleChangeOptions">
+	    	<p>{{deleteRoleData.noOfUsers}} following user(s) are associated with the {{deleteRoleData.name}} role. </p>
+	    	<p *ngFor="let user of deleteRoleData.usersArray;"> {{user}} </p>
+	    	<p>Please choose one of the following roles to move these users to: </p>
+	    	<div class="subform clearfix">
+	    		 <div class="row">
+	        			<div class="col-md-6 col-xs-12">
+			        		<div class="clearfix">
+			        			<label for="select-role">Select Role </label>
+			                      <div class="zui-select">
+								        	<select id="select-role" class="form-control" [(ngModel)]="deleteRowDropdown">
+					        		 			<option *ngFor="let role of rolesTypesForDelete;" [attr.value]="role.id" >{{role.name}}</option>
+					        		 		</select>
+			                      </div>
+		        		 	</div>
+		        		</div>
+	            </div>
+			 		<div class="clearfix text-right">
+			 			<button type="button" class="zui-btn zui-btn-sec" (click)="cancelModifyRole()">Cancel</button>
+			 			<button type="submit" class="zui-btn zui-btn-primary"  (click)="modifyRole()">Modify</button>
+	 	        </div>
+			</div>
+	    </div>
+
+	    <!-- ROLE FORM -->
+	    <div class="add-role subform" [hidden]="!isShowForm" [ngClass]="{'disabled' : !roleOBjectSelected.editable }">
+	    	<form [formGroup]="rolesForm" class="add-role-form" >
+	        	<div class="row">
+	        		<div class="col-md-6 col-xs-12">
+		 	        	<div class="clearfix" >
+		 	        	    <label for="role-name">Name<span class="input-required">*</span> :</label>
+		 	        	    <input title="Name is a required field and should be less than 25 charcters"
+		 	        	        placeholder="Enter name" id="role-name" class="form-control" type="text" formControlName="name" name="name" />
+		 	        	</div >
+		 	        </div>
+		 	    </div>
+		 	    <div class="row">
+		 	    		<div class="col-md-6 col-xs-12">
+		 	    	    	<div class="clearfix">
+		 	    	    		<label for="role-description">Description :</label>
+		 	    	    		<textarea title="Length should be less than 255 characters" placeholder="Enter description" id="role-description" class="form-control zui-textarea"  formControlName="description" name="description"> </textarea>
+		 	    	    	</div>
+		 	    	    </div>
+	        	</div>
+	        	        <!-- ROLE APPS -->
+		        <div class="apps-listing" [hidden]="!isShowApps" (click)="onClickAppsList($event)">
+		        	<!-- DEPARTMENT APPS -->
+		        	<div class="clearfix dept-apps" *ngIf="deptApps.length > 0">
+		        		<h5> Administration Apps </h5>
+		        		<div class="clearfix apps-checkboxes">
+			        		<span *ngFor="let app of deptApps; let i = index">
+			        			<div class="zui-checkbox2">
+									<input type="checkbox" [attr.id]="app.id" >
+									<label [attr.for]="app.id">{{app.labelName}} </label>
+								</div>
+			        		</span>
+		        		</div>
+		        	</div>
+		        	<!-- PROJECT APPS -->
+		        	<div class="clearfix project-apps" *ngIf="projectApps.length > 0">
+		        		<h5> Project Apps </h5>
+		        		<div class="clearfix apps-checkboxes">
+			        		<span *ngFor="let app of projectApps; let i = index">
+			        			<div class="zui-checkbox2">
+                      <input type="checkbox" [attr.id]="app.id" >
+                      <label [attr.for]="app.id">{{app.labelName}} </label>
+			        			</div>
+			        		</span>
+			        	</div>
+		        	</div>
+		        </div>
+	        </form>
+	    </div>
+	</zui-modal-body>
+	<zui-modal-footer [hidden]="!roleOBjectSelected.editable">
+		<button type="button" class="zui-btn zui-btn-sec" (click)="cancelRoleFormConfirmation($event)">Cancel</button>
+		<button type="submit" class="zui-btn zui-btn-primary" (click)="onRoleFormSubmit(rolesForm.value)" [disabled]="!(rolesForm.valid && (rolesForm.dirty || permissionsDirty))">{{isRoleAdd ? 'Add' : 'Save'}}</button>
+	</zui-modal-footer>
+</zui-modal>

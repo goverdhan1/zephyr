@@ -1,0 +1,97 @@
+<form class="defect defect-basic-search">
+	<div class="row">
+		<div class="col-md-3 col-sm-6">
+			<zee-select
+				[selectId]="'defect-project'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[items]="projects"
+				[placeholder]="'Project'"
+				[active]="[selectedProject]"
+				(onSelect)="setProject($event)"
+				(onUnselect)="unSelectProject()"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<zee-select
+				[selectId]="'defect-issuetype'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[items]="issueTypes"
+				[placeholder]="'Issue Type'"
+				[active]="[selectedIssueType]"
+				(onSelect)="setIssueType($event)"
+				(onUnselect)="unSelectIssueType()"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<zee-select
+				[selectId]="'defect-issuestatus'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[items]="issueStatus"
+				[placeholder]="'Status'"
+				[active]="[selectedStatus]"
+				(onSelect)="setStatus($event)"
+				(onUnselect)="unSelectStatus()"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<zee-select class="defect_user"
+				[selectId]="'defect-defect_user'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[placeholder]="'Filed By'"
+				[editOptions]="getSelect2Options('user')"
+				(onSelect)="setFiledBy($event)"
+				(onUnselect)="unSelectFiledBy($event)"
+				(onInit)="onReporterInit($event)"
+				(onResult)="onUserResult($event)"
+			></zee-select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-6">
+			<zee-select
+				[selectId]="'defect-version'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[items]="projectVersions"
+				[placeholder]="'Version'"
+				[active]="[selectedVersion]"
+				(onSelect)="setVersion($event)"
+				(onUnselect)="unSelectVersion($event)"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<zee-select
+				[selectId]="'defect-priority'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[items]="issuePriority"
+				[placeholder]="'Priority'"
+				[active]="[selectedPriority]"
+				(onSelect)="setPriority($event)"
+				(onUnselect)="unSelectPriority($event)"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<zee-select class="defect_user"
+				[selectId]="'defect-assignee'"
+				[selectClass]="'basic-search-select'"
+				[allowClear]="true"
+				[placeholder]="'Assignee'"
+				[editOptions]="getSelect2Options('user')"
+				(onSelect)="setAssignedTo($event)"
+				(onUnselect)="unSelectAssignedTo($event)"
+				(onInit)="onAssigneeInit($event)"
+				(onResult)="onUserResult($event)"
+			></zee-select>
+		</div>
+		<div class="col-md-3 col-sm-6">
+			<div>
+				<button [ngClass]="{'btn': true, 'zui-btn': true, 'zui-btn-primary': true}" (click)="defectBasicSearch()">Search</button>
+			</div>
+		</div>
+	</div>
+</form>

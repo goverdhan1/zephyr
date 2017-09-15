@@ -1,0 +1,47 @@
+date-range-picker {
+
+  //.modal-backdrop {
+  //  position: fixed;
+  //  top: 0;
+  //  right: 0;
+  //  bottom: 0;
+  //  left: 0;
+  //  z-index: 1000;
+  //  background-color: rgba(0, 0, 0, 0.46);
+  //  opacity: 0.2;
+  //}
+
+  .date-range {
+    margin-top: 6px !important;
+    margin-bottom: 1px !important;
+
+    .col-xs-6 {
+      max-width: 172px;
+    }
+  }
+
+  .date-btn {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  label {
+    line-height: 2.3;
+  }
+
+  .zui-ng-select {
+    display: inline-block;
+    width: 348px;
+  }
+
+  .zee-module1-wrapper .zee-module1-title {
+    font-size: 26px;
+    color: #289295;
+  }
+
+  .zee-module1-wrapper .zee-module1-summary-name {
+    font-size: 12px;
+    padding-left: 5px;
+  }
+
+}

@@ -1,0 +1,118 @@
+<div  class="main-content customization-wrapper">
+	<!-- Not supporting skins in HTML5 UI -->
+	<!--<div class="subform zephyr-skin">
+		<h2 class="zui-panel-heading">Zephyr Skin</h2>
+		<div class="row">
+		    <div class="col-md-3 col-xs-3" *ngFor="let skin of skins; let i = index">
+		    	<div class="skin-wrapper" [ngClass]="{active: skin.trim().toLowerCase() === selectedSkin.toLowerCase() }">
+		    		<p>{{skin}}</p>
+		    		<div class="skin {{skin.toLowerCase()}}"></div>
+		    	</div>
+		    </div>
+		</div>
+	</div>-->
+	<div class="module-subheader no-breadcrumb">
+      <div class="left-navs">
+          <h3><b>Customizations</b></h3>
+      </div>
+  </div>
+  <div class="zui-content-layout zui-admin-section">
+  	<div class="subform resources">
+			<div class="zee-module-header"><span class="zee-module-header-left">Resources</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs" [ngClass]="{'disabled' : this.loggedInUser.roles[0] && this.loggedInUser.roles[0].id != 1 }">
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#roles-modal">Roles</button>
+				</div>
+			</div>
+		</div>
+		<div class="subform requirements">
+			<div class="zee-module-header"><span class="zee-module-header-left">Requirements</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs">
+					<button #rbtn [attr.id]="constant_requirement" (click)="fieldsModalClicked(rbtn.id)" type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#fields-modal">Fields</button>
+				</div>
+			</div>
+		</div>
+		<div class="subform test-cases">
+			<div class="zee-module-header"><span class="zee-module-header-left">Test Cases</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs">
+					<button #tcbtn [attr.id]="constant_testcase" (click) ="fieldsModalClicked(tcbtn.id)" type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#fields-modal">Fields</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#estimated-time-modal">Estimated Time</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#execution-status-modal" (click)="executionStatusModalClicked('1')">Execution Status</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#execution-status-modal" (click)="executionStatusModalClicked('2')">Step Execution Status</button>
+				</div>
+			</div>
+		</div>
+		<div class="subform trend-data-collection">
+			<div class="zee-module-header"><span class="zee-module-header-left">Trend Data Collection</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs">
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#scheduling-modal">Scheduling</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#history-modal">History</button>
+				</div>
+			</div>
+		</div>
+		<div class="subform cutomization-search">
+			<div class="zee-module-header"><span class="zee-module-header-left">Search</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs">
+					<button type="button" class="zui-btn zui-btn-tertiary" (click)="projectReindexConfirmation()">Project Reindex</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" (click)="fullReindexConfirmation()">Full Reindex</button>
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#reindex-health-modal">Indexing Health</button>
+				</div>
+			</div>
+		</div>
+		<div class="subform cutomization-advanced">
+			<div class="zee-module-header"><span class="zee-module-header-left">Advanced</span></div>
+			<div class="row">
+				<div class="col-md-12 customization-sub-tabs">
+					<button type="button" class="zui-btn zui-btn-tertiary" data-toggle="modal" data-target="#miscellaneous-modal">Miscellaneous</button>
+				</div>
+			</div>
+		</div>
+  	</div>
+
+	<!-- Including roles modal -->
+	<roles-modal (confirmationDialogueData)="confirmationDialogueData($event)"></roles-modal>
+
+	<!-- Including fields modal -->
+	<fields-modal (confirmationDialogueData)="confirmationDialogueData($event)" [isRequiremntModal]="isRequiremntModal"></fields-modal>
+
+	<!-- Including estimated time modal -->
+	<estimated-time-modal (confirmationDialogueData)="confirmationDialogueData($event)"></estimated-time-modal>
+
+	<!-- Including execution status modal -->
+	<execution-status-modal (confirmationDialogueData)="confirmationDialogueData($event)" [isexecutionStatusClicked]="isexecutionStatusClicked"></execution-status-modal>
+
+	<!-- Including scheduling modal -->
+	<scheduling-modal (confirmationDialogueData)="confirmationDialogueData($event)"></scheduling-modal>
+
+	<!-- Including miscellaneous modal -->
+	<miscellaneous-modal (confirmationDialogueData)="confirmationDialogueData($event)"></miscellaneous-modal>
+
+	<!-- Including history modal -->
+	<history-modal (confirmationDialogueData)="confirmationDialogueData($event)"></history-modal>
+
+  	<!-- Including reindexing health modal -->
+  	<reindex-health-modal></reindex-health-modal>
+
+	<!-- Including job-progress-status modal -->
+	<job-status [modalHeading]="'Re-index Progress'" [messages]="reIndexMessages" [jobStatusId]="'-reindex'"></job-status>
+</div>
+<zui-modal *ngIf="confirmationObject" [title]="confirmationObject.heading" [backgroundBlur]="true" [modalId]="'confirmation-modal'" [modalSize]="'extrasmall'">
+	<zui-modal-body>
+		<p class="white-space-pre-wrap">{{confirmationObject.text}}</p>
+    <zee-select
+      *ngIf="confirmationObject['action'] === 'REINDEX'"
+      [items]="projects"
+      [active]="selectedProject"
+      [placeholder]="'Select Project'"
+      (onSelect)="setProject($event)"
+    ></zee-select>
+	</zui-modal-body>
+	<zui-modal-footer>
+		<button type="button" class="zui-btn zui-btn-sec" data-dismiss="modal" *ngIf="confirmationObject.showCancelButton" (click)="cancelActionCall($event)">{{confirmationObject.cancelButtonText}}</button>
+		<button type="button" class="zui-btn zui-btn-primary" [attr.value]="confirmationObject.action" [disabled]="confirmationObject['action'] === 'REINDEX' && !selectedProject.length" (click)="confirmationActionCall($event)">{{confirmationObject.buttonText}}</button>
+	</zui-modal-footer>
+</zui-modal>

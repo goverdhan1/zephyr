@@ -1,0 +1,15 @@
+<zui-modal [title]="entityType + ' Coverage Details'" [modalId]="'zee-coverage-modal'" [modalSize]="'large'" [modalClass]="' zee-import-modal'">
+    <zui-modal-body>
+        <div class="import-saved-maps">
+            <div id="savedMaps-grid" class="flex-column-stretch">
+                <grid
+                    [rows]="rows"
+                    [hideCheckAll]="true"
+                    [gridType]="gridType"
+                    [hideCoverage]="true"
+                    (onGridLinkClick)="reqGridLinkClick($event)"
+                ></grid>
+            </div>
+      </div>
+    </zui-modal-body>
+</zui-modal>

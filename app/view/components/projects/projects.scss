@@ -1,0 +1,372 @@
+/*label {
+	width: 47px !important;
+    margin-left: -84px !important;
+    display: inline-block;
+}*/
+.zephyr-content-subtitle{
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+.zephyr-project-details {
+    display: inline-block;
+    width: 90%;
+}
+.zephyr-project-manage {
+    display: inline-block;
+}
+.zephyr-content-title{
+    color: #3FADB1;
+    font-weight: bold;
+}
+.zephyr-news-content {
+	border: 1px solid #ccc;
+    border-radius: 3px;
+    margin: 10px 0 20px;
+    padding: 20px 20px 30px 74px;
+}
+.zephyr-news-description {
+	min-height: 1.5em;
+	word-wrap: break-word;
+}
+.zephyr-news-image {
+	display: inline-block;
+    position: absolute;
+    margin-top: 20px;
+	margin-left: 10px;
+}
+.zephyr-news-title {
+	text-transform: capitalize;
+}
+.zephyr-news-actions {
+	margin-top: -60px;
+    margin-left: 75px;
+	font-size: 12px;
+}
+.zephyr-news-actions > span {
+    padding-right: 2px;
+}
+.zephyr-teamMember-name {
+    // color: #3FADB1;
+    font-weight: bold;
+}
+.zephyr-team-details {
+    margin: 5px 0 0 0;
+    padding: 10px;
+}
+.zephyr-teamMember-image {
+    display: inline-block;
+    width: 48px;
+}
+.zephyr-teamMember-info {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    width: calc(100% - 58px);
+    width: -webkit-calc(100% - 58px);
+}
+.zee-location-chart-wrapper {
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    max-height: 230px;
+    height: 230px;
+    overflow-y: auto;
+    table {
+      width: 100%;
+      thead {
+        tr {
+          background: #e7e7e7;
+        }
+      }
+      th,td {
+        height: 30px;
+        padding: 0 0.75rem;
+        border-left: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+      }
+    }
+}
+.zee-team-tab {
+    overflow-y: auto;
+    height: 230px;
+}
+.zui-project-summary-container {
+    display: flex;
+}
+.zui-project-summary-wrapper {
+    text-align: left;
+    flex: 1;
+    .summarybox-release {
+      &.zee-module1-wrapper:before {
+        border-color: #209397;
+      }
+    }
+    .summarybox-inprogress {
+      &.zee-module1-wrapper:before {
+        border-color: #8dc75e;
+      }
+    }
+    .summarybox-testcases {
+      &.zee-module1-wrapper:before {
+        border-color: #f06870;
+      }
+    }
+    .summarybox-executions {
+      &.zee-module1-wrapper:before {
+        border-color: #f3c05f;
+      }
+    }
+    .summarybox-members {
+      &.zee-module1-wrapper:before {
+        border-color: #66b9f0;
+      }
+    }
+    zui-summary-box {
+      display: flex;
+    }
+    .zee-module-wrapper {
+      padding: 0;
+    }
+    .zee-module1-wrapper {
+      display: flex;
+
+      &:before {
+        content: '';
+        display: inline-block;
+        border-left: 4px solid #1d9195;
+        height: calc(100% - 2px);
+        margin-top: 4px;
+      }
+      > div {
+        display: flex;
+        flex-direction: column-reverse;
+        margin-left: 3px;
+      }
+      .zee-module1-summary-name {
+        color: #a2a5a5;
+        font-size: 14px;
+      }
+      .zee-module1-title {
+        color: #000;
+        margin-left: 6px;
+        font-size: 32px;
+        line-height: 26px;
+      }
+    }
+}
+.zephyr-releases-wrapper {
+  thead {
+    background: #55b2b5;
+    color: white;
+  }
+}
+
+.zui-ng-select {
+
+  &.project-release-select {
+    min-width: 200px;
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+.padded-container {
+    padding: 20px 15px;
+}
+
+.zee-layout {
+  padding: 20px 15px;
+  border-bottom: 5px solid #F3F3F3;
+  background: #FFF;
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
+
+  &:empty {
+    display: none;
+  }
+
+  select {
+    height: 35px;
+  }
+
+  h4 {
+    color: #289295;
+    margin-bottom: 20px;
+    font-size: 20px;
+
+    &.inline-heading {
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  label,
+  .form-control {
+    font-size: $zui-p-font;
+  }
+
+  label {
+    width: 40%;
+    display: inline-block;
+    float: left;
+    vertical-align: middle;
+    line-height: 2.5;
+    margin-bottom: 0;
+  }
+
+  .form-control {
+    display: inline-block;
+    width: 60%;
+    margin-bottom: 5px;
+    float: left;
+    vertical-align: middle;
+    outline: none;
+  }
+
+  button {
+    font-size: 14px;
+    outline: none;
+  }
+
+  .truncated {
+    .form-control {
+      width: 45%;
+    }
+
+    button {
+      float: left;
+      padding: 6px 0px;
+      width: 15%;
+      margin-left: -1px;
+    }
+
+    &.long {
+      .form-control {
+        width: 37%;
+      }
+
+      button {
+        width: 23%;
+      }
+    }
+  }
+
+  .checkbox-wrap {
+    .helper-label {
+      text-indent: -999em;
+    }
+
+    label {
+      float: none;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .skin-wrapper {
+    border:1px solid #CCC;
+    text-align:center;
+    padding: 0 0 15px 0;
+    max-width: 150px;
+    border-radius: 5px;
+
+    p {
+      padding: 5px;
+      border-bottom: 1px solid transparent;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .skin {
+      width: 85px;
+      height: 105px;
+      margin: 0 auto;
+      background-size: cover;
+
+      &.carbon {
+        background: url(assets/images/theme-carbon.png) center no-repeat;
+      }
+
+      &.steel {
+        background: url(assets/images/theme-steel.png) center no-repeat;
+      }
+
+      &.classic {
+        background: url(assets/images/theme-classic.png) center no-repeat;
+      }
+
+    }
+
+    &.active {
+      border:1px solid #8DC65E;
+
+      p {
+        background: #8DC65E;
+        border-bottom: 1px solid #8DC65E;
+        color: #FFF;
+      }
+    }
+  }
+}
+
+.form-footer {
+  text-align: right;
+  padding: 15px 0 0;
+}
+
+.zee-layout-split {
+    border-bottom: 10px solid #F3F3F3;
+    padding: 0px 15px;
+    &:empty {
+        display: none;
+    }
+
+  select {
+    height: 35px;
+  }
+
+  h4 {
+    color: #289295;
+    margin-bottom: 20px;
+    font-size: 20px;
+
+    &.inline-heading {
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  .zee-split-column {
+     padding: 20px 15px;
+  }
+  .column-splitter-left {
+     border-left: 5px solid #F3F3F3;
+  }
+}
+.project-panel-content1,
+.project-panel-content2,
+.project-panel-content3 {
+  background: #fff;
+  display: block;
+  padding: 15px;
+}
+
+.zee-module-header-left {
+  margin-left: -15px;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 13px;
+}

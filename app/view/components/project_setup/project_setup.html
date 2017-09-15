@@ -1,0 +1,9 @@
+<!--<left-nav [columns]="navColumns" [activeItemKey]="activeItemKey" (onHeaderLinkClick)="navigateToProject(ev)"></left-nav>-->
+<zui-administration-left-nav
+    [activeGroupKey]="'project-setup'"
+    [activeItemKey]="activeItemKey"
+></zui-administration-left-nav>
+<div class="project-setup-wrapper">	
+	<router-outlet></router-outlet>
+</div>
+ 

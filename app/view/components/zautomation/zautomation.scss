@@ -1,0 +1,131 @@
+h3#zaheader {
+	margin-top: 20px;
+}
+
+.custom-field-dropdown {
+  padding-bottom: 0px !important;
+  padding-top: 1px !important;
+}
+
+.zui-tcr-folder-view {
+  position: absolute;
+  right: 0px;
+  top: 13px;
+  -webkit-user-select: none;
+  display: flex;
+
+}
+.warn-icon {
+  position: absolute;
+  top: calc(50% - 22px);
+}
+
+.zAutomation-form {
+    padding-top: 15px;
+      h5 {
+         padding: 20px 0 0 15px;
+      }
+    .form-footer {
+      padding: 15px 0;
+     }
+  .subform .field-value {
+       max-width: 65% !important;
+     }
+    label {
+      display: inline-block;
+      float: left;
+      vertical-align: middle;
+      line-height: 33px;
+      margin-bottom: 2px;
+      position: relative;
+      max-width: 31%;
+    }
+
+
+    input[type="text"] {
+      // border: 1px solid !important;
+      max-width: 65%;
+    }
+
+
+
+    .zui-select {
+      display: block;
+      max-width: 65% !important;
+      select.form-control {
+         height: inherit;
+         float: left;
+      }
+    }
+#chkbx{
+
+    margin-bottom: 15px;
+    // position: fixed;
+}
+#SCRIPT{
+  width: 100%;
+    margin-left: 0px;
+    margin-bottom: 3px;
+
+}
+#ResultPath{
+  width: 100%
+}
+.zui-btn:hover{
+  cursor: pointer;
+}
+#scrptpth1{
+      margin-top: 5px;
+}
+#Zbotagenmachine {
+  margin-top: 8px;
+  
+}
+}
+
+#prefix-add-modal {
+
+  #prefix-value {
+            width: 65% !important;
+              display: inline-block;
+      }
+}
+
+.zui-content-layout{
+  //  .zAutomation-grid{
+  //    margin-top: 20px;
+  //  }
+   .fileWatcher-grid{
+    //  margin-top: 20px;
+     margin-bottom: 18px;
+   }
+}
+.subform .zui-select{
+  min-width: 60% !important;
+}
+
+#sleepoverperiod{
+  padding-bottom: 10px;
+}
+#folderPath{
+  padding-bottom: 10px;
+}
+
+  zui-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+zui-tabs .zui-tabs-common {
+    overflow-y: auto;
+    background: #ffffff;
+    padding: 15px;
+}
+
+// .zui-zauto-list-detail-view{
+//   position: fixed;
+//     display: flex;
+//       top: 151px !important;
+//       right: 110px !important;
+// } For Bulk buttons
+

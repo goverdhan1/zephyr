@@ -1,0 +1,16 @@
+<div class="pull-right zui-tcr-list-detail-view">
+    <div [class]="">
+        <a (click)="toggleListDetailUI(true)" [ngClass]="{'active': isDetailView, 'zui-tcr-view-disabled': isDetailView}">
+            <span>
+                {{'zephyr.tcr.view.detail' | i18nSelect: i18nMessages}}
+            </span>
+        </a>
+    </div>
+    <div [class]="">
+        <a (click)="toggleListDetailUI(false)" [ngClass]="{'active': !isDetailView, 'zui-tcr-view-disabled': !isDetailView}">
+            <span>
+                {{'zephyr.tcr.view.list' | i18nSelect: i18nMessages}}
+            </span>
+        </a>
+    </div>
+</div>
